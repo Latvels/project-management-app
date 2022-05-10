@@ -1,0 +1,10 @@
+{
+  "header": {
+    "Logout": "Log out",
+    "Login": "Log in"
+  },
+  "description": {
+    "part1": "To get started",
+    "part2": "Switch language between english and russian using buttons above."
+  }
+}

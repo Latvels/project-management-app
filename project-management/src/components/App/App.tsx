@@ -1,26 +1,24 @@
 import React from 'react';
-import logo from '../../assets/logo.svg';
 import './App.css';
+import MainRoutes from '../../routes/routes';
+import { useTranslation, Trans } from 'react-i18next';
+import {availableLanguages} from '../../services/i18n';
 
-function App() {
+export default function App() {
+  const { t, i18n  } = useTranslation();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <select defaultValue={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
+          {availableLanguages.map((language) => (
+            <option key={language}>{language}</option>
+          ))}
+        </select>
+      <p>
+        <Trans i18nKey="description:part1"></Trans>
+      </p>
+      <p>{t('description:part2')}</p>
+      <MainRoutes />
     </div>
   );
-}
-
-export default App;
+};
