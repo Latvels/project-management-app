@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import './services/i18n';
-import './index.css';
+import './index.scss';
 import App from './components/App/App';
 import store from './store/store'
 import reportWebVitals from './reportWebVitals';
