@@ -6,7 +6,6 @@ import Link from '@mui/material/Link';
 import {useWindowDimensions} from '../../services/service';
 import schoolLogo from '../../assets/rs_school_js.svg';
 import gitHubLogo from '../../assets/GitHub.png';
-import './Footer.css';
 
 interface Developers {
   id: number,
@@ -77,7 +76,6 @@ export default function Footer() {
               }}
             >
               <Link
-                className="user-git"
                 underline="none"
                 color="inherit"
                 href={item.gitLink}
@@ -85,6 +83,7 @@ export default function Footer() {
                   display: 'flex',
                   flexDirection: 'row',
                   placeItems: 'center',
+                  margin: '0 0.5rem 0 0.5rem',
                 }}
               >
                 <Avatar alt="gitHub link" src={gitHubLogo} sx={{ height: 20, width: 20 }} />
