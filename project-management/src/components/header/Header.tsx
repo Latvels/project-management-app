@@ -6,7 +6,7 @@ import SelectLanguage from '../selectLanguage/SelectLanguage';
 function Header() {
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, width: '100%', top: 0 }}>
         <AppBar position="static">
           <Toolbar>
             <MyMenu />
