@@ -1,7 +1,9 @@
 {
   "header": {
     "Logout": "Log out",
-    "Login": "Log in"
+    "Login": "Log in",
+    "ru": "Russian",
+    "en": "English"
   },
   "description": {
     "part1": "To get started",
