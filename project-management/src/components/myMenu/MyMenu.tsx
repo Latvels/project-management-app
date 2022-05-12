@@ -34,7 +34,7 @@ function MyMenu() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <NavLink to='/' className="menu__navLink">
+        <NavLink to='/mainPage' className="menu__navLink">
           <MenuItem onClick={handleClose}>Go To Main Page</MenuItem>
         </NavLink>
         <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
