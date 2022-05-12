@@ -1,8 +1,8 @@
 import 'react-i18next';
-import en from './services/locales/en.json'
+import en from './services/locales/en.json';
 
 declare module 'react-i18next' {
-  interface CustomTypeOptions  {
+  interface CustomTypeOptions {
     defaultNS: 'common';
     resources: typeof en;
   }

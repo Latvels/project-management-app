@@ -8,7 +8,7 @@ const resources = {
   en,
   ru,
 };
-export const availableLanguages = Object.keys(resources)
+export const availableLanguages = Object.keys(resources);
 i18n
   // detect user language
   // learn more: https://github.com/i18next/i18next-browser-languageDetector
@@ -18,7 +18,8 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    debug: true,
+    // логирование ошибок и изменений языка
+    debug: false,
     // Стандартный язык
     fallbackLng: 'en',
     interpolation: {
