@@ -56,6 +56,7 @@
     ]
   },
   "devDependencies": {
+    "@types/material-ui": "^0.21.12",
     "@types/webpack-env": "^1.16.4",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
