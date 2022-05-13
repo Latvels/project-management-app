@@ -29,7 +29,7 @@ function Header() {
       <AppBar position="static" className="header__appBar">
         <Toolbar>
           <MyMenu />
-          <Typography variant="h6" component="span" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="span" sx={{ flexGrow: 1, fontWeight: 500 }}>
             RS-Drive
           </Typography>
           <SelectLanguage />
