@@ -3,18 +3,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Link from '@mui/material/Link';
-import {useWindowDimensions} from '../../services/service';
+import { useWindowDimensions } from '../../services/service';
 import schoolLogo from '../../assets/rs_school_js.svg';
 import gitHubLogo from '../../assets/GitHub.png';
 
 interface Developers {
-  id: number,
-  nickName: string,
-  gitLink: string,
+  id: number;
+  nickName: string;
+  gitLink: string;
 }
 
 export default function Footer() {
-	const { width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const developers = [
     { id: 1, nickName: 'elizavetachizh', gitLink: 'https://github.com/elizavetachizh' },
     { id: 2, nickName: 'Tatsiana-Vaitovich', gitLink: 'https://github.com/Tatsiana-Vaitovich' },
@@ -63,8 +63,7 @@ export default function Footer() {
           sx={{
             justifyContent: 'space-evenly',
             placeItems: 'center',
-						display: () =>
-            	width > 660 ? 'flex' : 'none',
+            display: () => (width > 660 ? 'flex' : 'none'),
           }}
         >
           {developers.map((item: Developers) => (
@@ -93,7 +92,6 @@ export default function Footer() {
               </Link>
             </Box>
           ))}
-
         </Box>
 
         <Box

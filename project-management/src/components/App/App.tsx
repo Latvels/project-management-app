@@ -4,6 +4,7 @@ import MainRoutes from '../../routes/routes';
 import Header from '../header/Header';
 import { ThemeProvider } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
+import { Footer } from '../../components/compunents';
 
 const theme = createTheme({
   palette: {
@@ -32,9 +33,9 @@ export default function App() {
       <div className="App">
         <Header></Header>
         <MainRoutes />
+        <Footer />
       </div>
     </ThemeProvider>
-    <Footer />
   );
 }
 // import { Footer } from '../../components/compunents';

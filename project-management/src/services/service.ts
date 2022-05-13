@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-// функция для вычисления высоты и ширины экрана 
+// функция для вычисления высоты и ширины экрана
 // сейчас использую для адаптива футера
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
-    height
+    height,
   };
 }
 
@@ -22,4 +22,4 @@ export const useWindowDimensions = () => {
   }, []);
 
   return windowDimensions;
-}
+};

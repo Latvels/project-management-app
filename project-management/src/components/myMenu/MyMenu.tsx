@@ -21,7 +21,7 @@ function MyMenu() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        color='inherit'
+        color="inherit"
       >
         <MenuIcon />
       </IconButton>
@@ -34,14 +34,14 @@ function MyMenu() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <NavLink to='/mainPage' className="menu__navLink">
+        <NavLink to="/mainPage" className="menu__navLink">
           <MenuItem onClick={handleClose}>Go To Main Page</MenuItem>
         </NavLink>
         <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
         <MenuItem onClick={handleClose}>Create New Board</MenuItem>
       </Menu>
     </div>
-  )
+  );
 }
 
 export default MyMenu;

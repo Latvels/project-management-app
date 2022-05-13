@@ -9,21 +9,21 @@ function Header() {
 
   useEffect(() => {
     checkScroll() ? addSticky() : delSticky();
-  })
+  });
 
   const checkScroll = (): boolean => {
     return document.body.offsetHeight > window.innerHeight;
-  }
+  };
 
   const addSticky = () => {
     headerRef.current?.classList.add('header--sticky');
-    document.body.style.marginTop = `${headerRef.current?.offsetHeight}px`
-  }
+    document.body.style.marginTop = `${headerRef.current?.offsetHeight}px`;
+  };
 
   const delSticky = () => {
     headerRef.current?.classList.remove('header--sticky');
     document.body.style.marginTop = '0px';
-  }
+  };
   return (
     <>
       <Box ref={headerRef} sx={{ flexGrow: 1, width: '100%', top: 0 }} className="header">
@@ -39,8 +39,7 @@ function Header() {
         </AppBar>
       </Box>
     </>
-
   );
-};
+}
 
 export default Header;

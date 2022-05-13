@@ -12,8 +12,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-*, 
-*::before, 
+*,
+*::before,
 *::after {
   box-sizing: border-box;
 }
@@ -40,7 +40,7 @@ body {
   min-width: $mobile;
   min-height: 100vh;
   font-size: 100%;
-  font-family: "Open Sans", "Myriad pro", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', 'Myriad pro', Helvetica, Arial, sans-serif;
   color: $primary-color--dark;
 }
 
@@ -53,6 +53,3 @@ html {
     font-size: 20px;
   }
 }
-
-
-
