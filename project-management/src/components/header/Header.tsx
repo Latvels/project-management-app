@@ -27,7 +27,7 @@ function Header() {
   };
   
   return (
-    <Box ref={headerRef} sx={{ flexGrow: 1, width: '100%', top: 0 }} className="header">
+    <Box ref={headerRef} sx={{ flexGrow: 1, width: '100%', top: 0 }} className="header" component="div">
       <AppBar position="static" className="header__appBar">
         <Toolbar>
           <MyMenu />
