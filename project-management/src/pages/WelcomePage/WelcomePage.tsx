@@ -10,12 +10,15 @@ import {
   Typography,
 } from '@mui/material';
 import { LoginPage, Registration } from '../pages';
+import './welcomePage.scss';
 
 function WelcomePage() {
   return (
-    <Container sx={{ width: '100%' }}>
-      <LoginPage />
-      <Registration />
+    <Container sx={{ mt: '3rem' }}>
+      <div className={'container--link'}>
+        <LoginPage />
+        <Registration />
+      </div>
       <h2>Welcome Page</h2>
       <h3>Our team</h3>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>

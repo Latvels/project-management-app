@@ -1,10 +1,14 @@
 import React from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@mui/material';
+import './registration.scss';
 
 function Registration() {
   const { t } = useTranslation();
   return (
-      <a href={'/registration'}>Register Page</a>
+    <Button variant="contained" href={'/registration'} className="registration-button">
+      Register Page
+    </Button>
   );
 }
 

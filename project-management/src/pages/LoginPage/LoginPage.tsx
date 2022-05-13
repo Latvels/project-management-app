@@ -1,10 +1,13 @@
 import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
+import { Button, Link } from '@mui/material';
 
 function Login() {
   const { t } = useTranslation();
   return (
-      <a href={'/login'}>Login Page</a>
+    <Button variant="contained" href={'/login'} className="registration-button">
+      Login Page
+    </Button>
   );
 }
 
