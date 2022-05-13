@@ -1,12 +1,8 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
-import Link from '@mui/material/Link';
+import { Box, Typography, Avatar, Link } from '@mui/material';
 import { useWindowDimensions } from '../../services/service';
 import schoolLogo from '../../assets/rs_school_js.svg';
 import gitHubLogo from '../../assets/GitHub.png';
-
 interface Developers {
   id: number;
   nickName: string;
@@ -33,7 +29,6 @@ export default function Footer() {
       }}
     >
       <Box
-        component="footer"
         sx={{
           py: 1,
           px: 1,
@@ -43,8 +38,11 @@ export default function Footer() {
           justifyContent: 'space-around',
           placeItems: 'end',
 
+          color: (theme) =>
+            theme.palette.mode === 'light' ? theme.palette.primary.contrastText : theme.palette.secondary.contrastText,
+        
           backgroundColor: (theme) =>
-            theme.palette.mode === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
+            theme.palette.mode === 'light' ? theme.palette.primary.main : theme.palette.secondary.main,
         }}
       >
         <Box
@@ -97,10 +95,10 @@ export default function Footer() {
         <Box
           sx={{
             placeItems: 'center',
-            marginBottom: 0,
+            marginBottom: '5px',
           }}
         >
-          <Typography className="footer-data" variant="h5" display="block">
+          <Typography variant="h5" display="block">
             {new Date().getFullYear()}
           </Typography>
         </Box>
