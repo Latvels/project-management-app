@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 // import { Dashboard } from '../components/compunents'
-import { NotFoundPage, WelcomePage, MainPage, BoardPage } from '../pages/pages';
+import {NotFoundPage, WelcomePage, MainPage, BoardPage, LoginPage, Registration} from '../pages/pages';
 
 const MainRoutes = () => (
   <Routes>
@@ -11,6 +11,8 @@ const MainRoutes = () => (
     <Route path="/mainPage" element={<MainPage />} />
     <Route path="/boardPage" element={<BoardPage />} />
     <Route path="/404" element={<NotFoundPage />} />
+    <Route path="/login" element={<LoginPage />} />
+      <Route path="/registration" element={<Registration />} />
   </Routes>
 );
 
