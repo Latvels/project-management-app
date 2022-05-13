@@ -3,7 +3,10 @@
     "Logout": "Log out",
     "Login": "Log in",
     "ru": "Russian",
-    "en": "English"
+    "en": "English",
+    "menuItem1": "Go To Main Page",
+    "menuItem2": "Edit Profile",
+    "menuItem3": "Create New Board"
   },
   "description": {
     "part1": "To get started",

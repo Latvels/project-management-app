@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 import { SelectLanguage, MyMenu } from '../compunents';
 import './header.scss';
+import { useTranslation } from 'react-i18next';
 
 function Header() {
+  const {t} = useTranslation();
   const headerRef: React.RefObject<HTMLElement> | null = useRef(null);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ function Header() {
             RS-Drive
           </Typography>
           <SelectLanguage />
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">{t('header:Logout')}</Button>
         </Toolbar>
       </AppBar>
     </Box>
