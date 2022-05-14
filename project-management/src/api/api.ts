@@ -46,7 +46,7 @@ export async function deleteUser(id:string) {
     console.log(error)
   }
 }
-//TODO поправить PUT позже
+
 export async function updateUserData(id: string, user: User) {
   try {
     const response = await axios.put(`${CONFIG.basicURL}/users/${id}`, {
@@ -65,12 +65,13 @@ export async function updateUserData(id: string, user: User) {
   }
 }
 // Authorization
-export async function singIn() { // создание токена на нового пользователя
+export async function singIn(user: User) { // создание токена на нового пользователя
   try {
-    const response = await axios.put(`${CONFIG.basicURL}/signin`, {
+    const response = await axios.post(`${CONFIG.basicURL}/signin`, {
       headers: {
         Accept: 'application/json',
       },
+      data:  user,
     });
     const {status, data} = response;
     return {status, data};
@@ -79,12 +80,13 @@ export async function singIn() { // создание токена на ново�
   }
 }
 
-export async function singUp() { // авторизация
+export async function singUp(user: User) { // авторизация
   try {
     const response = await axios.post(`${CONFIG.basicURL}/signup`, {
       headers: {
         Accept: 'application/json',
       },
+      data:  user,
     });
     const {status, data} = response;
     return {status, data};
