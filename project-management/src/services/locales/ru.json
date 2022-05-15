@@ -15,6 +15,12 @@
   "createNewBoardForm": {
     "formTitle": "создать доску",
     "boardTitle": "введите имя доски",
-    "boardDescription": "введите описание доски"
+    "boardDescription": "введите описание доски",
+    "submit": "создать",
+    "validation": {
+      "required": "поле обязательно для заполнения",
+      "minValue": "минимальная длина 3 символа"
+    }
+
   }
 }

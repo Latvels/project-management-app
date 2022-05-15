@@ -1,0 +1,17 @@
+@import '../../index.scss';
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: $margin;
+}
+
+.form__field--textArea {
+  height: auto;
+  padding: $padding;
+  width: 100%;
+  font-size: 1rem;
+  &:focus {
+    border: 2px solid #0288d1;
+  }
+}

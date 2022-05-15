@@ -15,6 +15,11 @@
   "createNewBoardForm": {
     "formTitle": "create board",
     "boardTitle": "input board title",
-    "boardDescription": "input board description"
+    "boardDescription": "input board description",
+    "submit": "create",
+    "validation": {
+      "required": "field is required",
+      "minValue": "min length is 3 characters"
+    }
   }
 }

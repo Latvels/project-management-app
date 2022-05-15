@@ -17,8 +17,10 @@ function CreateNewBoardForm() {
       noValidate
       autoComplete="off"
     >
-      <TextField id="inputTitle" variant="outlined" label={titleLabel} color="info" />
-      <TextField id="inputDescription" variant="outlined" label={descriptionLabel} color="info" />
+      <TextField 
+      id="inputTitle" variant="outlined" label={titleLabel} color="info" />
+      <TextField 
+      id="inputDescription" variant="outlined" label={descriptionLabel} color="info" />
       <Button variant="outlined" color="info">create</Button>
     </Box>
   );

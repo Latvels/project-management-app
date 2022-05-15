@@ -12,6 +12,7 @@ import { CreateNewBoardForm } from '../compunents';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import './createNewBoardModal.scss';
 import { useTranslation } from 'react-i18next';
+import CreateNewBoardFormFormik from '../CreateNewBoardForm/CreateNewBoardFormFormik';
 
 const style = {
   position: 'absolute',
@@ -56,7 +57,7 @@ function CreateNewBoardModal() {
                 {t('createNewBoardForm:formTitle')}
               </Typography>
             </Box>
-            <CreateNewBoardForm />
+            <CreateNewBoardFormFormik />
           </Box>
         </Fade>
       </Modal>
