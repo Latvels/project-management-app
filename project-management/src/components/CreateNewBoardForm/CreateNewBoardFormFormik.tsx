@@ -3,6 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { createBoards } from '../../api/api';
 import './createNewBoardFormFormik.scss';
 
 interface Values {
@@ -36,9 +37,11 @@ function CreateNewBoardFormFormik() {
         }
         return errors;
       }}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(false);
           console.log(values);
+          const req = await createBoards(values);
+          console.log('req', req);
       }}
     >
       {({ submitForm, isSubmitting }) => (
