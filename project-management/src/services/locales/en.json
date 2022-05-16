@@ -8,6 +8,11 @@
     "menuItem2": "Edit Profile",
     "menuItem3": "Create New Board"
   },
+  "lang": {
+    "Language": "Language",
+    "Russian": "Russian",
+    "English": "English"
+  },
   "description": {
     "part1": "To get started",
     "part2": "Switch language between english and russian using buttons above."
