@@ -1,9 +1,9 @@
 export interface User {
-	id: number,
-	email: string,
-	name: string,
-	completed: boolean
-};
+	id?: string,
+	password?: string,
+	name?: string,
+	login?: string,
+}
 
 export interface Board {
 	title: string,
