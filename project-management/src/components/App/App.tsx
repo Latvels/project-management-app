@@ -5,6 +5,7 @@ import { Footer, Header } from '../../components/compunents';
 // import { useSelector } from 'react-redux';
 // import { RootState } from '../../store/reducer/reducer';
 import CreateNewBoardModal from '../CreateNewBoardModal/CreateNewBoardModal';
+import { Preloader } from '../compunents';
 
 
 
@@ -18,6 +19,7 @@ export default function App() {
       <MainRoutes />
       <Footer />
       <CreateNewBoardModal></CreateNewBoardModal>
+      <Preloader />
     </div>
   );
 }

@@ -8,11 +8,10 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
 import { setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
-import { CreateNewBoardForm } from '../compunents';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import './createNewBoardModal.scss';
 import { useTranslation } from 'react-i18next';
-import CreateNewBoardFormFormik from '../CreateNewBoardForm/CreateNewBoardFormFormik';
+import { CreateNewBoardFormFormik } from '../compunents';
 
 const style = {
   position: 'absolute',
@@ -25,9 +24,6 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-// const modalStyle = {
-//   bgcolor: '#fff',
-// }
 
 function CreateNewBoardModal() {
   const {t} = useTranslation();

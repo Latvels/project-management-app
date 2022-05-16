@@ -1,11 +1,11 @@
-import { Button, LinearProgress, TextareaAutosize } from '@mui/material';
+import { Button, LinearProgress } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { createBoards } from '../../api/api';
-import { setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
+import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import './createNewBoardFormFormik.scss';
 
 interface IValues {
@@ -26,6 +26,7 @@ function CreateNewBoardFormFormik() {
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
+    setIsButtonDisabled(true);
     if (!values.title) {
       errors.title = required;
     } else if (values.title.length < 3) {
@@ -50,11 +51,13 @@ function CreateNewBoardFormFormik() {
       validate={validateForm}
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
-        console.log(values);
+        appDispatch(setIsCreateNewBoardModalOpen(false));
+        appDispatch(setIsPreloaderOpen(true))
         const req = await createBoards(values);
         console.log('req', req);
+        appDispatch(setIsPreloaderOpen(false));
         //todo обработать ошибку создания борды
-        appDispatch(setIsCreateNewBoardModalOpen(false));}}
+      }}
     >
       {({ submitForm, isSubmitting }) => (
         <Form className="form">
