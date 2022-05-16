@@ -4,22 +4,24 @@ import { TextField } from 'formik-mui';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { createBoards } from '../../api/api';
-import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
-import './createNewBoardFormFormik.scss';
+import { updateUserData } from '../../api/api';
+import { setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import { User } from '../../typings/typings';
+import './editProfileFormFormik.scss';
 
 interface IValues {
-  title: string;
-  description: string;
+  name: string;
+  email: string;
 }
 
-function CreateNewBoardFormFormik() {
+function EditProfileFormFormik() {
   const appDispatch = useDispatch();
   const {t} = useTranslation();
-  const titleLabel = t('createNewBoardForm:boardTitle');
-  const descriptionLabel = t('createNewBoardForm:boardDescription');
-  const buttonText = t('createNewBoardForm:submit');
-  const required = t('formValidation:required');
+  const emailLabel = t('editProfileForm:email');
+  const nameLabel = t('editProfileForm:name');
+  const buttonText = t('editProfileForm:submit');
+  // const invalidEmail = t('formValidation:minValue');
+  const invalidEmail = t('formValidation:invalidEmail');
   const minValue = t('formValidation:minValue');
 
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
@@ -27,23 +29,24 @@ function CreateNewBoardFormFormik() {
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
     setIsButtonDisabled(true);
-    if (!values.title) {
-      errors.title = required;
-    } else if (values.title.length < 3) {
-      errors.title = minValue;
-    } else if (!values.description) {
-      errors.description = required;
+    if (values.name.length < 3) {
+      errors.name = minValue;
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      errors.email = invalidEmail;
     }
-    if (!errors.title && !errors.description) {
+    if (!errors.name && !errors.email) {
       setIsButtonDisabled(false);
     }
     return errors;
   }
 
   const initialValues = {
-    title: '',
-    description: '',
+    name: '',
+    email: '',
   }
+
+  // todo use state
+  const id = '';
 
   return (
     <Formik
@@ -51,9 +54,15 @@ function CreateNewBoardFormFormik() {
       validate={validateForm}
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
-        appDispatch(setIsCreateNewBoardModalOpen(false));
+        appDispatch(setIsEditProfileModalOpen(false));
         appDispatch(setIsPreloaderOpen(true))
-        const req = await createBoards(values);
+        const newUserData: User = {
+          id: +id,
+          email: values.email,
+          name: values.name,
+          completed: true,
+        };
+        const req = await updateUserData(id, newUserData);
         console.log('req', req);
         appDispatch(setIsPreloaderOpen(false));
         //todo обработать ошибку создания борды
@@ -63,16 +72,16 @@ function CreateNewBoardFormFormik() {
         <Form className="form">
           <Field
             component={TextField}
-            name="title"
+            name="name"
             type="text"
-            label={titleLabel}
+            label={nameLabel}
             color="info"
           />
           <Field
             component={TextField}
-            name="description"
-            type="text"
-            label={descriptionLabel}
+            name="email"
+            type="email"
+            label={emailLabel}
             color="info"
           />
           <Button
@@ -90,4 +99,4 @@ function CreateNewBoardFormFormik() {
   );
 }
 
-export default CreateNewBoardFormFormik;
+export default EditProfileFormFormik;

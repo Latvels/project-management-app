@@ -12,6 +12,12 @@
     "part1": "Чтобы начать работу",
     "part2": "С помощью кнопок переключайте язык между английским и русским."
   },
+  "createNewBoardForm": {
+    "formTitle": "создать доску",
+    "boardTitle": "введите имя доски",
+    "boardDescription": "введите описание доски",
+    "submit": "создать"
+  },
   "editProfileForm": {
     "formTitle": "редактировать профиль",
     "email": "редактировать email",
@@ -20,12 +26,7 @@
   },
   "formValidation": {
     "required": "поле обязательно для заполнения",
-    "minValue": "минимальная длина 3 символа"
-  },
-  "createNewBoardForm": {
-    "formTitle": "создать доску",
-    "boardTitle": "введите имя доски",
-    "boardDescription": "введите описание доски",
-    "submit": "создать"
+    "minValue": "минимальная длина 3 символа",
+    "invalidEmail": "неверный формат email"
   }
 }
