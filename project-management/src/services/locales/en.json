@@ -24,12 +24,12 @@
     "name": "name",
     "login": "login",
     "pass": "password",
-    "submit": "edit"
+    "submitBtn": "edit data",
+    "deleteBtn": "delete user"
   },
   "formValidation": {
     "required": "field is required",
     "minValue": "min length is 3 characters",
-    "invalidEmail": "invalid email address",
     "maxValue": "max length is 12 characters"
   }
 }

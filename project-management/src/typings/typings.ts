@@ -1,14 +1,8 @@
 export interface User {
-	id: number,
-	email: string,
-	name: string,
-	completed: boolean
-};
-
-export interface User1 {
-	name: string,
-	login: string,
-	password: string,
+	id?: string,
+	password?: string,
+	name?: string,
+	login?: string
 };
 
 export interface Board {

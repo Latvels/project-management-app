@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { CONFIG } from '../constants/constant';
-import { User, Board, Column, Task, File, User1 } from '../typings/typings';
+import { User, Board, Column, Task, File } from '../typings/typings';
 // Users
 export async function getUsers() {
   try {
@@ -64,23 +64,7 @@ export async function updateUserData(id: string, user: User) {
     console.log(error)
   }
 }
-export async function updateUserData1(id: string, user: User1) {
-  try {
-    const response = await axios.put(`${CONFIG.basicURL}/users/${id}`, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Bearer ${CONFIG.token}`,
-      },
-      data:  user,
-    });
-    console.log('put', response)
-    const {status, data} = response;
-    return {status, data};
-  } catch (error) {
-    console.log(error)
-  }
-}
+
 // Authorization
 export async function singIn(user: User) { // создание токена на нового пользователя
   try {

@@ -4,9 +4,9 @@ import { TextField } from 'formik-mui';
 import react, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { updateUserData1 } from '../../api/api';
+import { updateUserData, deleteUser } from '../../api/api';
 import { setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
-import { User1 } from '../../typings/typings';
+import { User } from '../../typings/typings';
 import './editProfileFormFormik.scss';
 
 interface IValues {
@@ -18,17 +18,13 @@ interface IValues {
 function EditProfileFormFormik() {
   // todo use state
   const id = '';
-// eebd290b-93dc-4f15-b8a7-c40f3315aa0b
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlZWJkMjkwYi05M2RjLTRmMTUtYjhhNy1jNDBmMzMxNWFhMGIiLCJsb2dpbiI6InVzZXJMb2dpbiIsImlhdCI6MTY1MjcxMDAzOH0.D7LxzYpRc0_lsZIRqFXHwmaTjWxlM9T8L-QxLpvP1-8
   const appDispatch = useDispatch();
   const {t} = useTranslation();
-  // const emailLabel = t('editProfileForm:email');
   const nameLabel = t('editProfileForm:name');
   const loginLabel = t('editProfileForm:login');
   const passLabel = t('editProfileForm:pass');
-  const buttonText = t('editProfileForm:submit');
-  // const invalidEmail = t('formValidation:minValue');
-  // const invalidEmail = t('formValidation:invalidEmail');
+  const submitButtonText = t('editProfileForm:submitBtn');
+  const deleteButtonText = t('editProfileForm:deleteBtn');
   const minValue = t('formValidation:minValue');
   const maxValue = t('formValidation:maxValue');
   const required = t('formValidation:required');
@@ -57,11 +53,6 @@ function EditProfileFormFormik() {
     } else if(values.password.length > 12) {
       errors.password = maxValue;
     }
-    // } else if(!values.email) {
-    //   errors.email = required;
-    // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    //   errors.email = invalidEmail;
-    // }
     if (!errors.name && !errors.login && !errors.password) {
       setIsButtonDisabled(false);
     }
@@ -74,6 +65,13 @@ function EditProfileFormFormik() {
     login: '',
   }
 
+  const handleClickDeleteUserButton = async () => {
+    appDispatch(setIsEditProfileModalOpen(false));
+    appDispatch(setIsPreloaderOpen(true));
+    await deleteUser(id);
+    appDispatch(setIsPreloaderOpen(false));
+  }
+
   return (
     <Formik
       initialValues={initialValues}
@@ -81,16 +79,14 @@ function EditProfileFormFormik() {
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
         appDispatch(setIsEditProfileModalOpen(false));
-        appDispatch(setIsPreloaderOpen(true))
-        const newUserData: User1 = {
+        appDispatch(setIsPreloaderOpen(true));
+        const newUserData: User = {
           name: values.name,
           login: values.login,
           password: values.password
         };
-        const req = await updateUserData1(id, newUserData);
-        console.log('req', req);
+        await updateUserData(id, newUserData);
         appDispatch(setIsPreloaderOpen(false));
-        //todo обработать ошибки api
       }}
     >
       {({ submitForm }) => (
@@ -116,13 +112,6 @@ function EditProfileFormFormik() {
             label={passLabel}
             color="info"
           />
-          {/* <Field
-            component={TextField}
-            name="email"
-            type="email"
-            label={emailLabel}
-            color="info"
-          /> */}
           <Button
             variant="outlined"
             color="info"
@@ -130,7 +119,15 @@ function EditProfileFormFormik() {
             onClick={submitForm}
             type="submit"
           >
-            {buttonText}
+            {submitButtonText}
+          </Button>
+          <Button
+            variant="outlined"
+            color="warning"
+            disabled={false}
+            onClick={handleClickDeleteUserButton}
+          >
+            {deleteButtonText}
           </Button>
         </Form>
       )}
