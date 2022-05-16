@@ -33,26 +33,20 @@ function EditProfileFormFormik() {
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
+    function checkFormField(key: keyof IValues) {
+      if (!values[key]) {
+        errors[key] = required;
+      } else if(values[key].length < 3) {
+        errors[key] = minValue;
+      } else if(values[key].length > 12) {
+        errors[key] = maxValue;
+      }
+    };
+
     setIsButtonDisabled(true);
-    if (!values.name) {
-      errors.name = required;
-    } else if(values.name.length < 3) {
-      errors.name = minValue;
-    } else if(values.name.length > 12) {
-      errors.login = maxValue;
-    } else if(!values.login) {
-      errors.login = required;
-    } else if(values.login.length < 3) {
-      errors.login = minValue;
-    } else if(values.login.length > 12) {
-      errors.login = maxValue;
-    } else if(!values.password) {
-      errors.password = required;
-    } else if(values.password.length < 3) {
-      errors.password = minValue;
-    } else if(values.password.length > 12) {
-      errors.password = maxValue;
-    }
+    checkFormField('name');
+    checkFormField('login');
+    checkFormField('password');
     if (!errors.name && !errors.login && !errors.password) {
       setIsButtonDisabled(false);
     }

@@ -18,7 +18,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  maxWidth: 400,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -32,31 +32,29 @@ function CreateNewBoardModal() {
   const handleClose = () => appDispatch(setIsCreateNewBoardModalOpen(false));
 
   return (
-    <div >
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={appState.isCreateNewBoardModalOpen}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 700,
-        }}
-      >
-        <Fade in={appState.isCreateNewBoardModalOpen} >
-          <Box sx={style}>
-            <Box component='div' className="modal__title" sx={{mb: 2}}>
-              <NoteAddOutlinedIcon color='primary' sx={{mr: 2}}></NoteAddOutlinedIcon>
-              <Typography id="transition-modal-title" variant="h6" component="h4">
-                {t('createNewBoardForm:formTitle')}
-              </Typography>
-            </Box>
-            <CreateNewBoardFormFormik />
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      open={appState.isCreateNewBoardModalOpen}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 700,
+      }}
+    >
+      <Fade in={appState.isCreateNewBoardModalOpen} >
+        <Box sx={style}>
+          <Box component='div' className="modal__title" sx={{mb: 2}}>
+            <NoteAddOutlinedIcon color='primary' sx={{mr: 2}}></NoteAddOutlinedIcon>
+            <Typography id="transition-modal-title" variant="h6" component="h4">
+              {t('createNewBoardForm:formTitle')}
+            </Typography>
           </Box>
-        </Fade>
-      </Modal>
-    </div>
+          <CreateNewBoardFormFormik />
+        </Box>
+      </Fade>
+    </Modal>
   );
 }
 

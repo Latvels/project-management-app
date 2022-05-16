@@ -21,6 +21,7 @@ function CreateNewBoardFormFormik() {
   const buttonText = t('createNewBoardForm:submit');
   const required = t('formValidation:required');
   const minValue = t('formValidation:minValue');
+  const maxValue = t('formValidation:maxValue');
 
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
 
@@ -31,6 +32,8 @@ function CreateNewBoardFormFormik() {
       errors.title = required;
     } else if (values.title.length < 3) {
       errors.title = minValue;
+    } else if (values.title.length > 12) {
+      errors.title = maxValue;
     } else if (!values.description) {
       errors.description = required;
     }
