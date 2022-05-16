@@ -1,4 +1,4 @@
-import { Button, LinearProgress } from '@mui/material';
+import { Button } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import * as React from 'react';
@@ -59,7 +59,7 @@ function CreateNewBoardFormFormik() {
         //todo обработать ошибку создания борды
       }}
     >
-      {({ submitForm, isSubmitting }) => (
+      {({ submitForm }) => (
         <Form className="form">
           <Field
             component={TextField}
@@ -74,16 +74,7 @@ function CreateNewBoardFormFormik() {
             type="text"
             label={descriptionLabel}
             color="info"
-            // aria-label="empty textarea"
-            // component={TextareaAutosize}
-            // label={descriptionLabel}
-            // name="description"
-            // placeholder={descriptionLabel}
-            // color="info"
-            // className="form__field--textArea"
-            // required
           />
-          {isSubmitting && <LinearProgress />}
           <Button
             variant="outlined"
             color="info"

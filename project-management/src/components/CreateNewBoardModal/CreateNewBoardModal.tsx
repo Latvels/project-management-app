@@ -43,7 +43,6 @@ function CreateNewBoardModal() {
         BackdropProps={{
           timeout: 700,
         }}
-        // sx={modalStyle}
       >
         <Fade in={appState.isCreateNewBoardModalOpen} >
           <Box sx={style}>
