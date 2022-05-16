@@ -3,16 +3,27 @@ import React, { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from 'react-router-dom';
 import './myMenu.scss';
+import { useDispatch } from 'react-redux';
+import { setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
+import { useTranslation } from 'react-i18next';
 
 function MyMenu() {
+  const {t} = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const appDispatch = useDispatch();
   const open = Boolean(anchorEl);
+  
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleClickOnCreateNewBoardButton = () => {
+    handleClose();
+    appDispatch(setIsCreateNewBoardModalOpen(true));
+  }
   return (
     <div>
       <IconButton
@@ -35,10 +46,10 @@ function MyMenu() {
         }}
       >
         <NavLink to="/mainPage" className="menu__navLink">
-          <MenuItem onClick={handleClose}>Go To Main Page</MenuItem>
+          <MenuItem onClick={handleClose}>{t('header:menuItem1')}</MenuItem>
         </NavLink>
-        <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Create New Board</MenuItem>
+        <MenuItem onClick={handleClose}>{t('header:menuItem2')}</MenuItem>
+        <MenuItem onClick={handleClickOnCreateNewBoardButton}>{t('header:menuItem3')}</MenuItem>
       </Menu>
     </div>
   );
