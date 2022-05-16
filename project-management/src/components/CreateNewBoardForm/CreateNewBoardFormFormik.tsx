@@ -19,8 +19,10 @@ function CreateNewBoardFormFormik() {
   const titleLabel = t('createNewBoardForm:boardTitle');
   const descriptionLabel = t('createNewBoardForm:boardDescription');
   const buttonText = t('createNewBoardForm:submit');
-  const required = t('createNewBoardForm:validation.required');
-  const minValue = t('createNewBoardForm:validation.minValue');
+  // const required = t('createNewBoardForm:validation.required');
+  // const minValue = t('createNewBoardForm:validation.minValue');
+  const required = t('formValidation:required');
+  const minValue = t('formValidation:minValue');
 
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
 

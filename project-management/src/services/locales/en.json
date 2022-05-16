@@ -12,6 +12,16 @@
     "part1": "To get started",
     "part2": "Switch language between english and russian using buttons above."
   },
+  "editProfileForm": {
+    "formTitle": "edit profile",
+    "email": "edit email",
+    "name": "edit name",
+    "submit": "edit"
+  },
+  "formValidation": {
+    "required": "field is required",
+    "minValue": "min length is 3 characters"
+  },
   "createNewBoardForm": {
     "formTitle": "create board",
     "boardTitle": "input board title",
@@ -19,7 +29,8 @@
     "submit": "create",
     "validation": {
       "required": "field is required",
-      "minValue": "min length is 3 characters"
+      "minValue": "min length is 3 characters",
+      "invalidEmail": "invalid email address"
     }
   }
 }
