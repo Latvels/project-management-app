@@ -1,4 +1,4 @@
-import React, {SyntheticEvent, useCallback, useState} from 'react';
+import React, { SyntheticEvent, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Button,
@@ -28,14 +28,17 @@ function Registration() {
   const changeLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLogin(event.target.value);
   };
-  const submit = useCallback((event: SyntheticEvent) => {
-    event.preventDefault();
-    singUp({
-      password: password,
-      name: login,
-      login: email,
-    }).then(response => console.log(response));
-  }, [login, password]);
+  const submit = useCallback(
+    async (event: SyntheticEvent) => {
+      event.preventDefault();
+      await singUp({
+        password: password,
+        login: login,
+      });
+    },
+    [login, password]
+  );
+
   return (
     <Container>
       <h2>Please register</h2>
