@@ -18,6 +18,10 @@ const theme = createTheme({
   },
   typography: {
     htmlFontSize: 14,
+    fontFamily: [
+        'Inter',
+        'sans-serif',
+      ].join(','),
   }
 });
 
