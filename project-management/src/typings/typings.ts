@@ -5,6 +5,12 @@ export interface User {
 	completed: boolean
 };
 
+export interface User1 {
+	name: string,
+	login: string,
+	password: string,
+};
+
 export interface Board {
 	title: string,
 	description: string,

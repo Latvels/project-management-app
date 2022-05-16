@@ -20,13 +20,16 @@
   },
   "editProfileForm": {
     "formTitle": "edit profile",
-    "email": "edit email",
-    "name": "edit name",
+    "email": "email",
+    "name": "name",
+    "login": "login",
+    "pass": "password",
     "submit": "edit"
   },
   "formValidation": {
     "required": "field is required",
     "minValue": "min length is 3 characters",
-    "invalidEmail": "invalid email address"
+    "invalidEmail": "invalid email address",
+    "maxValue": "max length is 12 characters"
   }
 }

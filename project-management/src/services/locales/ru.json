@@ -20,13 +20,16 @@
   },
   "editProfileForm": {
     "formTitle": "редактировать профиль",
-    "email": "редактировать email",
-    "name": "редактировать имя",
+    "email": "email",
+    "name": "имя",
+    "login": "логин",
+    "pass": "пароль",
     "submit": "редактировать"
   },
   "formValidation": {
     "required": "поле обязательно для заполнения",
     "minValue": "минимальная длина 3 символа",
-    "invalidEmail": "неверный формат email"
+    "invalidEmail": "неверный формат email",
+    "maxValue": "максимальная длина 12 символов"
   }
 }
