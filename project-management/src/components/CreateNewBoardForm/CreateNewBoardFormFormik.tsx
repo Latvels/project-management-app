@@ -3,13 +3,15 @@ import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import './createNewBoardFormFormik.scss';
 import { getBoardsById } from '../../api/boardApi';
 import { createBoard  } from '../../api/boardApi'
 import { AppDispatch } from '../../store/store';
-
+import { BasicAlerts } from '../compunents';
+import { RootState } from '../../store/reducer/reducer';
+import { Error } from '../../typings/typings';
 interface IValues {
   title: string;
   description: string;
@@ -17,7 +19,6 @@ interface IValues {
 
 function CreateNewBoardFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
-  
   const {t} = useTranslation();
   const titleLabel = t('createNewBoardForm:boardTitle');
   const descriptionLabel = t('createNewBoardForm:boardDescription');
@@ -27,6 +28,14 @@ function CreateNewBoardFormFormik() {
   const maxValue = t('formValidation:maxValue');
 
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
+  // Вот так получается обрабатывать ошибки с сервера
+  const errorMessage = useSelector((state: RootState) => state.board.error);
+  const err = (errorMessage:Error)=> {
+    const { message } = errorMessage
+    if (message !== '') {
+      return <BasicAlerts error={errorMessage}/>
+    }
+  }
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
@@ -52,14 +61,15 @@ function CreateNewBoardFormFormik() {
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validate={validateForm}
-      onSubmit={async (values: IValues, {setSubmitting}) => {
-        setSubmitting(false);
+    <div>
+      <Formik
+        initialValues={initialValues}
+        validate={validateForm}
+        onSubmit={async (values: IValues, {setSubmitting}) => {
+          setSubmitting(false);
         console.log(values);
-        // Как тут вызывать функции к апи
-        const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491'))
+          // Как тут вызывать функции к апи
+          // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491'))
         // console.log('createBoards', (await createBoardCard).payload);
         
         /* это было в конфликте
@@ -70,38 +80,41 @@ function CreateNewBoardFormFormik() {
         console.log('req', req);
         appDispatch(setIsPreloaderOpen(false));
 
-        */
-        //todo обработать ошибку создания борды
-      }}
-    >
-      {({ submitForm }) => (
-        <Form className="form">
-          <Field
-            component={TextField}
-            name="title"
-            type="text"
-            label={titleLabel}
-            color="info"
-          />
-          <Field
-            component={TextField}
-            name="description"
-            type="text"
-            label={descriptionLabel}
-            color="info"
-          />
-          <Button
-            variant="outlined"
-            color="info"
-            disabled={isButtonDisabled}
-            onClick={submitForm}
-            type="submit"
-          >
-            {buttonText}
-          </Button>
-        </Form>
-      )}
-    </Formik>
+          */
+          //todo обработать ошибку создания борды
+        }}
+      >
+        {({ submitForm }) => (
+          <Form className="form">
+            <Field
+              component={TextField}
+              name="title"
+              type="text"
+              label={titleLabel}
+              color="info"
+            />
+            <Field
+              component={TextField}
+              name="description"
+              type="text"
+              label={descriptionLabel}
+              color="info"
+            />
+            <Button
+              variant="outlined"
+              color="info"
+              disabled={isButtonDisabled}
+              onClick={submitForm}
+              type="submit"
+            >
+              {buttonText}
+            </Button>
+          </Form>
+        )}
+      </Formik>
+      {err(errorMessage)}
+    </div>
+    
   );
 }
 

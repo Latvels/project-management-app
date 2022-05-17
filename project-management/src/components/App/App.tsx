@@ -7,7 +7,11 @@ import { Preloader } from '../compunents';
 
 
 export default function App() {
-
+ const er = {
+  status: 100,
+  message: 'string',
+  visible: true,
+ }
   return (
     <div>
       <Header />
@@ -15,7 +19,6 @@ export default function App() {
       <Footer />
       <CreateNewBoardModal />
       <EditProfileModal />
-      <BasicAlerts />
       <Preloader />
     </div>
   );

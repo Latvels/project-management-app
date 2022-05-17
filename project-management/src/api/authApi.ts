@@ -6,56 +6,56 @@ import { CONFIG } from '../constants/constant';
 import { User, reqState } from '../typings/typings';
 
 export const singIn = createAsyncThunk(
-	'auth/singIn',
-	async (arr: User, { rejectWithValue }) => {
-		try {
-			const config = {
-				method: 'POST',
-				url: `${CONFIG.basicURL}/signin`,
-				headers: { 
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${CONFIG.token}`, 
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				data: qs.stringify(arr),
-			}
-			const response = await axios(config)
-			return response.data;
-		} catch (e) {
-			rejectWithValue(e)
-			return rejectWithValue('Failed to singIn')
-		}
-	}
+  'auth/singIn',
+  async (arr: User, { rejectWithValue }) => {
+    try {
+      const config = {
+        method: 'POST',
+        url: `${CONFIG.basicURL}/signin`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: qs.stringify(arr),
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      rejectWithValue(e)
+      return rejectWithValue('Failed to singIn')
+    }
+  }
 )
 
 export const singUp = createAsyncThunk(
-	'auth/singUp',
-	async (arr: User, { rejectWithValue }) => {
-		try {
-			const config = {
-				method: 'POST',
-				url: `${CONFIG.basicURL}/signup`,
-				headers: { 
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${CONFIG.token}`, 
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				data: qs.stringify(arr),
-			}
-			const response = await axios(config)
-			return response.data;
-		} catch (e) {
-			rejectWithValue(e)
-			return rejectWithValue('Failed to singUp')
-		}
-	}
+  'auth/singUp',
+  async (arr: User, { rejectWithValue }) => {
+    try {
+      const config = {
+        method: 'POST',
+        url: `${CONFIG.basicURL}/signup`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: qs.stringify(arr),
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      rejectWithValue(e)
+      return rejectWithValue('Failed to singUp')
+    }
+  }
 )
 
 const initialState: reqState = {
   entities: [],
   loading: 'idle',
   currentRequestId: undefined,
-  error: { status: 0, message: ''}
+  error: { status: 0, message: '', visible: true }
 }
 
 export const authSlise = createSlice({
@@ -63,7 +63,7 @@ export const authSlise = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-		[singIn.pending.type]: (state, action) => {
+    [singIn.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId

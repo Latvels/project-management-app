@@ -6,117 +6,117 @@ import { CONFIG } from '../constants/constant';
 import { Column, reqState } from '../typings/typings';
 
 export const getColumns = createAsyncThunk(
-	'column/getColumns',
-	async (idBoard: string, { rejectWithValue }) => {
-		try {
-			const response = await axios.get<Column[]>(`${CONFIG.basicURL}/boards/${idBoard}/columns`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer ${CONFIG.token}`,
-					},
-			})
-			return response.data;
-		} catch (e) {
-			return rejectWithValue('Failed to load columns')
-		}
-	}
+  'column/getColumns',
+  async (idBoard: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.get<Column[]>(`${CONFIG.basicURL}/boards/${idBoard}/columns`, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${CONFIG.token}`,
+        },
+      })
+      return response.data;
+    } catch (e) {
+      return rejectWithValue('Failed to load columns')
+    }
+  }
 )
 
 export const getColumnById = createAsyncThunk(
-	'column/getColumnById',
-	async (data: Column, { rejectWithValue }) => {
+  'column/getColumnById',
+  async (data: Column, { rejectWithValue }) => {
     const { idBoard, id } = data;
-		try {
-			const response = await axios.get<Column[]>(`${CONFIG.basicURL}/boards/${idBoard}/columns/${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer ${CONFIG.token}`,
-					},
-			})
-			return response.data;
-		} catch (e) {
-			return rejectWithValue('Failed to load columns by id')
-		}
-	}
+    try {
+      const response = await axios.get<Column[]>(`${CONFIG.basicURL}/boards/${idBoard}/columns/${id}`, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${CONFIG.token}`,
+        },
+      })
+      return response.data;
+    } catch (e) {
+      return rejectWithValue('Failed to load columns by id')
+    }
+  }
 )
 
 export const createColumn = createAsyncThunk(
-	'column/createColumn',
-	async (data: Column, { rejectWithValue }) => {
+  'column/createColumn',
+  async (data: Column, { rejectWithValue }) => {
     const { idBoard } = data;
-		delete data.idBoard;
-		try {
-			const config = {
-				method: 'POST',
-				url: `${CONFIG.basicURL}/boards/${idBoard}/columns`,
-				headers: { 
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${CONFIG.token}`, 
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				data: qs.stringify(data),
-			}
-			const response = await axios(config)
-			return response.data;
-		} catch (e) {
-			return rejectWithValue('Failed to create column')
-		}
-	}
+    delete data.idBoard;
+    try {
+      const config = {
+        method: 'POST',
+        url: `${CONFIG.basicURL}/boards/${idBoard}/columns`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: qs.stringify(data),
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      return rejectWithValue('Failed to create column')
+    }
+  }
 )
 
 export const updateColumn = createAsyncThunk(
-	'column/updateColumn',
-	async (data: Column, { rejectWithValue }) => {
-		const { idBoard, id } = data;
-		delete data.idBoard;
+  'column/updateColumn',
+  async (data: Column, { rejectWithValue }) => {
+    const { idBoard, id } = data;
+    delete data.idBoard;
     delete data.id;
-		try {
-			const config = {
-				method: 'PUT',
-				url: `${CONFIG.basicURL}/boards/${idBoard}/columns/${id}`,
-				headers: { 
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${CONFIG.token}`, 
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				data: qs.stringify(data),
-			}
-			const response = await axios(config)
-			return response.data;
-		} catch (e) {
-			rejectWithValue(e)
-			return rejectWithValue('Failed to change column')
-		}
-	}
+    try {
+      const config = {
+        method: 'PUT',
+        url: `${CONFIG.basicURL}/boards/${idBoard}/columns/${id}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: qs.stringify(data),
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      rejectWithValue(e)
+      return rejectWithValue('Failed to change column')
+    }
+  }
 )
 
 export const deleteColumn = createAsyncThunk(
-	'column/deleteColumn',
-	async (data: Column, { rejectWithValue }) => {
+  'column/deleteColumn',
+  async (data: Column, { rejectWithValue }) => {
     const { idBoard, id } = data;
-		try {
-			const config = {
-				method: 'DELETE',
-				url: `${CONFIG.basicURL}/boards/${idBoard}/columns/${id}`,
-				headers: { 
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${CONFIG.token}`, 
-				}
-			}
-			const response = await axios(config)
-			return response.data;
-		} catch (e) {
-			rejectWithValue(e)
-			return rejectWithValue('Failed to delete column')
-		}
-	}
+    try {
+      const config = {
+        method: 'DELETE',
+        url: `${CONFIG.basicURL}/boards/${idBoard}/columns/${id}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+        }
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      rejectWithValue(e)
+      return rejectWithValue('Failed to delete column')
+    }
+  }
 )
 
 const initialState: reqState = {
   entities: [],
   loading: 'idle',
   currentRequestId: undefined,
-  error: { status: 0, message: ''}
+  error: { status: 0, message: '', visible: true }
 }
 
 export const columnSlise = createSlice({
@@ -124,7 +124,7 @@ export const columnSlise = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-		[getColumns.pending.type]: (state, action) => {
+    [getColumns.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -169,8 +169,8 @@ export const columnSlise = createSlice({
         state.currentRequestId = undefined
       }
     },
-		
-		[createColumn.pending.type]: (state, action) => {
+
+    [createColumn.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -193,7 +193,7 @@ export const columnSlise = createSlice({
       }
     },
 
-		[updateColumn.pending.type]: (state, action) => {
+    [updateColumn.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -216,7 +216,7 @@ export const columnSlise = createSlice({
       }
     },
 
-		[deleteColumn.pending.type]: (state, action) => {
+    [deleteColumn.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId

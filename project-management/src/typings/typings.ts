@@ -44,8 +44,9 @@ export type reqState = {
 }
 
 export interface Error {
-  status: number
-  message: string
+  status?: number,
+  message?: string,
+  visible?: boolean,
 }
 
 export interface All {

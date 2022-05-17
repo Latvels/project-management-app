@@ -1,36 +1,17 @@
 import * as React from 'react';
-import {Box, Alert, IconButton, Collapse} from '@mui/material';
+import {Box, Alert, IconButton, Collapse, AlertTitle} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from 'react-redux';
 import store, { AppDispatch } from '../../store/store';
 import { getBoards, createBoard,updateBoards, getBoardsById, deleteBoard, selectBoard } from '../../api/boardApi'
+import { Error } from '../../typings/typings';
+type Props = {
+  error: Error
+}
 
-export default function BasicAlerts() {
+export default function BasicAlerts(props:Props) {
   const [open, setOpen] = React.useState(true);
-  // const { entities: board, loading, error } = useSelector(selectBoard)
-  const allStore = store.getState();
-  let qwe = 'Нет ошибок';
-  console.log('allStore', allStore)
-  if (allStore.auth.error.message !== '') {
-    // TODO тут можно пределать через return свой компонент с цветами
-    qwe = `${allStore.auth.error.message}-${allStore.auth.error.status}`
-  }
-  if (allStore.board.error.message !== '') {
-    qwe = `${allStore.board.error.message}-${allStore.board.error.status}`
-  }
-  if (allStore.column.error.message !== '') {
-    qwe = `${allStore.column.error.message}-${allStore.column.error.status}`
-  }
-  if (allStore.file.error.message !== '') {
-    qwe = `${allStore.file.error.message}-${allStore.file.error.status}`
-  }
-  if (allStore.task.error.message !== '') {
-    qwe = `${allStore.task.error.message}-${allStore.task.error.status}`
-  }
-  if (allStore.user.error.message !== '') {
-    //qwe = `${allStore.user.error.message}-${allStore.user.error.status}`
-    qwe = 'sdasd - 200'
-  }
+  const { status, message, visible  } = props.error;
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -42,7 +23,7 @@ export default function BasicAlerts() {
     <Box sx={{ width: '100%' }}>
       <Collapse in={open}>
         <Alert
-					severity="info"
+					severity="error"
           action={
             <IconButton
               aria-label="close"
@@ -57,7 +38,8 @@ export default function BasicAlerts() {
           }
           sx={{ mb: 2 }}
         >
-          {qwe}
+          <AlertTitle>{status}</AlertTitle>
+          This is an error alert - <strong>{message}</strong>
         </Alert>
       </Collapse>
     </Box>
