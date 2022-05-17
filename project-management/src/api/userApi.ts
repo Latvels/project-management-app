@@ -89,7 +89,7 @@ const initialState: reqState = {
   entities: [],
   loading: 'idle',
   currentRequestId: undefined,
-  error: null,
+  error: { status: 0, message: ''}
 }
 
 export const userSlise = createSlice({

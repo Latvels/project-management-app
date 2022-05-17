@@ -37,9 +37,32 @@ export interface File {
 }
 
 export type reqState = {
-  entities: Board[]
+  entities: All[]
   loading: 'idle' | 'pending'
   currentRequestId: string | undefined
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  error: any
+  error: Error
+}
+
+export interface Error {
+  status: number
+  message: string
+}
+
+export interface All {
+	id?: string;
+  title?: string;
+  description?: string;
+  taskId?: string;
+  file?: string; // бинарно
+  done?: boolean;
+  order?: number;
+  userId?: string;
+  boardId?: string;
+  columnId?: string;
+  files?: string;
+  password?: string;
+  name?: string;
+  login?: string;
+  token?: string;
+	idBoard?: string;
 }
