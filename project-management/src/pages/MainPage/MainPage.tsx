@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function MainPage() {
   const { t } = useTranslation();
+  //! пример
   const bdat = {id:'dfa66578-979d-4a8e-b724-7092e7c94e0a', title: 'main', description: 'page'}
   const { entities: board, loading } = useSelector(selectBoard)
   const iiid = 'dfa66578-979d-4a8e-b724-7092e7c94e0a'
@@ -22,7 +23,7 @@ function MainPage() {
   React.useEffect(() => {
     testFunc();
   }, [appDispatch])
-
+ // ! конец примера
   return (
     <div>
       <h2>Main Page</h2>
