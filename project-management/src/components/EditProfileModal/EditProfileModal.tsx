@@ -7,11 +7,11 @@ import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
-import { setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
-import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
-import './createNewBoardModal.scss';
+import { setIsEditProfileModalOpen } from '../../store/action/appStateAction';
+import FaceRetouchingNaturalOutlinedIcon from '@mui/icons-material/FaceRetouchingNaturalOutlined';
+import './editProfileModal.scss';
 import { useTranslation } from 'react-i18next';
-import { CreateNewBoardFormFormik } from '../compunents';
+import { EditProfileFormFormik } from '../compunents';
 
 const style = {
   position: 'absolute',
@@ -25,17 +25,17 @@ const style = {
   p: 4,
 };
 
-function CreateNewBoardModal() {
+function EditProfileModal() {
   const {t} = useTranslation();
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch();
-  const handleClose = () => appDispatch(setIsCreateNewBoardModalOpen(false));
+  const handleClose = () => appDispatch(setIsEditProfileModalOpen(false));
 
   return (
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
-      open={appState.isCreateNewBoardModalOpen}
+      open={appState.isEditProfileModalOpen}
       onClose={handleClose}
       closeAfterTransition
       BackdropComponent={Backdrop}
@@ -43,19 +43,20 @@ function CreateNewBoardModal() {
         timeout: 700,
       }}
     >
-      <Fade in={appState.isCreateNewBoardModalOpen} >
+      <Fade in={appState.isEditProfileModalOpen} >
         <Box sx={style}>
+        {/* <Box className='modal__window'> */}
           <Box component='div' className="modal__title" sx={{mb: 2}}>
-            <NoteAddOutlinedIcon color='primary' sx={{mr: 2}}></NoteAddOutlinedIcon>
+            <FaceRetouchingNaturalOutlinedIcon color='primary' sx={{mr: 2}}></FaceRetouchingNaturalOutlinedIcon>
             <Typography id="transition-modal-title" variant="h6" component="h4">
-              {t('createNewBoardForm:formTitle')}
+              {t('editProfileForm:formTitle')}
             </Typography>
           </Box>
-          <CreateNewBoardFormFormik />
+          <EditProfileFormFormik />
         </Box>
       </Fade>
     </Modal>
   );
 }
 
-export default CreateNewBoardModal;
+export default EditProfileModal;

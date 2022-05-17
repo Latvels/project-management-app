@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from 'react-router-dom';
 import './myMenu.scss';
 import { useDispatch } from 'react-redux';
-import { setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
+import { setIsCreateNewBoardModalOpen, setIsEditProfileModalOpen } from '../../store/action/appStateAction';
 import { useTranslation } from 'react-i18next';
 
 function MyMenu() {
@@ -23,6 +23,11 @@ function MyMenu() {
   const handleClickOnCreateNewBoardButton = () => {
     handleClose();
     appDispatch(setIsCreateNewBoardModalOpen(true));
+  }
+
+  const handleClickOnEditProfileButton = () => {
+    handleClose();
+    appDispatch(setIsEditProfileModalOpen(true));
   }
   return (
     <div>
@@ -48,7 +53,7 @@ function MyMenu() {
         <NavLink to="/mainPage" className="menu__navLink">
           <MenuItem onClick={handleClose}>{t('header:menuItem1')}</MenuItem>
         </NavLink>
-        <MenuItem onClick={handleClose}>{t('header:menuItem2')}</MenuItem>
+        <MenuItem onClick={handleClickOnEditProfileButton}>{t('header:menuItem2')}</MenuItem>
         <MenuItem onClick={handleClickOnCreateNewBoardButton}>{t('header:menuItem3')}</MenuItem>
       </Menu>
     </div>
