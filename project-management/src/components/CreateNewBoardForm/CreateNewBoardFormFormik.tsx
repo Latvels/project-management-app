@@ -1,10 +1,11 @@
-import { Button, LinearProgress, TextareaAutosize } from '@mui/material';
+import { Button } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
+import { createBoards } from '../../api/api';
+import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import './createNewBoardFormFormik.scss';
 
 import { createBoard  } from '../../api/boardApi'
@@ -22,17 +23,21 @@ function CreateNewBoardFormFormik() {
   const titleLabel = t('createNewBoardForm:boardTitle');
   const descriptionLabel = t('createNewBoardForm:boardDescription');
   const buttonText = t('createNewBoardForm:submit');
-  const required = t('createNewBoardForm:validation.required');
-  const minValue = t('createNewBoardForm:validation.minValue');
+  const required = t('formValidation:required');
+  const minValue = t('formValidation:minValue');
+  const maxValue = t('formValidation:maxValue');
 
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
+    setIsButtonDisabled(true);
     if (!values.title) {
       errors.title = required;
     } else if (values.title.length < 3) {
       errors.title = minValue;
+    } else if (values.title.length > 12) {
+      errors.title = maxValue;
     } else if (!values.description) {
       errors.description = required;
     }
@@ -57,10 +62,20 @@ function CreateNewBoardFormFormik() {
         // Как тут вызывать функции к апи
         // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491f'))
         // console.log('createBoards', (await createBoardCard).payload);
+        
+        /* это было в конфликте
+        
+        appDispatch(setIsCreateNewBoardModalOpen(false));
+        appDispatch(setIsPreloaderOpen(true))
+        const req = await createBoards(values);
+        console.log('req', req);
+        appDispatch(setIsPreloaderOpen(false));
+
+        */
         //todo обработать ошибку создания борды
-        appDispatch(setIsCreateNewBoardModalOpen(false));}}
+      }}
     >
-      {({ submitForm, isSubmitting }) => (
+      {({ submitForm }) => (
         <Form className="form">
           <Field
             component={TextField}
@@ -75,16 +90,7 @@ function CreateNewBoardFormFormik() {
             type="text"
             label={descriptionLabel}
             color="info"
-            // aria-label="empty textarea"
-            // component={TextareaAutosize}
-            // label={descriptionLabel}
-            // name="description"
-            // placeholder={descriptionLabel}
-            // color="info"
-            // className="form__field--textArea"
-            // required
           />
-          {isSubmitting && <LinearProgress />}
           <Button
             variant="outlined"
             color="info"
