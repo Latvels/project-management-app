@@ -12,6 +12,7 @@ import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import './createNewBoardModal.scss';
 import { useTranslation } from 'react-i18next';
 import { CreateNewBoardFormFormik } from '../compunents';
+import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 
 const style = {
   position: 'absolute',
@@ -40,7 +41,7 @@ function CreateNewBoardModal() {
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
-        timeout: 700,
+        timeout: TIMEOUT_FOR_MODAL,
       }}
     >
       <Fade in={appState.isCreateNewBoardModalOpen} >
