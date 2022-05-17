@@ -12,13 +12,14 @@ import {
 import './registration.scss';
 import { singUp } from '../../api/authApi';
 import { useDispatch } from 'react-redux';
+import store, { AppDispatch } from '../../store/store';
 
 function Registration() {
   const { t } = useTranslation();
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const changeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -30,14 +31,15 @@ function Registration() {
     setLogin(event.target.value);
   };
   const submit = useCallback(async (event: SyntheticEvent) => {
-    //     event.preventDefault();
-    //     dispatch(
-    //       singUp({
-    //         password: password,
-    //         login: login,
-    //         name: email,
-    //       })
-    //     );
+        event.preventDefault();
+        const data = {
+          password: password,
+          login: login,
+          name: email,
+        }
+        dispatch(
+          singUp(data)
+        );
   }, []);
 
   return (
