@@ -41,5 +41,10 @@ export type reqState = {
   loading: 'idle' | 'pending'
   currentRequestId: string | undefined
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  error: any
+  error: Error
+}
+
+export interface Error {
+  status: number
+  message: string
 }

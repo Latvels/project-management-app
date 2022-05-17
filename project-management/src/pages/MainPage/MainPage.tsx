@@ -8,14 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 function MainPage() {
   const { t } = useTranslation();
   //! пример
-  const bdat = {id:'dfa66578-979d-4a8e-b724-7092e7c94e0a', title: 'main', description: 'page'}
+  const bdat = {id:'259132bf-2386-41b6-932a-b44a8d12010', title: 'main', description: 'page'}
   const { entities: board, loading } = useSelector(selectBoard)
   const iiid = 'dfa66578-979d-4a8e-b724-7092e7c94e0a'
   console.log('store',  board, loading)
   const appDispatch = useDispatch<AppDispatch>();
   const testFunc = async () => {
     // await appDispatch(getBoards()) // получаю все записи 
-    // await appDispatch(getBoardsById(bdat.id)) // получаю запись 
+    await appDispatch(getBoardsById(iiid)) // получаю запись 
     // await appDispatch(updateBoards(bdat)) // обновление
     // await appDispatch(deleteBoard(iiid)) // удаление
     // await appDispatch(createBoard(bdat)) // создание
