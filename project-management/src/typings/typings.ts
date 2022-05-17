@@ -6,24 +6,39 @@ export interface User {
 }
 
 export interface Board {
-	title: string,
-	description: string,
+	id?: string;
+  title?: string;
+  description?: string;
 }
 
 export interface Column {
-	title: string,
-	order: number,
+  title?: string;
+  order?: number;
+  id?: string;
+	idBoard?: string;
 }
 
 export interface Task {
-	title: string,
-	done: boolean,
-	order: number,
-	description: string,
-	userId: string,
+  title?: string;
+  done?: boolean;
+  order?: number;
+  description?: string;
+  userId?: string;
+  boardId?: string;
+  columnId?: string;
+  id?: string;
+  files?: string;
 }
 
 export interface File {
-	taskId: string,
-	file: string, // бинарно
+  taskId?: string;
+  file?: string; // бинарно
+}
+
+export type reqState = {
+  entities: Board[]
+  loading: 'idle' | 'pending'
+  currentRequestId: string | undefined
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: any
 }
