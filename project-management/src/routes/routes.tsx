@@ -12,7 +12,7 @@ const MainRoutes = () => (
     <Route path="/boardPage" element={<BoardPage />} />
     <Route path="/404" element={<NotFoundPage />} />
     <Route path="/login" element={<LoginPage />} />
-      <Route path="/registration" element={<Registration />} />
+      <Route path="/signup" element={<Registration />} />
   </Routes>
 );
 

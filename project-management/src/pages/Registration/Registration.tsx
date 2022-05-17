@@ -10,14 +10,15 @@ import {
   InputLabel,
 } from '@mui/material';
 import './registration.scss';
-import { singUp } from '../../api/api';
-import { log } from 'util';
+import { singUp } from '../../api/authApi';
+import { useDispatch } from 'react-redux';
 
 function Registration() {
   const { t } = useTranslation();
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   const changeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -28,16 +29,16 @@ function Registration() {
   const changeLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLogin(event.target.value);
   };
-  const submit = useCallback(
-    async (event: SyntheticEvent) => {
-      event.preventDefault();
-      await singUp({
-        password: password,
-        login: login,
-      });
-    },
-    [login, password]
-  );
+  const submit = useCallback(async (event: SyntheticEvent) => {
+    //     event.preventDefault();
+    //     dispatch(
+    //       singUp({
+    //         password: password,
+    //         login: login,
+    //         name: email,
+    //       })
+    //     );
+  }, []);
 
   return (
     <Container>

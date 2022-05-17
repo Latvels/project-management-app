@@ -20,7 +20,7 @@ function WelcomePage() {
   return (
     <Container fixed>
       <div className={'container--link'}>
-        <Button variant="contained" href={'/registration'} className="registration-button">
+        <Button variant="contained" href={'/signup'} className="registration-button">
           Register Page
         </Button>
         <LoginPage />
