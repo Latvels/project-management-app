@@ -4,9 +4,11 @@ import { TextField } from 'formik-mui';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { createBoards } from '../../api/api';
 import { setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
 import './createNewBoardFormFormik.scss';
+
+import { createBoard  } from '../../api/boardApi'
+import { AppDispatch } from '../../store/store';
 
 interface IValues {
   title: string;
@@ -14,7 +16,8 @@ interface IValues {
 }
 
 function CreateNewBoardFormFormik() {
-  const appDispatch = useDispatch();
+  const appDispatch = useDispatch<AppDispatch>();
+  
   const {t} = useTranslation();
   const titleLabel = t('createNewBoardForm:boardTitle');
   const descriptionLabel = t('createNewBoardForm:boardDescription');
@@ -51,8 +54,9 @@ function CreateNewBoardFormFormik() {
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
         console.log(values);
-        const req = await createBoards(values);
-        console.log('req', req);
+        // Как тут вызывать функции к апи
+        // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491f'))
+        // console.log('createBoards', (await createBoardCard).payload);
         //todo обработать ошибку создания борды
         appDispatch(setIsCreateNewBoardModalOpen(false));}}
     >
