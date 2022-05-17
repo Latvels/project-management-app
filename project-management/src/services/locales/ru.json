@@ -31,5 +31,14 @@
     "required": "поле обязательно для заполнения",
     "minValue": "минимальная длина 3 символа",
     "maxValue": "максимальная длина 12 символов"
+  },
+  "confirmationModal": {
+    "title": "подтвердите свои действия на странице",
+    "commonText": "удалить",
+    "deleteUserText": "пользователя",
+    "deleteBoardText": "доску",
+    "deleteTaskText": "задание",
+    "buttonYes": "да",
+    "buttonNo": "нет"
   }
 }
