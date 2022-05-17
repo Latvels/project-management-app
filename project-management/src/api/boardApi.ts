@@ -32,7 +32,6 @@ export const getBoardsById = createAsyncThunk(
 					Authorization: `Bearer ${CONFIG.token}`,
 					},
 			})
-      console.log('response', response)
 			return response.data;
 		// } catch (e) {
 		// 	return rejectWithValue('Failed to load boards by id')
