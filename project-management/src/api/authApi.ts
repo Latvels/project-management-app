@@ -10,7 +10,7 @@ export const singIn = createAsyncThunk(
 	async (arr: User, { rejectWithValue }) => {
 		try {
 			const config = {
-				method: 'PUT',
+				method: 'POST',
 				url: `${CONFIG.basicURL}/signin`,
 				headers: { 
 					'Accept': 'application/json',
@@ -33,7 +33,7 @@ export const singUp = createAsyncThunk(
 	async (arr: User, { rejectWithValue }) => {
 		try {
 			const config = {
-				method: 'PUT',
+				method: 'POST',
 				url: `${CONFIG.basicURL}/signup`,
 				headers: { 
 					'Accept': 'application/json',
