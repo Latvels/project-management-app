@@ -58,19 +58,15 @@ function CreateNewBoardFormFormik() {
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
         console.log(values);
+        appDispatch(setIsCreateNewBoardModalOpen(false));
+        appDispatch(setIsPreloaderOpen(true));
+        const resp = await appDispatch(createBoard(values));
+        console.log(resp);
+        appDispatch(setIsPreloaderOpen(false));
         // Как тут вызывать функции к апи
         // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491f'))
         // console.log('createBoards', (await createBoardCard).payload);
         
-        /* это было в конфликте
-        
-        appDispatch(setIsCreateNewBoardModalOpen(false));
-        appDispatch(setIsPreloaderOpen(true))
-        const req = await createBoards(values);
-        console.log('req', req);
-        appDispatch(setIsPreloaderOpen(false));
-
-        */
         //todo обработать ошибку создания борды
       }}
     >

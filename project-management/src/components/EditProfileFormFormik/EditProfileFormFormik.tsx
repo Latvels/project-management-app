@@ -4,8 +4,9 @@ import { TextField } from 'formik-mui';
 import react, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import { setDeletedItem, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { User } from '../../typings/typings';
+import { updateUser } from '../../api/userApi';
 import './editProfileFormFormik.scss';
 
 interface IValues {
@@ -16,7 +17,6 @@ interface IValues {
 
 function EditProfileFormFormik() {
   // todo use state
-  const id = '';
   const appDispatch = useDispatch();
   const {t} = useTranslation();
   const nameLabel = t('editProfileForm:name');
@@ -58,11 +58,10 @@ function EditProfileFormFormik() {
     login: '',
   }
 
-  const handleClickDeleteUserButton = async () => {
+  const handleClickDeleteUserButton = () => {
+    appDispatch(setDeletedItem('user'));
     appDispatch(setIsEditProfileModalOpen(false));
-    appDispatch(setIsPreloaderOpen(true));
-    //await deleteUser(id);
-    appDispatch(setIsPreloaderOpen(false));
+    appDispatch(setIsConfirmModalOpen(true));
   }
 
   return (
@@ -78,7 +77,7 @@ function EditProfileFormFormik() {
           login: values.login,
           password: values.password
         };
-        //await updateUserData(id, newUserData);
+        // await appDispatch(updateUser(newUserData));
         appDispatch(setIsPreloaderOpen(false));
       }}
     >

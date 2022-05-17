@@ -9,10 +9,10 @@ import { useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
 import { setIsEditProfileModalOpen } from '../../store/action/appStateAction';
 import FaceRetouchingNaturalOutlinedIcon from '@mui/icons-material/FaceRetouchingNaturalOutlined';
-import './editProfileModal.scss';
 import { useTranslation } from 'react-i18next';
 import { EditProfileFormFormik } from '../compunents';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
+import './editProfileModal.scss';
 
 const style = {
   position: 'absolute',
