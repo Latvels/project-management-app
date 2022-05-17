@@ -64,6 +64,7 @@ export async function updateUserData(id: string, user: User) {
     console.log(error)
   }
 }
+
 // Authorization
 export async function singIn(user: User) { // создание токена на нового пользователя
   try {
