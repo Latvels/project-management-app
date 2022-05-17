@@ -1,0 +1,61 @@
+import react from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import Typography from '@mui/material/Typography';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { RootState } from '../../store/reducer/reducer';
+import { setIsEditProfileModalOpen } from '../../store/action/appStateAction';
+import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';import './editProfileModal.scss';
+import { useTranslation } from 'react-i18next';
+import { EditProfileFormFormik } from '../compunents';
+import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  maxWidth: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+function EditProfileModal() {
+  const {t} = useTranslation();
+  const appState = useSelector((state: RootState) => state.appState);
+  const appDispatch = useDispatch();
+  const handleClose = () => appDispatch(setIsEditProfileModalOpen(false));
+
+  return (
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      open={appState.isEditProfileModalOpen}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: TIMEOUT_FOR_MODAL,
+      }}
+    >
+      <Fade in={appState.isEditProfileModalOpen} >
+        <Box sx={style}>
+          <Box component='div' className="modal__title" sx={{mb: 2}}>
+            <WarningAmberOutlinedIcon color='warning' sx={{mr: 2}}></WarningAmberOutlinedIcon>
+            <Typography id="transition-modal-title" variant="h6" component="h4">
+              <p>warning text</p>
+            </Typography>
+          </Box>
+          <EditProfileFormFormik />
+        </Box>
+      </Fade>
+    </Modal>
+  );
+}
+
+export default EditProfileModal;
