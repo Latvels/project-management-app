@@ -21,13 +21,14 @@ function SelectLanguage() {
   return (
     <Box>
       <FormControl sx={{
-        width: () => (width > 660 ? '200px' : '120px'),
+        width: () => (width > 660 ? '150px' : '100px'),
+        mr: 2,
       }}>
         <InputLabel sx={{
           display: 'flex',
           color: (theme) =>
             theme.palette.mode === 'light' ? theme.palette.primary.contrastText : theme.palette.secondary.contrastText,
-          }}>{t('lang:Language')}  <LanguageIcon />
+          }}> <LanguageIcon sx={{ml: 2}} />
         </InputLabel>
         <Select
           value={lang}

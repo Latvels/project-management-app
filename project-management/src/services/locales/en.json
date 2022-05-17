@@ -41,7 +41,7 @@
     "maxValue": "max length is 12 characters"
   },
   "confirmationModal": {
-    "title": "confirm your actions on the page",
+    "title": "confirm your actions",
     "commonText": "delete",
     "deleteUserText": "user",
     "deleteBoardText": "board",

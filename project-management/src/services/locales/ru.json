@@ -41,7 +41,7 @@
     "maxValue": "максимальная длина 12 символов"
   },
   "confirmationModal": {
-    "title": "подтвердите свои действия на странице",
+    "title": "подтвердите свои действия",
     "commonText": "удалить",
     "deleteUserText": "пользователя",
     "deleteBoardText": "доску",
