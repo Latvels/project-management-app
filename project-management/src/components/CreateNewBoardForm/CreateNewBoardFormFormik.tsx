@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import './createNewBoardFormFormik.scss';
-
+import { getBoardsById } from '../../api/boardApi';
 import { createBoard  } from '../../api/boardApi'
 import { AppDispatch } from '../../store/store';
 
@@ -59,7 +59,7 @@ function CreateNewBoardFormFormik() {
         setSubmitting(false);
         console.log(values);
         // Как тут вызывать функции к апи
-        // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491f'))
+        const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491'))
         // console.log('createBoards', (await createBoardCard).payload);
         
         /* это было в конфликте
