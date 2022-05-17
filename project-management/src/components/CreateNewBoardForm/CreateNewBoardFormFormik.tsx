@@ -4,7 +4,6 @@ import { TextField } from 'formik-mui';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { createBoards } from '../../api/api';
 import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import './createNewBoardFormFormik.scss';
 

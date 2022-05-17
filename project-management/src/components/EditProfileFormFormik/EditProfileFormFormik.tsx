@@ -4,7 +4,6 @@ import { TextField } from 'formik-mui';
 import react, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { updateUserData, deleteUser } from '../../api/api';
 import { setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { User } from '../../typings/typings';
 import './editProfileFormFormik.scss';
@@ -62,7 +61,7 @@ function EditProfileFormFormik() {
   const handleClickDeleteUserButton = async () => {
     appDispatch(setIsEditProfileModalOpen(false));
     appDispatch(setIsPreloaderOpen(true));
-    await deleteUser(id);
+    //await deleteUser(id);
     appDispatch(setIsPreloaderOpen(false));
   }
 
@@ -79,7 +78,7 @@ function EditProfileFormFormik() {
           login: values.login,
           password: values.password
         };
-        await updateUserData(id, newUserData);
+        //await updateUserData(id, newUserData);
         appDispatch(setIsPreloaderOpen(false));
       }}
     >
