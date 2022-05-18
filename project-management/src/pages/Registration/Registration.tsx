@@ -1,84 +1,95 @@
-import React, { SyntheticEvent, useCallback, useState } from 'react';
+import React, { SyntheticEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Button,
-  Container,
-  FormControl,
-  FormGroup,
-  FormHelperText,
-  Input,
-  InputLabel,
-} from '@mui/material';
+import { Button, Container, Input, InputLabel } from '@mui/material';
 import './registration.scss';
 import { singUp } from '../../api/authApi';
 import { useDispatch } from 'react-redux';
-import store, { AppDispatch } from '../../store/store';
-import { Navigate } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
+import { AppDispatch, useAppSelector } from '../../store/store';
+import { useNavigate } from 'react-router-dom';
+import { isValidEmail, isValidName, isValidPassword } from '../../utils/validation';
 
 function Registration() {
   const { t } = useTranslation();
-  const [login, setLogin] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [redirect, setRedirect] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
+  const requestStatus = useAppSelector((state) => state.auth.signUpStatus);
+  const isButtonDisabled = useMemo<boolean>(() => {
+    return !isValidEmail(email) || !isValidName(name) || !isValidPassword(password);
+  }, [email, name, password]);
 
   const changeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+    const { value } = event.target;
+    setEmail(value);
   };
+
   const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+    const { value } = event.target;
+    setPassword(value);
   };
+
   const changeLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLogin(event.target.value);
+    const { value } = event.target;
+    setName(value);
   };
+
+  useEffect(() => {
+    if (requestStatus === 'fulfilled') {
+      navigate('/signin');
+    }
+  }, [requestStatus]);
+
   const submit = useCallback(
     async (event: SyntheticEvent) => {
       event.preventDefault();
       const data = {
         password: password,
-        login: login,
-        name: email,
+        login: email,
+        name: name,
       };
       dispatch(singUp(data));
-      console.log(data, password, login, email);
-      setRedirect(true);
     },
-    [password, login, email]
+    [password, name, email]
   );
-  if (redirect) {
-    return <Navigate to={'/signin'} />;
-  }
 
   return (
     <Container>
-      <h2>Please register</h2>
-      <form className="formSubmit" onSubmit={submit}>
-        <InputLabel htmlFor="my-input">Email address</InputLabel>
+      <h2>{t('registration:title')}</h2>
+      <form className="formSubmit">
+        <InputLabel htmlFor="email">{t('registration:email')}</InputLabel>
         <Input
+          name={'login'}
+          id={'email'}
           onChange={changeEmail}
           type="email"
-          id="my-input"
-          aria-describedby="my-helper-text"
+          error={!!(email && !isValidEmail(email))}
         />
-        <InputLabel htmlFor="my-login">Login</InputLabel>
+        {!!(email && !isValidEmail(email)) && <span>Email not validate</span>}
+        <InputLabel htmlFor="name">{t('registration:name')}</InputLabel>
         <Input
+          id={'name'}
           onChange={changeLogin}
-          type="login"
-          id="my-login"
-          aria-describedby="my-helper-text"
+          type="text"
+          name={'name'}
+          error={!!(name && !isValidName(name))}
         />
-        <InputLabel htmlFor="my-password">Password</InputLabel>
+        {!!(name && !isValidName(name)) && <span>The name must contain only letters</span>}
+        <InputLabel htmlFor="password">{t('registration:password')}</InputLabel>
         <Input
+          id={'password'}
           onChange={changePassword}
           type="password"
-          id="my-password"
-          aria-describedby="my-helper-text"
+          name={'password'}
+          error={!!(password && !isValidPassword(password))}
         />
-        <button>Submit</button>
+        {!!(password && !isValidPassword(password)) && <span>Please enter more than 5 characters</span>}
+        <Button disabled={isButtonDisabled} onClick={submit}>
+          {t('registration:submit')}
+        </Button>
+        {requestStatus === 'rejected' && <span>User login already exists!</span>}
       </form>
-      <Formik></Formik>
     </Container>
   );
 }

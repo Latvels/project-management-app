@@ -44,6 +44,18 @@
     "singUp": "Sing Up",
     "signIn": "Sign In",
     "Evgeny": "Evgeny",
-    "FrontendDev": "Frontend Dev"
+    "Tatiana": "Tatiana",
+    "Elizaveta": "Elizaveta",
+    "FrontendDev": "Frontend Dev",
+    "DiscriptionOne": "\"This project, created as part of training at the RS School, is dedicated to React. This school helps to learn different languages \u200B\u200Band frameworks.",
+    "DescriptionTwo": "For example, this React course helped to gain skills and knowledge:\n- creating applications on React + typeScript;\n- work with class and functional components;\n- create a common store for all data;\n- and much more.\n",
+    "DescriptionThree": "You don't have to watch the application of our team, which was made as part of the final task. This application will help to manage projects, as it allows you to review tasks and see at what stage this or that task is.”"
+  },
+  "registration": {
+    "title": "Please register",
+    "email": "Email",
+    "name": "Name",
+    "password": "Password",
+    "submit": "Register"
   }
 }

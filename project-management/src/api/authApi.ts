@@ -54,6 +54,8 @@ export const singUp = createAsyncThunk(
 const initialState: reqState = {
   entities: [],
   loading: 'idle',
+  signInStatus: null,
+  signUpStatus: null,
   currentRequestId: undefined,
   error: { status: 0, message: ''}
 }
@@ -64,6 +66,7 @@ export const authSlise = createSlice({
   reducers: {},
   extraReducers: {
 		[singIn.pending.type]: (state, action) => {
+      state.signInStatus = 'pending'
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -71,6 +74,7 @@ export const authSlise = createSlice({
     },
     [singIn.fulfilled.type]: (state, action) => {
       const { requestId } = action.meta
+      state.signInStatus = 'fulfilled'
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle'
         state.entities = action.payload
@@ -78,6 +82,7 @@ export const authSlise = createSlice({
       }
     },
     [singIn.rejected.type]: (state, action) => {
+      state.signInStatus = 'rejected'
       const { requestId } = action.meta
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle'
@@ -87,6 +92,7 @@ export const authSlise = createSlice({
     },
 
     [singUp.pending.type]: (state, action) => {
+      state.signUpStatus = 'pending'
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -94,6 +100,7 @@ export const authSlise = createSlice({
     },
     [singUp.fulfilled.type]: (state, action) => {
       const { requestId } = action.meta
+      state.signUpStatus = 'fulfilled'
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle'
         state.entities = action.payload
@@ -102,6 +109,7 @@ export const authSlise = createSlice({
     },
     [singUp.rejected.type]: (state, action) => {
       const { requestId } = action.meta
+      state.signUpStatus = 'rejected'
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle'
         state.error = action.error

@@ -22,10 +22,10 @@ function WelcomePage() {
     <Container sx={{ mb: 12 }}>
       <div className={'container--link'}>
         <Button href={'/signup'} className="registration-button">
-          Sign Up
+          {t('welcomePage:singUp')}
         </Button>
         <Button href={'/signin'} className="registration-button">
-          Sign in
+          {t('welcomePage:signIn')}
         </Button>
       </div>
       <h2>Our team</h2>
@@ -41,7 +41,7 @@ function WelcomePage() {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Evgeny
+                {t('welcomePage:Evgeny')}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 Frontend Dev | Team Lead
@@ -64,7 +64,7 @@ function WelcomePage() {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Tatiana
+                {t('welcomePage:Tatiana')}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 Frontend Dev
@@ -87,7 +87,7 @@ function WelcomePage() {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Elizaveta
+                {t('welcomePage:Elizaveta')}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 Frontend Dev
@@ -103,21 +103,13 @@ function WelcomePage() {
       </Grid>
       <Box sx={{ p: 2, border: '1px solid grey' }}>
         <p className="comment-box">
-          &#34;Данный проект сделан в рамках обучения в RS School на курсе React. Данная школа
-          помогает изучать разные языки и фреймворки.{' '}
+          {t('welcomePage:DiscriptionOne')}
         </p>
         <p className="comment-box">
-          К примеру данный курс по React, помог приобрести следующие навыки и знания:
-          <br /> - создание приложений на React + typeScript;
-          <br /> - работать с классовыми и функциональными компонентами;
-          <br />
-          - создавать общий стор для всех данных;
-          <br /> - и многому другому.
+          {t('welcomePage:DescriptionTwo')}
         </p>
         <p className="comment-box">
-          Сейчас вы можете неблюдать приложение нашей команды, которое было сделано в рамках
-          финального таска. Данное приложение поможет вести проекты, так как в нём можно вести учет
-          задач и видеть на какой стадии находится то или иное задание.&#34;
+          {t('welcomePage:DescriptionThree')}
         </p>
       </Box>
     </Container>
