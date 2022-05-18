@@ -33,7 +33,7 @@ export const singUp = createAsyncThunk(
 	async (arr: User, { rejectWithValue }) => {
 		try {
 			const config = {
-				method: 'PUT',
+				method: 'POST',
 				url: `${CONFIG.basicURL}/signup`,
 				headers: { 
 					'Accept': 'application/json',
@@ -55,7 +55,7 @@ const initialState: reqState = {
   entities: [],
   loading: 'idle',
   currentRequestId: undefined,
-  error: null,
+  error: { status: 0, message: ''}
 }
 
 export const authSlise = createSlice({

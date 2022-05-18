@@ -219,7 +219,7 @@ export const columnSlise = createSlice({
       }
     },
 
-    [deleteColumn.pending.type]: (state, action) => {
+		[deleteColumn.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
