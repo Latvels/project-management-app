@@ -1,17 +1,15 @@
 import * as React from 'react';
 import {Box, Alert, IconButton, Collapse, AlertTitle} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useSelector } from 'react-redux';
-import store, { AppDispatch } from '../../store/store';
-import { getBoards, createBoard,updateBoards, getBoardsById, deleteBoard, selectBoard } from '../../api/boardApi'
 import { Error } from '../../typings/typings';
+
 type Props = {
   error: Error
 }
 
 export default function BasicAlerts(props:Props) {
   const [open, setOpen] = React.useState(true);
-  const { status, message, visible  } = props.error;
+  const { status, message  } = props.error;
 
   React.useEffect(() => {
     setTimeout(() => {
