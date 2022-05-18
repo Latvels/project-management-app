@@ -10,7 +10,7 @@ export const singIn = createAsyncThunk(
 	async (arr: User, { rejectWithValue }) => {
 		try {
 			const config = {
-				method: 'PUT',
+				method: 'POST',
 				url: `${CONFIG.basicURL}/signin`,
 				headers: { 
 					'Accept': 'application/json',

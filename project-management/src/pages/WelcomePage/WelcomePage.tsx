@@ -11,19 +11,22 @@ import {
   Typography,
 } from '@mui/material';
 import './welcomePage.scss';
-import { LoginPage } from '../pages';
 import women from '../../assets/woman.png';
 import man from '../../assets/man.png';
 import girl from '../../assets/girl.png';
+import { useTranslation } from 'react-i18next';
 
 function WelcomePage() {
+  const { t } = useTranslation();
   return (
-    <Container fixed>
+    <Container sx={{ mb: 12 }}>
       <div className={'container--link'}>
-        <Button variant="contained" href={'/signup'} className="registration-button">
-          Register Page
+        <Button href={'/signup'} className="registration-button">
+          Sign Up
         </Button>
-        <LoginPage />
+        <Button href={'/signin'} className="registration-button">
+          Sign in
+        </Button>
       </div>
       <h2>Our team</h2>
       <Grid sx={{ mb: 5 }} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -44,13 +47,10 @@ function WelcomePage() {
                 Frontend Dev | Team Lead
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Hello, my name is Zhenya and in this project I have done: API
+                Hello, my name is Zhenya and in this project I have done: API, Footer
               </Typography>
             </CardContent>
-            <CardActions>
-              {/*<Button size="small">Share</Button>*/}
-              {/*<Button size="small">Learn More</Button>*/}
-            </CardActions>
+            <CardActions></CardActions>
           </Card>
         </Grid>
         <Grid item xs={4}>
@@ -70,13 +70,10 @@ function WelcomePage() {
                 Frontend Dev
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Hello, my name is Tatiana and in this project I have done: Header, Footer
+                Hello, my name is Tatiana and in this project I have done: Header, Create new board
               </Typography>
             </CardContent>
-            <CardActions>
-              {/*<Button size="small">Share</Button>*/}
-              {/*<Button size="small">Learn More</Button>*/}
-            </CardActions>
+            <CardActions></CardActions>
           </Card>
         </Grid>
         <Grid item xs={4}>
@@ -100,10 +97,7 @@ function WelcomePage() {
                 Up
               </Typography>
             </CardContent>
-            <CardActions>
-              {/*<Button size="small">Share</Button>*/}
-              {/*<Button size="small">Learn More</Button>*/}
-            </CardActions>
+            <CardActions />
           </Card>
         </Grid>
       </Grid>

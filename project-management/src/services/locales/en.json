@@ -39,5 +39,11 @@
     "required": "field is required",
     "minValue": "min length is 3 characters",
     "maxValue": "max length is 12 characters"
+  },
+  "welcomePage": {
+    "singUp": "Sing Up",
+    "signIn": "Sign In",
+    "Evgeny": "Evgeny",
+    "FrontendDev": "Frontend Dev"
   }
 }
