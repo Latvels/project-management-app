@@ -53,7 +53,7 @@ export const singUp = createAsyncThunk(
 )
 
 const initialState: reqState = {
-  entities: [],
+  entities: {},
   loading: 'idle',
   signInStatus: null,
   signUpStatus: null,

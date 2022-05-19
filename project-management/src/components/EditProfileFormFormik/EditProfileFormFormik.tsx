@@ -5,7 +5,7 @@ import react, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { setDeletedItem, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
-import { getUsersById, updateUser, selectBoard } from '../../api/userApi';
+import { getUsersById, updateUser, selectUser } from '../../api/userApi';
 import './editProfileFormFormik.scss';
 import store, { AppDispatch, useAppSelector } from '../../store/store';
 import { useSelector } from 'react-redux';
@@ -20,7 +20,15 @@ interface IValues {
 
 function EditProfileFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
-  const { entities: board, loading } = useSelector(selectBoard)
+  
+  //* работает так
+  // const {entities: user} = useSelector(selectUser)
+  // console.log('All', user.id, user.name, user.login)
+
+  //* работает так
+  const {entities: user} = useSelector(selectUser)
+  const { id, name, login } = user;
+  console.log('All', id, name, login )
 
   const {t} = useTranslation();
   const nameLabel = t('editProfileForm:name');
@@ -40,7 +48,6 @@ function EditProfileFormFormik() {
     password: '',
     login: '',
   }
-
   //todo 
   const userId = 'daf7c345-686d-41f8-9e78-69fb48e28b2e';
 
