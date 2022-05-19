@@ -8,4 +8,4 @@ export { default as CreateNewBoardModal } from './CreateNewBoardModal/CreateNewB
 export { default as CreateNewBoardFormFormik } from './CreateNewBoardForm/CreateNewBoardFormFormik';
 export { default as EditProfileFormFormik } from './EditProfileFormFormik/EditProfileFormFormik';
 export { default as Preloader } from './Preloader/Preloader';
-export { default as BasicAlerts } from './Alert/Alerts';
+export { default as BasicAlerts } from './Alert/alerts';
