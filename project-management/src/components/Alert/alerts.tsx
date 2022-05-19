@@ -15,7 +15,7 @@ export default function BasicAlerts(props:Props) {
     setTimeout(() => {
       setOpen(false)
     }, 3000);
-  }, [])
+  },[])
 
   return (
     <Box sx={{ width: '100%' }}>

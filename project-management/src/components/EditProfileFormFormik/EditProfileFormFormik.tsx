@@ -11,6 +11,9 @@ import store, { AppDispatch, useAppSelector } from '../../store/store';
 import { useSelector } from 'react-redux';
 // import { RootState } from '../../store/reducer/reducer';
 import { User } from '../../typings/typings';
+import { RootState } from '../../store/reducer/reducer';
+import { BasicAlerts } from '../compunents';
+// import { err } from '../../utils/showBasicAlerts';
 
 interface IValues {
   name: string;
@@ -27,8 +30,18 @@ function EditProfileFormFormik() {
 
   //* работает так
   const {entities: user} = useSelector(selectUser)
-  const { id, name, login } = user;
-  console.log('All', id, name, login )
+  const id = user.id as string;
+  // console.log('All', id, name, login )
+
+  const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
+  const err = (errorMessage:Error)=> {
+    const { message } = errorMessage
+    if (message !== '') {
+      console.log('error')
+      return <BasicAlerts error={errorMessage}/>
+      //здесь надо обнулить error в стейте, иначе при следующем открытии окна - сразу висит alert с ошибкой, а если окно не закрыл и корректируешь данные - повторно сообщение о ошибке не показывается
+    }
+  }
 
   const {t} = useTranslation();
   const nameLabel = t('editProfileForm:name');
@@ -49,12 +62,12 @@ function EditProfileFormFormik() {
     login: '',
   }
   //todo 
-  const userId = 'daf7c345-686d-41f8-9e78-69fb48e28b2e';
 
   const getUserData = async () => {
+    // console.log(user);
     appDispatch(setIsPreloaderOpen(true));
-    const data = await appDispatch(getUsersById(userId));
-    console.log(data);
+    const data = await appDispatch(getUsersById(id));
+    // console.log(data);
     const userdata = data.payload as User;
     setUserData(userdata);
     initialValues.login = userdata.login!;
@@ -96,23 +109,25 @@ function EditProfileFormFormik() {
   }
 
   return (
+    <>
     <Formik
       initialValues={initialValues}
       validate={validateForm}
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
-        appDispatch(setIsEditProfileModalOpen(false));
+        // appDispatch(setIsEditProfileModalOpen(false));
         appDispatch(setIsPreloaderOpen(true));
         const newUserData: User = {
           ...userData,
           name: values.name,
           login: values.login,
-          id: userId,
           password: values.password
         };
-        const resp = await appDispatch(updateUser(newUserData));
-        console.log(resp); //todo ошибка
+        await appDispatch(updateUser(newUserData));
         appDispatch(setIsPreloaderOpen(false));
+        if(errorMessage.message === '') {
+          appDispatch(setIsEditProfileModalOpen(false));
+        }
       }}
     >
       {({ submitForm }) => (
@@ -158,6 +173,8 @@ function EditProfileFormFormik() {
         </Form>
       )}
     </Formik>
+    {err(errorMessage)}
+    </>
   );
 }
 

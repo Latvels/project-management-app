@@ -6,12 +6,13 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import './createNewBoardFormFormik.scss';
-import { getBoardsById } from '../../api/boardApi';
+// import { getBoardsById } from '../../api/boardApi';
 import { createBoard  } from '../../api/boardApi'
 import { AppDispatch } from '../../store/store';
-import { BasicAlerts } from '../compunents';
+// import { BasicAlerts } from '../compunents';
 import { RootState } from '../../store/reducer/reducer';
 import { Error } from '../../typings/typings';
+import { err } from '../../utils/showBasicAlerts';
 interface IValues {
   title: string;
   description: string;
@@ -29,13 +30,13 @@ function CreateNewBoardFormFormik() {
 
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
   // Вот так получается обрабатывать ошибки с сервера
-  const errorMessage = useSelector((state: RootState) => state.board.error);
-  const err = (errorMessage:Error)=> {
-    const { message } = errorMessage
-    if (message !== '') {
-      return <BasicAlerts error={errorMessage}/>
-    }
-  }
+  const errorMessage = useSelector((state: RootState) => state.board.error) as Error;
+  // const err = (errorMessage:Error)=> {
+  //   const { message } = errorMessage
+  //   if (message !== '') {
+  //     return <BasicAlerts error={errorMessage}/>
+  //   }
+  // }
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
@@ -61,22 +62,23 @@ function CreateNewBoardFormFormik() {
   }
 
   return (
+    <div>
       <Formik
         initialValues={initialValues}
         validate={validateForm}
         onSubmit={async (values: IValues, {setSubmitting}) => {
           setSubmitting(false);
-        console.log(values);
-        appDispatch(setIsCreateNewBoardModalOpen(false));
+        // appDispatch(setIsCreateNewBoardModalOpen(false));
         appDispatch(setIsPreloaderOpen(true));
-        const resp = await appDispatch(createBoard(values));
-        console.log(resp);
+        await appDispatch(createBoard(values));
         appDispatch(setIsPreloaderOpen(false));
+        if(errorMessage.message === '') {
+          appDispatch(setIsCreateNewBoardModalOpen(false));
+        }
+
         // Как тут вызывать функции к апи
         // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491f'))
         // console.log('createBoards', (await createBoardCard).payload);
-        
-        //todo обработать ошибку создания борды
       }}
     >
       {({ submitForm }) => (
@@ -107,6 +109,8 @@ function CreateNewBoardFormFormik() {
         </Form>
       )}
     </Formik>
+    {err(errorMessage)}
+  </div>
   );
 }
 
