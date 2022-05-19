@@ -5,7 +5,7 @@ export { default as MyMenu } from './myMenu/MyMenu';
 export { default as SelectLanguage } from './selectLanguage/SelectLanguage';
 export { default as EditProfileModal } from './EditProfileModal/EditProfileModal';
 export { default as CreateNewBoardModal } from './CreateNewBoardModal/CreateNewBoardModal';
-export { default as ConfirmationModal } from './ConfirmationModal/ConfirmationModal';
+export { default as ConfirmationModal } from './confirmationModal/confirmationModal';
 export { default as CreateNewBoardFormFormik } from './CreateNewBoardForm/CreateNewBoardFormFormik';
 export { default as EditProfileFormFormik } from './EditProfileFormFormik/EditProfileFormFormik';
 export { default as Preloader } from './Preloader/Preloader';

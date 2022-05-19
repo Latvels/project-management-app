@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from 'react';
+import react from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -7,14 +7,13 @@ import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
-import { setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import { setIsEditProfileModalOpen } from '../../store/action/appStateAction';
 import FaceRetouchingNaturalOutlinedIcon from '@mui/icons-material/FaceRetouchingNaturalOutlined';
 import { useTranslation } from 'react-i18next';
 import { EditProfileFormFormik } from '../compunents';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 import './editProfileModal.scss';
 import { AppDispatch } from '../../store/store';
-import { getUsersById } from '../../api/userApi';
 
 const style = {
   position: 'absolute',
@@ -28,25 +27,11 @@ const style = {
   p: 4,
 };
 
-interface IUserData {
-  name: string;
-  login: string;
-  id: string;
-}
-
 function EditProfileModal() {
   const {t} = useTranslation();
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch<AppDispatch>();
-  const [ userData, setUserData ] = useState<IUserData | Record<string, null>>({});
 
-  useEffect( () => {
-    appDispatch(setIsPreloaderOpen(true));
-    // const user: Promise<IUserData> = appDispatch(getUsersById('id'));
-    // setUserData(user);
-    appDispatch(setIsPreloaderOpen(false));
-  });
-  
   const handleClose = () => appDispatch(setIsEditProfileModalOpen(false));
 
   return (
@@ -66,7 +51,7 @@ function EditProfileModal() {
         {/* <Box className='modal__window'> */}
           <Box component='div' className="modal__title" sx={{mb: 2}}>
             <FaceRetouchingNaturalOutlinedIcon color='primary' sx={{mr: 2}}></FaceRetouchingNaturalOutlinedIcon>
-            <Typography id="transition-modal-title" variant="h6" component="h4">
+            <Typography id="transition-modal-title" variant="h6" component="h4" color='primary'>
               {t('editProfileForm:formTitle')}
             </Typography>
           </Box>

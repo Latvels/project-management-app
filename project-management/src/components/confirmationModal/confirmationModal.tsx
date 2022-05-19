@@ -14,9 +14,10 @@ import { Button } from '@mui/material';
 import React from 'react';
 import './confirmationModal.scss';
 import { setDeletedItem, setIsConfirmModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
-// import { deleteUser } from '../../api/userApi';
-// import { deleteBoard } from '../../api/boardApi';
-// import { deleteTask } from '../../api/taskApi';
+import { AppDispatch } from '../../store/store';
+import { deleteUser } from '../../api/userApi';
+import { deleteBoard } from '../../api/boardApi';
+import { deleteTask } from '../../api/taskApi';
 
 const style = {
   position: 'absolute',
@@ -34,7 +35,7 @@ const style = {
 function ConfirmationModal() {
   const {t} = useTranslation();
   const appState = useSelector((state: RootState) => state.appState);
-  const appDispatch = useDispatch();
+  const appDispatch = useDispatch<AppDispatch>();
 
   const handleClose = () => appDispatch(setIsConfirmModalOpen(false));
 
@@ -63,12 +64,13 @@ function ConfirmationModal() {
   const handleYesClick = async () => {
     appDispatch(setIsConfirmModalOpen(false));
     appDispatch(setIsPreloaderOpen(true));
-    // if (deletedItem === 'user') {
-    //   await appDispatch(deleteUser('id'));
-    // } else if (deletedItem === 'board') {
-    //   await appDispatch(deleteBoard('id'));
+    if (deletedItem === 'user') {
+      await appDispatch(deleteUser('id'));
+    } else if (deletedItem === 'board') {
+      await appDispatch(deleteBoard('id'));
     // } else if (deletedItem === 'task') {
-    //   await appDispatch(deleteTask())
+    //   await appDispatch(deleteTask());
+    }
     appDispatch(setDeletedItem(null));
     appDispatch(setIsPreloaderOpen(false));
   };

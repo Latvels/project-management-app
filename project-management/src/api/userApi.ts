@@ -43,7 +43,7 @@ export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (arr: User, { rejectWithValue }) => {
     const { id } = arr;
-    delete arr.id;
+    // delete arr.id;
     try {
       const config = {
         method: 'PUT',

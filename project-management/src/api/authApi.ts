@@ -43,6 +43,7 @@ export const singUp = createAsyncThunk(
         data: qs.stringify(arr),
       }
       const response = await axios(config)
+      // console.log(response.data);
       return response.data;
     } catch (e) {
       rejectWithValue(e)

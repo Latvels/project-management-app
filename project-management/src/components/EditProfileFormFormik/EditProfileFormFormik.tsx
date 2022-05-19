@@ -1,13 +1,16 @@
 import { Button } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { setDeletedItem, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
-import { User } from '../../typings/typings';
-import { updateUser } from '../../api/userApi';
+import { getUsersById, updateUser, selectBoard } from '../../api/userApi';
 import './editProfileFormFormik.scss';
+import store, { AppDispatch, useAppSelector } from '../../store/store';
+import { useSelector } from 'react-redux';
+// import { RootState } from '../../store/reducer/reducer';
+import { User } from '../../typings/typings';
 
 interface IValues {
   name: string;
@@ -16,8 +19,9 @@ interface IValues {
 }
 
 function EditProfileFormFormik() {
-  // todo use state
-  const appDispatch = useDispatch();
+  const appDispatch = useDispatch<AppDispatch>();
+  const { entities: board, loading } = useSelector(selectBoard)
+
   const {t} = useTranslation();
   const nameLabel = t('editProfileForm:name');
   const loginLabel = t('editProfileForm:login');
@@ -28,7 +32,33 @@ function EditProfileFormFormik() {
   const maxValue = t('formValidation:maxValue');
   const required = t('formValidation:required');
 
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [ userData, setUserData ] = useState<User | Record<string, null>>({});
+
+  const initialValues = {
+    name: '',
+    password: '',
+    login: '',
+  }
+
+  //todo 
+  const userId = 'daf7c345-686d-41f8-9e78-69fb48e28b2e';
+
+  const getUserData = async () => {
+    appDispatch(setIsPreloaderOpen(true));
+    const data = await appDispatch(getUsersById(userId));
+    console.log(data);
+    const userdata = data.payload as User;
+    setUserData(userdata);
+    initialValues.login = userdata.login!;
+    initialValues.name = userdata.name!;
+    appDispatch(setIsPreloaderOpen(false));
+  }
+
+  useEffect( () => {
+    getUserData();
+  },[]);
+
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
@@ -52,12 +82,6 @@ function EditProfileFormFormik() {
     return errors;
   }
 
-  const initialValues = {
-    name: '',
-    password: '',
-    login: '',
-  }
-
   const handleClickDeleteUserButton = () => {
     appDispatch(setDeletedItem('user'));
     appDispatch(setIsEditProfileModalOpen(false));
@@ -73,11 +97,14 @@ function EditProfileFormFormik() {
         appDispatch(setIsEditProfileModalOpen(false));
         appDispatch(setIsPreloaderOpen(true));
         const newUserData: User = {
+          ...userData,
           name: values.name,
           login: values.login,
+          id: userId,
           password: values.password
         };
-        // await appDispatch(updateUser(newUserData));
+        const resp = await appDispatch(updateUser(newUserData));
+        console.log(resp); //todo ошибка
         appDispatch(setIsPreloaderOpen(false));
       }}
     >
