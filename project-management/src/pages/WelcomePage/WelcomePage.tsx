@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Box,
   Button,
@@ -15,20 +15,38 @@ import women from '../../assets/woman.png';
 import man from '../../assets/man.png';
 import girl from '../../assets/girl.png';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 function WelcomePage() {
   const { t } = useTranslation();
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+  const showMainPageButton =
+    params.get('isUserActivated') && params.get('isUserActivated') === 'true';
+
+  const onMainPageBtnClick = useCallback(() => {
+    navigate('/mainPage');
+  }, []);
+
   return (
-    <Container sx={{ mb: 12 }}>
-      <div className={'container--link'}>
-        <Button href={'/signup'} className="registration-button">
-          {t('welcomePage:singUp')}
-        </Button>
-        <Button href={'/signin'} className="registration-button">
-          {t('welcomePage:signIn')}
-        </Button>
+    <Container sx={{ mb: 12, mt: 6 }}>
+      <div className={'container--lin'}>
+        {showMainPageButton ? (
+          <Button variant="contained" onClick={onMainPageBtnClick} className="registration-button">
+            {t('welcomePage:mainPageBtn')}
+          </Button>
+        ) : (
+          <div className={'div--button'}>
+            <Button variant="contained" href={'/signup'} className="registration-button">
+              {t('welcomePage:singUp')}
+            </Button>
+            <Button variant="contained" href={'/signin'} className="registration-button">
+              {t('welcomePage:signIn')}
+            </Button>
+          </div>
+        )}
       </div>
-      <h2>Our team</h2>
+      <h2>{t('welcomePage:team')}</h2>
       <Grid sx={{ mb: 5 }} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={4}>
           <Card sx={{ maxWidth: 345 }}>
@@ -50,7 +68,7 @@ function WelcomePage() {
                 Hello, my name is Zhenya and in this project I have done: API, Footer
               </Typography>
             </CardContent>
-            <CardActions></CardActions>
+            <CardActions />
           </Card>
         </Grid>
         <Grid item xs={4}>
@@ -73,7 +91,7 @@ function WelcomePage() {
                 Hello, my name is Tatiana and in this project I have done: Header, Create new board
               </Typography>
             </CardContent>
-            <CardActions></CardActions>
+            <CardActions />
           </Card>
         </Grid>
         <Grid item xs={4}>
@@ -102,15 +120,9 @@ function WelcomePage() {
         </Grid>
       </Grid>
       <Box sx={{ p: 2, border: '1px solid grey' }}>
-        <p className="comment-box">
-          {t('welcomePage:DiscriptionOne')}
-        </p>
-        <p className="comment-box">
-          {t('welcomePage:DescriptionTwo')}
-        </p>
-        <p className="comment-box">
-          {t('welcomePage:DescriptionThree')}
-        </p>
+        <p className="comment-box">{t('welcomePage:DiscriptionOne')}</p>
+        <p className="comment-box">{t('welcomePage:DescriptionTwo')}</p>
+        <p className="comment-box">{t('welcomePage:DescriptionThree')}</p>
       </Box>
     </Container>
   );

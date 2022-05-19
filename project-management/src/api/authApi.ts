@@ -3,7 +3,7 @@ import axios from 'axios';
 import qs from 'qs';
 import { RootState } from '../store/reducer/reducer'
 import { CONFIG } from '../constants/constant';
-import { User, reqState } from '../typings/typings';
+import {User, reqState, ACTION_STATUSES} from '../typings/typings';
 
 export const singIn = createAsyncThunk(
   'auth/singIn',
@@ -63,10 +63,15 @@ const initialState: reqState = {
 export const authSlise = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    resetStatuses: (state) => {
+      state.signInStatus = null;
+      state.signUpStatus = null;
+    },
+  },
   extraReducers: {
 		[singIn.pending.type]: (state, action) => {
-      state.signInStatus = 'pending'
+      state.signInStatus = ACTION_STATUSES.PENDING
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -74,7 +79,7 @@ export const authSlise = createSlice({
     },
     [singIn.fulfilled.type]: (state, action) => {
       const { requestId } = action.meta
-      state.signInStatus = 'fulfilled'
+      state.signInStatus = ACTION_STATUSES.FULFILLED
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle'
         state.entities = action.payload
@@ -82,7 +87,7 @@ export const authSlise = createSlice({
       }
     },
     [singIn.rejected.type]: (state, action) => {
-      state.signInStatus = 'rejected'
+      state.signInStatus = ACTION_STATUSES.REJECTED
       const { requestId } = action.meta
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle'
@@ -92,7 +97,7 @@ export const authSlise = createSlice({
     },
 
     [singUp.pending.type]: (state, action) => {
-      state.signUpStatus = 'pending'
+      state.signUpStatus = ACTION_STATUSES.PENDING
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -100,7 +105,7 @@ export const authSlise = createSlice({
     },
     [singUp.fulfilled.type]: (state, action) => {
       const { requestId } = action.meta
-      state.signUpStatus = 'fulfilled'
+      state.signUpStatus = ACTION_STATUSES.FULFILLED
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle'
         state.entities = action.payload
@@ -109,7 +114,7 @@ export const authSlise = createSlice({
     },
     [singUp.rejected.type]: (state, action) => {
       const { requestId } = action.meta
-      state.signUpStatus = 'rejected'
+      state.signUpStatus = ACTION_STATUSES.REJECTED
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle'
         state.error = action.error

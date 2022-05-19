@@ -1,95 +1,67 @@
-import React, { SyntheticEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Container, Input, InputLabel } from '@mui/material';
+import { Field, Form, Formik } from 'formik';
+import { Button, Container } from '@mui/material';
 import './registration.scss';
 import { singUp } from '../../api/authApi';
+import { TextField } from 'formik-mui';
 import { useDispatch } from 'react-redux';
-import { AppDispatch, useAppSelector } from '../../store/store';
-import { useNavigate } from 'react-router-dom';
-import { isValidEmail, isValidName, isValidPassword } from '../../utils/validation';
+import { AppDispatch } from '../../store/store';
+import { IRegistrationValues, useRegistration } from './use-registration.hook';
+import { ACTION_STATUSES } from '../../typings/typings';
 
 function Registration() {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const requestStatus = useAppSelector((state) => state.auth.signUpStatus);
-  const isButtonDisabled = useMemo<boolean>(() => {
-    return !isValidEmail(email) || !isValidName(name) || !isValidPassword(password);
-  }, [email, name, password]);
-
-  const changeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setEmail(value);
-  };
-
-  const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setPassword(value);
-  };
-
-  const changeLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setName(value);
-  };
-
-  useEffect(() => {
-    if (requestStatus === 'fulfilled') {
-      navigate('/signin');
-    }
-  }, [requestStatus]);
-
-  const submit = useCallback(
-    async (event: SyntheticEvent) => {
-      event.preventDefault();
-      const data = {
-        password: password,
-        login: email,
-        name: name,
-      };
-      dispatch(singUp(data));
-    },
-    [password, name, email]
-  );
+  const {
+    initialValues,
+    nameLabel,
+    loginLabel,
+    passLabel,
+    isButtonDisabled,
+    validateForm,
+    requestStatus,
+  } = useRegistration();
 
   return (
     <Container>
       <h2>{t('registration:title')}</h2>
-      <form className="formSubmit">
-        <InputLabel htmlFor="email">{t('registration:email')}</InputLabel>
-        <Input
-          name={'login'}
-          id={'email'}
-          onChange={changeEmail}
-          type="email"
-          error={!!(email && !isValidEmail(email))}
-        />
-        {!!(email && !isValidEmail(email)) && <span>Email not validate</span>}
-        <InputLabel htmlFor="name">{t('registration:name')}</InputLabel>
-        <Input
-          id={'name'}
-          onChange={changeLogin}
-          type="text"
-          name={'name'}
-          error={!!(name && !isValidName(name))}
-        />
-        {!!(name && !isValidName(name)) && <span>The name must contain only letters</span>}
-        <InputLabel htmlFor="password">{t('registration:password')}</InputLabel>
-        <Input
-          id={'password'}
-          onChange={changePassword}
-          type="password"
-          name={'password'}
-          error={!!(password && !isValidPassword(password))}
-        />
-        {!!(password && !isValidPassword(password)) && <span>Please enter more than 5 characters</span>}
-        <Button disabled={isButtonDisabled} onClick={submit}>
-          {t('registration:submit')}
-        </Button>
-        {requestStatus === 'rejected' && <span>User login already exists!</span>}
-      </form>
+      <Formik
+        initialValues={initialValues}
+        validate={validateForm}
+        onSubmit={async (values: IRegistrationValues, { setSubmitting }) => {
+          setSubmitting(false);
+          const data = {
+            name: values.name,
+            login: values.login,
+            password: values.password,
+          };
+          dispatch(singUp(data));
+        }}
+      >
+        {({ submitForm }) => (
+          <Form className="form">
+            <Field component={TextField} name="name" type="text" label={nameLabel} color="info" />
+            <Field component={TextField} name="login" type="email" label={loginLabel} color="info" />
+            <Field
+              component={TextField}
+              name="password"
+              type="password"
+              label={passLabel}
+              color="info"
+            />
+            <Button
+              onClick={submitForm}
+              disabled={isButtonDisabled}
+              variant="outlined"
+              color="info"
+            >
+              {t('registration:submit')}
+            </Button>
+            {requestStatus === ACTION_STATUSES.REJECTED && <span>User login already exists!</span>}
+          </Form>
+        )}
+      </Formik>
     </Container>
   );
 }

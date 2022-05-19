@@ -17,7 +17,7 @@ export const isValidStringLength = (string: string, minLength: number): boolean 
 };
 
 export const isValidPassword = (password: string): boolean => {
-  return /^\S{6,}$/.test(password);
+  return password.length > 3 && password.length < 12;
 };
 
 export const stringIncludesNumber = (string: string): boolean => {
@@ -29,5 +29,5 @@ export const stringIncludesSpecialCharacter = (string: string): boolean => {
 };
 
 export const isValidName = (string: string): boolean => {
-  return string.search(/\d/) === -1;
+  return string.search(/\d/) === -1 && string.length > 3 && string.length < 12;
 }

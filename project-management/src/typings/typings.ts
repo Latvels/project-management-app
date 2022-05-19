@@ -36,11 +36,17 @@ export interface File {
   file?: string; // бинарно
 }
 
+export enum ACTION_STATUSES {
+  FULFILLED = 'FULFILLED',
+  PENDING = 'PENDING',
+  REJECTED = 'REJECTED',
+}
+
 export type reqState = {
   entities: All[];
   loading: 'idle' | 'pending';
-  signInStatus?: 'fulfilled' | 'pending' | 'rejected' | null;
-  signUpStatus?: 'fulfilled' | 'pending' | 'rejected' | null;
+  signInStatus?: ACTION_STATUSES | null;
+  signUpStatus?: ACTION_STATUSES | null;
   currentRequestId: string | undefined;
   error: Error;
 };

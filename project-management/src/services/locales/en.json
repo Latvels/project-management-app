@@ -41,6 +41,8 @@
     "maxValue": "max length is 12 characters"
   },
   "welcomePage": {
+    "mainPageBtn": "Go to Main Page",
+    "team": "Our team",
     "singUp": "Sing Up",
     "signIn": "Sign In",
     "Evgeny": "Evgeny",
@@ -57,5 +59,8 @@
     "name": "Name",
     "password": "Password",
     "submit": "Register"
+  },
+  "login": {
+    "title": "Please enter your login and password"
   }
 }
