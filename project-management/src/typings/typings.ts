@@ -7,7 +7,7 @@ export interface User {
 }
 
 export interface Board {
-	id?: string;
+  id?: string;
   title?: string;
   description?: string;
 }
@@ -16,7 +16,7 @@ export interface Column {
   title?: string;
   order?: number;
   id?: string;
-	idBoard?: string;
+  idBoard?: string;
 }
 
 export interface Task {
@@ -37,11 +37,13 @@ export interface File {
 }
 
 export type reqState = {
-  entities: All[]
-  loading: 'idle' | 'pending'
-  currentRequestId: string | undefined
-  error: Error
-}
+  entities: All[];
+  loading: 'idle' | 'pending';
+  signInStatus?: 'fulfilled' | 'pending' | 'rejected' | null;
+  signUpStatus?: 'fulfilled' | 'pending' | 'rejected' | null;
+  currentRequestId: string | undefined;
+  error: Error | null;
+};
 
 export interface Error {
   status?: number,
@@ -50,7 +52,7 @@ export interface Error {
 }
 
 export interface All {
-	id?: string;
+  id?: string;
   title?: string;
   description?: string;
   taskId?: string;
@@ -65,5 +67,5 @@ export interface All {
   name?: string;
   login?: string;
   token?: string;
-	idBoard?: string;
+  idBoard?: string;
 }

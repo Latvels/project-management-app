@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import qs from 'qs';
-import { RootState } from '../store/reducer/reducer'
+import { RootState } from '../store/reducer/reducer';
 import { CONFIG } from '../constants/constant';
 import { Column, reqState } from '../typings/typings';
 
@@ -126,120 +126,120 @@ export const columnSlise = createSlice({
   extraReducers: {
     [getColumns.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
-        state.loading = 'pending'
-        state.currentRequestId = action.meta.requestId
+        state.loading = 'pending';
+        state.currentRequestId = action.meta.requestId;
       }
     },
     [getColumns.fulfilled.type]: (state, action) => {
-      const { requestId } = action.meta
+      const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
-        state.loading = 'idle'
-        state.entities = action.payload
-        state.currentRequestId = undefined
+        state.loading = 'idle';
+        state.entities = action.payload;
+        state.currentRequestId = undefined;
       }
     },
     [getColumns.rejected.type]: (state, action) => {
-      const { requestId } = action.meta
+      const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
-        state.loading = 'idle'
-        state.error = action.error
-        state.currentRequestId = undefined
+        state.loading = 'idle';
+        state.error = action.error;
+        state.currentRequestId = undefined;
       }
     },
 
     [getColumnById.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
-        state.loading = 'pending'
-        state.currentRequestId = action.meta.requestId
+        state.loading = 'pending';
+        state.currentRequestId = action.meta.requestId;
       }
     },
     [getColumnById.fulfilled.type]: (state, action) => {
-      const { requestId } = action.meta
+      const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
-        state.loading = 'idle'
-        state.entities = action.payload
-        state.currentRequestId = undefined
+        state.loading = 'idle';
+        state.entities = action.payload;
+        state.currentRequestId = undefined;
       }
     },
     [getColumnById.rejected.type]: (state, action) => {
-      const { requestId } = action.meta
+      const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
-        state.loading = 'idle'
-        state.error = action.error
-        state.currentRequestId = undefined
+        state.loading = 'idle';
+        state.error = action.error;
+        state.currentRequestId = undefined;
       }
     },
 
     [createColumn.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
-        state.loading = 'pending'
-        state.currentRequestId = action.meta.requestId
+        state.loading = 'pending';
+        state.currentRequestId = action.meta.requestId;
       }
     },
     [createColumn.fulfilled.type]: (state, action) => {
-      const { requestId } = action.meta
+      const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
-        state.loading = 'idle'
-        state.entities = action.payload
-        state.currentRequestId = undefined
+        state.loading = 'idle';
+        state.entities = action.payload;
+        state.currentRequestId = undefined;
       }
     },
     [createColumn.rejected.type]: (state, action) => {
-      const { requestId } = action.meta
+      const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
-        state.loading = 'idle'
-        state.error = action.error
-        state.currentRequestId = undefined
+        state.loading = 'idle';
+        state.error = action.error;
+        state.currentRequestId = undefined;
       }
     },
 
     [updateColumn.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
-        state.loading = 'pending'
-        state.currentRequestId = action.meta.requestId
+        state.loading = 'pending';
+        state.currentRequestId = action.meta.requestId;
       }
     },
     [updateColumn.fulfilled.type]: (state, action) => {
-      const { requestId } = action.meta
+      const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
-        state.loading = 'idle'
-        state.entities = action.payload
-        state.currentRequestId = undefined
+        state.loading = 'idle';
+        state.entities = action.payload;
+        state.currentRequestId = undefined;
       }
     },
     [updateColumn.rejected.type]: (state, action) => {
-      const { requestId } = action.meta
+      const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
-        state.loading = 'idle'
-        state.error = action.error
-        state.currentRequestId = undefined
+        state.loading = 'idle';
+        state.error = action.error;
+        state.currentRequestId = undefined;
       }
     },
 
     [deleteColumn.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
-        state.loading = 'pending'
-        state.currentRequestId = action.meta.requestId
+        state.loading = 'pending';
+        state.currentRequestId = action.meta.requestId;
       }
     },
     [deleteColumn.fulfilled.type]: (state, action) => {
-      const { requestId } = action.meta
+      const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
-        state.loading = 'idle'
-        state.entities = action.payload
-        state.currentRequestId = undefined
+        state.loading = 'idle';
+        state.entities = action.payload;
+        state.currentRequestId = undefined;
       }
     },
     [deleteColumn.rejected.type]: (state, action) => {
-      const { requestId } = action.meta
+      const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
-        state.loading = 'idle'
-        state.error = action.error
-        state.currentRequestId = undefined
+        state.loading = 'idle';
+        state.error = action.error;
+        state.currentRequestId = undefined;
       }
     },
   },
-})
+});
 
 export const selectBoard = (state: RootState) => state.board;
 export default columnSlise.reducer;
