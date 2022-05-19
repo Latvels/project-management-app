@@ -7,7 +7,7 @@ export interface User {
 }
 
 export interface Board {
-	id?: string;
+  id?: string;
   title?: string;
   description?: string;
 }
@@ -16,7 +16,7 @@ export interface Column {
   title?: string;
   order?: number;
   id?: string;
-	idBoard?: string;
+  idBoard?: string;
 }
 
 export interface Task {
@@ -37,9 +37,35 @@ export interface File {
 }
 
 export type reqState = {
-  entities: Board[]
-  loading: 'idle' | 'pending'
-  currentRequestId: string | undefined
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  error: any
+  entities: All[];
+  loading: 'idle' | 'pending';
+  signInStatus?: 'fulfilled' | 'pending' | 'rejected' | null;
+  signUpStatus?: 'fulfilled' | 'pending' | 'rejected' | null;
+  currentRequestId: string | undefined;
+  error: Error;
+};
+//! Убрал error: Error | null; Если у вас не заработает, проверьте тут
+export interface Error {
+  status?: number,
+  message?: string,
+  visible?: boolean,
+}
+
+export interface All {
+  id?: string;
+  title?: string;
+  description?: string;
+  taskId?: string;
+  file?: string; // бинарно
+  done?: boolean;
+  order?: number;
+  userId?: string;
+  boardId?: string;
+  columnId?: string;
+  files?: string;
+  password?: string;
+  name?: string;
+  login?: string;
+  token?: string;
+  idBoard?: string;
 }

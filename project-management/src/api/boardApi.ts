@@ -25,7 +25,7 @@ export const getBoards = createAsyncThunk(
 export const getBoardsById = createAsyncThunk(
 	'board/getBoardsById',
 	async (id:string, { rejectWithValue }) => {
-		try {
+		// try {
 			const response = await axios.get<Board[]>(`${CONFIG.basicURL}/boards/${id}`, {
 				headers: {
 					Accept: 'application/json',
@@ -33,9 +33,9 @@ export const getBoardsById = createAsyncThunk(
 					},
 			})
 			return response.data;
-		} catch (e) {
-			return rejectWithValue('Failed to load boards by id')
-		}
+		// } catch (e) {
+		// 	return rejectWithValue('Failed to load boards by id')
+		// }
 	}
 )
 
@@ -111,7 +111,7 @@ const initialState: reqState = {
   entities: [],
   loading: 'idle',
   currentRequestId: undefined,
-  error: null,
+  error: { status: 0, message: '', visible: true}
 }
 
 export const boardSlise = createSlice({

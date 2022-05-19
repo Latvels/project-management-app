@@ -1,0 +1,20 @@
+@import '../../index.scss';
+
+.registration-button {
+  margin: 20px;
+  background-color: red;
+}
+.formSubmit {
+  @include modalForm();
+  width: 70%;
+  margin: 10px auto;
+  padding: 4%;
+  border: 2px solid black;
+  border-radius: 10px;
+  justify-content: center;
+  span{
+    color: red;
+    text-align: center;
+  }
+}
+

@@ -6,7 +6,6 @@ import { CreateNewBoardModal, EditProfileModal, Footer, Header, Preloader, Confi
 
 
 export default function App() {
-
   return (
     <div>
       <Header />

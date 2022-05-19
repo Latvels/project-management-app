@@ -3,13 +3,15 @@ import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import './createNewBoardFormFormik.scss';
-
+import { getBoardsById } from '../../api/boardApi';
 import { createBoard  } from '../../api/boardApi'
 import { AppDispatch } from '../../store/store';
-
+import { BasicAlerts } from '../compunents';
+import { RootState } from '../../store/reducer/reducer';
+import { Error } from '../../typings/typings';
 interface IValues {
   title: string;
   description: string;
@@ -17,7 +19,6 @@ interface IValues {
 
 function CreateNewBoardFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
-  
   const {t} = useTranslation();
   const titleLabel = t('createNewBoardForm:boardTitle');
   const descriptionLabel = t('createNewBoardForm:boardDescription');
@@ -27,6 +28,14 @@ function CreateNewBoardFormFormik() {
   const maxValue = t('formValidation:maxValue');
 
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
+  // Вот так получается обрабатывать ошибки с сервера
+  const errorMessage = useSelector((state: RootState) => state.board.error);
+  const err = (errorMessage:Error)=> {
+    const { message } = errorMessage
+    if (message !== '') {
+      return <BasicAlerts error={errorMessage}/>
+    }
+  }
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
@@ -52,11 +61,11 @@ function CreateNewBoardFormFormik() {
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validate={validateForm}
-      onSubmit={async (values: IValues, {setSubmitting}) => {
-        setSubmitting(false);
+      <Formik
+        initialValues={initialValues}
+        validate={validateForm}
+        onSubmit={async (values: IValues, {setSubmitting}) => {
+          setSubmitting(false);
         console.log(values);
         appDispatch(setIsCreateNewBoardModalOpen(false));
         appDispatch(setIsPreloaderOpen(true));

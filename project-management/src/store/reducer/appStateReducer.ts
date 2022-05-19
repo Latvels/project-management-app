@@ -1,9 +1,9 @@
 import { ActionKindAppState, SET_DELETED_ITEM, SET_IS_CONFIRM_MODAL_OPEN, SET_IS_CREATE_NEW_BOARD_MODAL_OPEN, SET_IS_EDIT_PROFILE_MODAL_OPEN, SET_IS_PRELOADER_OPEN } from '../actionTypes';
 
 interface IAppState {
+  isEditProfileModalOpen: boolean;
   isCreateNewBoardModalOpen: boolean;
   isPreloaderOpen: boolean;
-  isEditProfileModalOpen: boolean;
   isConfirmModalOpen: boolean;
   // deletedItem?: 'user' | 'board' | 'task',
   deletedItem?: string | null,

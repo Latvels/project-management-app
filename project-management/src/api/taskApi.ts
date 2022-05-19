@@ -6,120 +6,120 @@ import { CONFIG } from '../constants/constant';
 import { Task, reqState } from '../typings/typings';
 
 export const getTasks = createAsyncThunk(
-	'task/getTasks',
-	async (data: Task, { rejectWithValue }) => {
-    const {boardId, columnId} = data;
-		try {
-			const response = await axios.get<Task[]>(`${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer ${CONFIG.token}`,
-					},
-			})
-			return response.data;
-		} catch (e) {
-			return rejectWithValue('Failed to load tasks')
-		}
-	}
+  'task/getTasks',
+  async (data: Task, { rejectWithValue }) => {
+    const { boardId, columnId } = data;
+    try {
+      const response = await axios.get<Task[]>(`${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task`, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${CONFIG.token}`,
+        },
+      })
+      return response.data;
+    } catch (e) {
+      return rejectWithValue('Failed to load tasks')
+    }
+  }
 )
 
 export const getTaskById = createAsyncThunk(
-	'task/getTaskById',
-	async (data: Task, { rejectWithValue }) => {
-    const {boardId, columnId, id} = data;
-		try {
-			const response = await axios.get<Task[]>(`${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer ${CONFIG.token}`,
-					},
-			})
-			return response.data;
-		} catch (e) {
-			return rejectWithValue('Failed to load tasks by id')
-		}
-	}
+  'task/getTaskById',
+  async (data: Task, { rejectWithValue }) => {
+    const { boardId, columnId, id } = data;
+    try {
+      const response = await axios.get<Task[]>(`${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task${id}`, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${CONFIG.token}`,
+        },
+      })
+      return response.data;
+    } catch (e) {
+      return rejectWithValue('Failed to load tasks by id')
+    }
+  }
 )
 
 export const createTask = createAsyncThunk(
-	'task/createTask',
-	async (data: Task, { rejectWithValue }) => {
-    const {boardId, columnId} = data;
-		delete data.boardId;
+  'task/createTask',
+  async (data: Task, { rejectWithValue }) => {
+    const { boardId, columnId } = data;
+    delete data.boardId;
     delete data.columnId;
-		try {
-			const config = {
-				method: 'POST',
-				url: `${CONFIG.basicURL}/boards/${boardId}/columns${columnId}`,
-				headers: { 
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${CONFIG.token}`, 
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				data: qs.stringify(data),
-			}
-			const response = await axios(config)
-			return response.data;
-		} catch (e) {
-			return rejectWithValue('Failed to create task')
-		}
-	}
+    try {
+      const config = {
+        method: 'POST',
+        url: `${CONFIG.basicURL}/boards/${boardId}/columns${columnId}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: qs.stringify(data),
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      return rejectWithValue('Failed to create task')
+    }
+  }
 )
 
 export const updateTask = createAsyncThunk(
-	'task/updateTask',
-	async (data: Task, { rejectWithValue }) => {
-		const { boardId, columnId, id } = data;
-		delete data.boardId;
+  'task/updateTask',
+  async (data: Task, { rejectWithValue }) => {
+    const { boardId, columnId, id } = data;
+    delete data.boardId;
     delete data.columnId;
     delete data.id;
-		try {
-			const config = {
-				method: 'PUT',
-				url: `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task${id}`,
-				headers: { 
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${CONFIG.token}`, 
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				data: qs.stringify(data),
-			}
-			const response = await axios(config)
-			return response.data;
-		} catch (e) {
-			rejectWithValue(e)
-			return rejectWithValue('Failed to change task')
-		}
-	}
+    try {
+      const config = {
+        method: 'PUT',
+        url: `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task${id}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: qs.stringify(data),
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      rejectWithValue(e)
+      return rejectWithValue('Failed to change task')
+    }
+  }
 )
 
 export const deleteTask = createAsyncThunk(
-	'task/deleteTask',
-	async (data: Task, { rejectWithValue }) => {
+  'task/deleteTask',
+  async (data: Task, { rejectWithValue }) => {
     const { boardId, columnId, id } = data;
-		try {
-			const config = {
-				method: 'DELETE',
-				url: `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task${id}`,
-				headers: { 
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${CONFIG.token}`, 
-				}
-			}
-			const response = await axios(config)
-			return response.data;
-		} catch (e) {
-			rejectWithValue(e)
-			return rejectWithValue('Failed to delete task')
-		}
-	}
+    try {
+      const config = {
+        method: 'DELETE',
+        url: `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task${id}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+        }
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      rejectWithValue(e)
+      return rejectWithValue('Failed to delete task')
+    }
+  }
 )
 
 const initialState: reqState = {
   entities: [],
   loading: 'idle',
   currentRequestId: undefined,
-  error: null,
+  error: { status: 0, message: '', visible: true }
 }
 
 export const taskSlise = createSlice({
@@ -127,7 +127,7 @@ export const taskSlise = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-		[getTasks.pending.type]: (state, action) => {
+    [getTasks.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -172,8 +172,8 @@ export const taskSlise = createSlice({
         state.currentRequestId = undefined
       }
     },
-		
-		[createTask.pending.type]: (state, action) => {
+
+    [createTask.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -196,7 +196,7 @@ export const taskSlise = createSlice({
       }
     },
 
-		[updateTask.pending.type]: (state, action) => {
+    [updateTask.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -219,7 +219,7 @@ export const taskSlise = createSlice({
       }
     },
 
-		[deleteTask.pending.type]: (state, action) => {
+    [deleteTask.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId

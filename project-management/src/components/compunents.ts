@@ -9,3 +9,4 @@ export { default as ConfirmationModal } from './ConfirmationModal/ConfirmationMo
 export { default as CreateNewBoardFormFormik } from './CreateNewBoardForm/CreateNewBoardFormFormik';
 export { default as EditProfileFormFormik } from './EditProfileFormFormik/EditProfileFormFormik';
 export { default as Preloader } from './Preloader/Preloader';
+export { default as BasicAlerts } from './Alert/alerts';

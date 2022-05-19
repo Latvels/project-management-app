@@ -6,90 +6,90 @@ import { CONFIG } from '../constants/constant';
 import { User, reqState } from '../typings/typings';
 
 export const getUsers = createAsyncThunk(
-	'user/getUsers',
-	async (_, { rejectWithValue }) => {
-		try {
-			const response = await axios.get<User[]>(`${CONFIG.basicURL}/users`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer ${CONFIG.token}`,
-					},
-			})
-			return response.data;
-		} catch (e) {
-			return rejectWithValue('Failed to load user')
-		}
-	}
+  'user/getUsers',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get<User[]>(`${CONFIG.basicURL}/users`, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${CONFIG.token}`,
+        },
+      })
+      return response.data;
+    } catch (e) {
+      return rejectWithValue('Failed to load user')
+    }
+  }
 )
 
 export const getUsersById = createAsyncThunk(
-	'board/getUsersById',
-	async (id:string, { rejectWithValue }) => {
-		try {
-			const response = await axios.get<User[]>(`${CONFIG.basicURL}/users/${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: `Bearer ${CONFIG.token}`,
-					},
-			})
-			return response.data;
-		} catch (e) {
-			return rejectWithValue('Failed to load user by id')
-		}
-	}
+  'board/getUsersById',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.get<User[]>(`${CONFIG.basicURL}/users/${id}`, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${CONFIG.token}`,
+        },
+      })
+      return response.data;
+    } catch (e) {
+      return rejectWithValue('Failed to load user by id')
+    }
+  }
 )
 
 export const updateUser = createAsyncThunk(
-	'user/updateUser',
-	async (arr: User, { rejectWithValue }) => {
-		const { id } = arr;
-		delete arr.id;
-		try {
-			const config = {
-				method: 'PUT',
-				url: `${CONFIG.basicURL}/users/${id}`,
-				headers: { 
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${CONFIG.token}`, 
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				data: qs.stringify(arr),
-			}
-			const response = await axios(config)
-			return response.data;
-		} catch (e) {
-			rejectWithValue(e)
-			return rejectWithValue('Failed to change user')
-		}
-	}
+  'user/updateUser',
+  async (arr: User, { rejectWithValue }) => {
+    const { id } = arr;
+    delete arr.id;
+    try {
+      const config = {
+        method: 'PUT',
+        url: `${CONFIG.basicURL}/users/${id}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: qs.stringify(arr),
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      rejectWithValue(e)
+      return rejectWithValue('Failed to change user')
+    }
+  }
 )
 
 export const deleteUser = createAsyncThunk(
-	'user/deleteUser',
-	async (id: string, { rejectWithValue }) => {
-		try {
-			const config = {
-				method: 'DELETE',
-				url: `${CONFIG.basicURL}/users/${id}`,
-				headers: { 
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${CONFIG.token}`, 
-				}
-			}
-			const response = await axios(config)
-			return response.data;
-		} catch (e) {
-			rejectWithValue(e)
-			return rejectWithValue('Failed to delete user')
-		}
-	}
+  'user/deleteUser',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const config = {
+        method: 'DELETE',
+        url: `${CONFIG.basicURL}/users/${id}`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+        }
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      rejectWithValue(e)
+      return rejectWithValue('Failed to delete user')
+    }
+  }
 )
 
 const initialState: reqState = {
   entities: [],
   loading: 'idle',
   currentRequestId: undefined,
-  error: null,
+  error: { status: 0, message: '', visible: true }
 }
 
 export const userSlise = createSlice({
@@ -97,7 +97,7 @@ export const userSlise = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-		[getUsers.pending.type]: (state, action) => {
+    [getUsers.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -142,8 +142,8 @@ export const userSlise = createSlice({
         state.currentRequestId = undefined
       }
     },
-		
-		[updateUser.pending.type]: (state, action) => {
+
+    [updateUser.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
@@ -166,7 +166,7 @@ export const userSlise = createSlice({
       }
     },
 
-		[deleteUser.pending.type]: (state, action) => {
+    [deleteUser.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
