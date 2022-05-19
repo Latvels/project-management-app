@@ -42,9 +42,9 @@ export type reqState = {
   signInStatus?: 'fulfilled' | 'pending' | 'rejected' | null;
   signUpStatus?: 'fulfilled' | 'pending' | 'rejected' | null;
   currentRequestId: string | undefined;
-  error: Error | null;
+  error: Error;
 };
-
+//! Убрал error: Error | null; Если у вас не заработает, проверьте тут
 export interface Error {
   status?: number,
   message?: string,
