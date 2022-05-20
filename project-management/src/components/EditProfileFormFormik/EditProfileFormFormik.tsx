@@ -26,7 +26,6 @@ function EditProfileFormFormik() {
   //* работает так
   // const {entities: user} = useSelector(selectUser)
   // console.log('All', user.id, user.name, user.login)
-
   //* работает так
   const {entities: user} = useSelector(selectUser)
   // const id = user.id as string;
@@ -37,9 +36,9 @@ function EditProfileFormFormik() {
   console.log('entries: user');
   console.log(user);
   console.log(getUserId);
-  const id = user[0].id as string;
-  const name = user[0].name as string;
-  const login = user[0].login as string;
+  // const id = user[0].id as string;
+  // const name = user[0].name as string;
+  // const login = user[0].login as string;
   // const password = getUserId.password as string;
   // const id = getUserId.id as string;
   // const name = user[0].name as string;
@@ -79,12 +78,12 @@ function EditProfileFormFormik() {
   const getUserData = async () => {
     // console.log(user);
     appDispatch(setIsPreloaderOpen(true));
-    // const data = await appDispatch(getUsersById(id));
-    // console.log(data);
-    // const userdata = data.payload as User;
-    // setUserData(userdata);
-    initialValues.login = login;
-    initialValues.name = name;
+    const data = await appDispatch(getUsersById(getUserId.user.id));
+    console.log('2131231', data);
+    const userdata = data.payload as User;
+    setUserData(userdata);
+    initialValues.login = String(userdata.login);
+    initialValues.name = String(userdata.name);
     initialValues.password = 'password';
     appDispatch(setIsPreloaderOpen(false));
   }
@@ -146,7 +145,7 @@ function EditProfileFormFormik() {
         };
         await appDispatch(updateUser(newUserData));
         appDispatch(setIsPreloaderOpen(false));
-        if(errorMessage.message === '') {
+        if(errorMessage.message === '' || errorMessage.message === undefined) {
           appDispatch(setIsEditProfileModalOpen(false));
         }
       }}
