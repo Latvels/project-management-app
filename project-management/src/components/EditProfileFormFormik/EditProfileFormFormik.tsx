@@ -49,7 +49,7 @@ function EditProfileFormFormik() {
   const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
   const err = (errorMessage:Error)=> {
     const { message } = errorMessage
-    if (message !== '') {
+    if (message !== '' && message !== undefined) {
       console.log('error')
       return <BasicAlerts error={errorMessage}/>
       //здесь надо обнулить error в стейте, иначе при следующем открытии окна - сразу висит alert с ошибкой, а если окно не закрыл и корректируешь данные - повторно сообщение о ошибке не показывается
@@ -79,10 +79,6 @@ function EditProfileFormFormik() {
   const getUserData = async () => {
     // console.log(user);
     appDispatch(setIsPreloaderOpen(true));
-    // const data = await appDispatch(getUsersById(id));
-    // console.log(data);
-    // const userdata = data.payload as User;
-    // setUserData(userdata);
     initialValues.login = login;
     initialValues.name = name;
     initialValues.password = 'password';
@@ -139,7 +135,7 @@ function EditProfileFormFormik() {
         // appDispatch(setIsEditProfileModalOpen(false));
         appDispatch(setIsPreloaderOpen(true));
         const newUserData: User = {
-          ...userData,
+          id: id,
           name: values.name,
           login: values.login,
           password: values.password
