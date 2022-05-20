@@ -25,12 +25,12 @@ function EditProfileFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
   
   //* работает так
-  // const {entities: user} = useSelector(selectUser)
-  // console.log('All', user.id, user.name, user.login)
+   const {entities: user} = useSelector(selectUser)
+   console.log('All', user[0].id, user[0].name, user[0].login)
 
   //* работает так
-  const {entities: user} = useSelector(selectUser)
-  const id = user.id as string;
+  // const {entities: user} = useSelector(selectUser)
+  const id = user[0].id as string;
   // console.log('All', id, name, login )
 
   const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
@@ -55,7 +55,7 @@ function EditProfileFormFormik() {
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [ userData, setUserData ] = useState<User | Record<string, null>>({});
-
+  
   const initialValues = {
     name: '',
     password: '',

@@ -15,6 +15,7 @@ export const getUsers = createAsyncThunk(
           Authorization: `Bearer ${CONFIG.token}`,
         },
       })
+      console.log('response.data', response.data)
       return response.data;
     } catch (e) {
       return rejectWithValue('Failed to load user')
@@ -43,7 +44,7 @@ export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (arr: User, { rejectWithValue }) => {
     const { id } = arr;
-    // delete arr.id;
+    delete arr.id;
     try {
       const config = {
         method: 'PUT',
@@ -86,7 +87,7 @@ export const deleteUser = createAsyncThunk(
 )
 
 const initialState: reqState = {
-  entities: {},
+  entities: [],
   loading: 'idle',
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true }
