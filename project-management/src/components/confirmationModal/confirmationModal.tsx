@@ -1,11 +1,6 @@
 import react from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import {Backdrop, Box, Modal, Fade, Typography} from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +8,7 @@ import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 import { Button } from '@mui/material';
 import React from 'react';
 import './confirmationModal.scss';
+import { useNavigate } from 'react-router-dom';
 import { setDeletedItem, setIsConfirmModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { AppDispatch } from '../../store/store';
 import { deleteUser } from '../../api/userApi';
@@ -34,6 +30,7 @@ const style = {
 
 function ConfirmationModal() {
   const {t} = useTranslation();
+  const navigate = useNavigate();
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch<AppDispatch>();
 
@@ -65,9 +62,11 @@ function ConfirmationModal() {
     appDispatch(setIsConfirmModalOpen(false));
     appDispatch(setIsPreloaderOpen(true));
     if (deletedItem === 'user') {
-      await appDispatch(deleteUser('id'));
+      await appDispatch(deleteUser(String(appState.deletedId)));
+      navigate('/');
     } else if (deletedItem === 'board') {
-      await appDispatch(deleteBoard('id'));
+      await appDispatch(deleteBoard(String(appState.deletedId)));
+      window.location.reload();
     // } else if (deletedItem === 'task') {
     //   await appDispatch(deleteTask());
     }

@@ -4,7 +4,7 @@ import { TextField } from 'formik-mui';
 import react, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { setDeletedItem, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import { setDeletedItem, setDeletedId, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { getUsersById, updateUser, selectUser } from '../../api/userApi';
 import './editProfileFormFormik.scss';
 import store, { AppDispatch, useAppSelector } from '../../store/store';
@@ -98,6 +98,7 @@ function EditProfileFormFormik() {
 
   const handleClickDeleteUserButton = () => {
     appDispatch(setDeletedItem('user'));
+    appDispatch(setDeletedId(getUserId.user.id));
     appDispatch(setIsEditProfileModalOpen(false));
     appDispatch(setIsConfirmModalOpen(true));
   }

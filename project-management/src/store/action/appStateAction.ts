@@ -1,4 +1,4 @@
-import { SET_USER_DATA, SET_DELETED_ITEM, SET_IS_CONFIRM_MODAL_OPEN, SET_IS_CREATE_NEW_BOARD_MODAL_OPEN, SET_IS_EDIT_PROFILE_MODAL_OPEN, SET_IS_PRELOADER_OPEN } from '../actionTypes';
+import { SET_DELETED_ID, SET_USER_DATA, SET_DELETED_ITEM, SET_IS_CONFIRM_MODAL_OPEN, SET_IS_CREATE_NEW_BOARD_MODAL_OPEN, SET_IS_EDIT_PROFILE_MODAL_OPEN, SET_IS_PRELOADER_OPEN } from '../actionTypes';
 
 export function setIsCreateNewBoardModalOpen(isOpen: boolean) {
   return { type: SET_IS_CREATE_NEW_BOARD_MODAL_OPEN, payload: isOpen };
@@ -18,6 +18,9 @@ export function setIsConfirmModalOpen(isOpen: boolean) {
 
 export function setDeletedItem(deletedItem: string | null) {
   return { type: SET_DELETED_ITEM, payload: deletedItem };
+}
+export function setDeletedId(deletedID: string | null) {
+  return { type: SET_DELETED_ID, payload: deletedID };
 }
 
 export function setUserData(data: {
