@@ -119,7 +119,7 @@ const initialState: reqState = {
   entities: [],
   loading: 'idle',
   currentRequestId: undefined,
-  error: { status: 0, message: '', visible: true }
+  error: {}
 }
 
 export const taskSlise = createSlice({

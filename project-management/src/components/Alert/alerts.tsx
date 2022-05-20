@@ -2,6 +2,8 @@ import * as React from 'react';
 import {Box, Alert, IconButton, Collapse, AlertTitle} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Error } from '../../typings/typings';
+import store, { AppDispatch } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 type Props = {
   error: Error
@@ -9,6 +11,7 @@ type Props = {
 
 export default function BasicAlerts(props:Props) {
   const [open, setOpen] = React.useState(true);
+  const dispatch = useDispatch<AppDispatch>();
   const { status, message  } = props.error;
 
   React.useEffect(() => {

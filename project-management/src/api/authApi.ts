@@ -58,7 +58,7 @@ const initialState: reqState = {
   signInStatus: null,
   signUpStatus: null,
   currentRequestId: undefined,
-  error: { status: 0, message: '', visible: true }
+  error: {}
 }
 
 export const authSlise = createSlice({
