@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../store/store';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ACTION_STATUSES } from '../../typings/typings';
+import { ACTION_STATUSES, Error } from '../../typings/typings';
 import { CONFIG } from '../../constants/constant';
 import qs from 'qs';
 
@@ -17,6 +17,7 @@ interface UseRegistrationReturnValues {
   passLabel: string;
   isButtonDisabled: boolean;
   requestStatus: ACTION_STATUSES;
+  requestError: Error;
   validateForm: (values: ILoginValues) => void;
 }
 
@@ -25,6 +26,7 @@ export const useLoginPage = (): UseRegistrationReturnValues => {
   const navigate = useNavigate();
   const [token, setToken] = useState(CONFIG.token);
   const requestStatus = useAppSelector((state) => state.auth.signInStatus);
+  const requestError = useAppSelector((state) => state.auth.error);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
   const loginLabel = t('editProfileForm:login');
   const passLabel = t('editProfileForm:pass');
@@ -56,6 +58,7 @@ export const useLoginPage = (): UseRegistrationReturnValues => {
     passLabel,
     isButtonDisabled,
     requestStatus: requestStatus as ACTION_STATUSES,
+    requestError: requestError as Error,
     validateForm,
   };
 };

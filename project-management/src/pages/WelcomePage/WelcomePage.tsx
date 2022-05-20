@@ -14,8 +14,8 @@ import './welcomePage.scss';
 import women from '../../assets/woman.png';
 import man from '../../assets/man.png';
 import girl from '../../assets/girl.png';
-import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function WelcomePage() {
   const { t } = useTranslation();

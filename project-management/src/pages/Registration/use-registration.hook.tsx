@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidName, isValidPassword } from '../../utils/validation';
 import { useTranslation } from 'react-i18next';
-import { ACTION_STATUSES } from '../../typings/typings';
+import { ACTION_STATUSES, Error } from '../../typings/typings';
+import Preloader from '../../components/Preloader/Preloader';
+import { BasicAlerts } from '../../components/compunents';
 
 export interface IRegistrationValues {
   name: string;
@@ -19,6 +21,7 @@ interface UseRegistrationReturnValues {
   isButtonDisabled: boolean;
   validateForm: (values: IRegistrationValues) => Partial<IRegistrationValues>;
   requestStatus: ACTION_STATUSES;
+  requestError: Error;
 }
 
 export const useRegistration = (): UseRegistrationReturnValues => {
@@ -28,6 +31,7 @@ export const useRegistration = (): UseRegistrationReturnValues => {
   const loginLabel = t('editProfileForm:login');
   const passLabel = t('editProfileForm:pass');
   const requestStatus = useAppSelector((state) => state.auth.signUpStatus);
+  const requestError = useAppSelector((state) => state.auth.error);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
 
   const initialValues: IRegistrationValues = {
@@ -84,6 +88,8 @@ export const useRegistration = (): UseRegistrationReturnValues => {
     }
   }, [requestStatus]);
 
+  console.log(requestError);
+
   return {
     initialValues,
     nameLabel,
@@ -92,5 +98,6 @@ export const useRegistration = (): UseRegistrationReturnValues => {
     isButtonDisabled,
     validateForm,
     requestStatus: requestStatus as ACTION_STATUSES,
+    requestError: requestError as Error,
   };
 };
