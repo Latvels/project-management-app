@@ -7,10 +7,9 @@ import { useDispatch } from 'react-redux';
 import { setDeletedItem, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { getUsersById, updateUser, selectUser } from '../../api/userApi';
 import './editProfileFormFormik.scss';
-import store, { AppDispatch, useAppSelector } from '../../store/store';
+import { AppDispatch } from '../../store/store';
 import { useSelector } from 'react-redux';
-// import { RootState } from '../../store/reducer/reducer';
-import { User } from '../../typings/typings';
+import { User, Error } from '../../typings/typings';
 import { RootState } from '../../store/reducer/reducer';
 import { BasicAlerts } from '../compunents';
 // import { err } from '../../utils/showBasicAlerts';
@@ -31,6 +30,8 @@ function EditProfileFormFormik() {
   //* работает так
   const {entities: user} = useSelector(selectUser)
   const id = user.id as string;
+  const pass = user.password;
+  console.log('pass', pass);
   // console.log('All', id, name, login )
 
   const errorMessage = useSelector((state: RootState) => state.user.error) as Error;

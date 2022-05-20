@@ -15,9 +15,13 @@ import React from 'react';
 import './confirmationModal.scss';
 import { setDeletedItem, setIsConfirmModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { AppDispatch } from '../../store/store';
-import { deleteUser } from '../../api/userApi';
-import { deleteBoard } from '../../api/boardApi';
+import { deleteUser, selectUser } from '../../api/userApi';
+import { deleteBoard, selectBoard } from '../../api/boardApi';
 import { deleteTask } from '../../api/taskApi';
+import { err } from '../../utils/showBasicAlerts';
+import { useNavigate } from 'react-router-dom';
+import { authSlise } from '../../api/authApi';
+import { Error } from '../../typings/typings';
 
 const style = {
   position: 'absolute',
@@ -35,7 +39,20 @@ const style = {
 function ConfirmationModal() {
   const {t} = useTranslation();
   const appState = useSelector((state: RootState) => state.appState);
+  const {entities: user} = useSelector(selectUser);
+  const userId = user.id as string;
+  const {entities: board} = useSelector(selectBoard);
+  const boardId = board.id as string;
   const appDispatch = useDispatch<AppDispatch>();
+  const userErrorMessage = useSelector((state: RootState) => state.user.error) as Error;
+  const boardErrorMessage = useSelector((state: RootState) => state.board.error) as Error;
+  const taskErrorMessage = useSelector((state: RootState) => state.task.error) as Error;
+  const navigate = useNavigate();
+  const signInStatus = useSelector((state: RootState) => state.auth.signInStatus);
+  let errorMessage: Error = {};
+  //todo доработать logOut
+  // const { resetStatuses } = authSlise.actions;
+
 
   const handleClose = () => appDispatch(setIsConfirmModalOpen(false));
 
@@ -61,18 +78,31 @@ function ConfirmationModal() {
     }
   }
 
+  const logOut = () => {
+    console.log('signInStatus', signInStatus);
+    // 
+    // dispatchEvent(resetStatuses());
+    navigate('/');
+  }
+
   const handleYesClick = async () => {
     appDispatch(setIsConfirmModalOpen(false));
     appDispatch(setIsPreloaderOpen(true));
     if (deletedItem === 'user') {
-      await appDispatch(deleteUser('id'));
+      await appDispatch(deleteUser(userId));
+      appDispatch(setIsPreloaderOpen(false));
+      logOut();
+      userErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = userErrorMessage;
     } else if (deletedItem === 'board') {
-      await appDispatch(deleteBoard('id'));
-    // } else if (deletedItem === 'task') {
-    //   await appDispatch(deleteTask());
+      await appDispatch(deleteBoard(boardId));
+      appDispatch(setIsPreloaderOpen(false));
+      boardErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = userErrorMessage;
+  // } else if (deletedItem === 'task') {
+  //   await appDispatch(deleteTask());
+  //  appDispatch(setIsPreloaderOpen(false));
+  //  taskErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = taskErrorMessage;
     }
     appDispatch(setDeletedItem(null));
-    appDispatch(setIsPreloaderOpen(false));
   };
 
   const handleNoClick = () => {
@@ -125,6 +155,7 @@ function ConfirmationModal() {
                 {buttonNoText}
             </Button>
           </Box>
+          {err(errorMessage)}
         </Box>
       </Fade>
     </Modal>
