@@ -30,9 +30,12 @@ function Login() {
       const dataAwtorizeUser = qwe.entities.find((el: any) => {
         return el.login === email;
       })
-      navigate('/mainPage');
       const awtorizUserData: RootUser = dataAwtorizeUser || {};
-      dispatch(setUserData(awtorizUserData));
+      const setUser = async () => {
+        await dispatch(setUserData(awtorizUserData));
+      }
+      setUser();
+      navigate('/mainPage');
     }
   }, [requestStatus]);
 

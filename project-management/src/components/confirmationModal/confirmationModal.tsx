@@ -89,7 +89,7 @@ function ConfirmationModal() {
     appDispatch(setIsConfirmModalOpen(false));
     appDispatch(setIsPreloaderOpen(true));
     if (deletedItem === 'user') {
-      await appDispatch(deleteUser(userId));
+      await appDispatch(deleteUser(getUserId.user.id));
       appDispatch(setIsPreloaderOpen(false));
       logOut();
       userErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = userErrorMessage;

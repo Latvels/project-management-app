@@ -5,7 +5,7 @@ import react, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { setDeletedItem, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
-import { getUsersById, updateUser, selectUser } from '../../api/userApi';
+import { getUsersById, updateUser } from '../../api/userApi';
 import './editProfileFormFormik.scss';
 import { AppDispatch } from '../../store/store';
 import { useSelector } from 'react-redux';
@@ -26,33 +26,15 @@ function EditProfileFormFormik() {
   //* работает так
   // const {entities: user} = useSelector(selectUser)
   // console.log('All', user.id, user.name, user.login)
-
-  //* работает так
-  const {entities: user} = useSelector(selectUser)
-  // const id = user.id as string;
-  // console.log('All', id, name, login )
+  // const {entities: user} = useSelector(selectUser)
   const getUserId = useSelector((state: RootState) => state.awtUser);
-  console.log('getUserId');
-  console.log(getUserId);
-  console.log('entries: user');
-  console.log(user);
-  console.log(getUserId);
-  const id = user[0].id as string;
-  const name = user[0].name as string;
-  const login = user[0].login as string;
-  // const password = getUserId.password as string;
-  // const id = getUserId.id as string;
-  // const name = user[0].name as string;
-  // const login = user[0].login as string;
-  // const password = user[0].password as string;
 
   const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
   const err = (errorMessage:Error)=> {
     const { message } = errorMessage
-    if (message !== '' && message !== undefined) {
-      console.log('error')
+    if(message === '' || message === undefined) {
+      console.log(errorMessage)
       return <BasicAlerts error={errorMessage}/>
-      //здесь надо обнулить error в стейте, иначе при следующем открытии окна - сразу висит alert с ошибкой, а если окно не закрыл и корректируешь данные - повторно сообщение о ошибке не показывается
     }
   }
 
@@ -67,20 +49,23 @@ function EditProfileFormFormik() {
   const required = t('formValidation:required');
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [ userData, setUserData ] = useState<User | Record<string, null>>({});
-  
+
   const initialValues = {
     name: '',
     password: '',
     login: '',
   }
-  //todo 
 
   const getUserData = async () => {
     // console.log(user);
     appDispatch(setIsPreloaderOpen(true));
-    initialValues.login = login;
-    initialValues.name = name;
+    console.log(getUserId.id);
+    console.log(getUserId.user);
+    const data = await appDispatch(getUsersById(getUserId.user.id));
+    // console.log('2131231', data);
+    const userdata = data.payload as User;
+    initialValues.login = String(userdata.login);
+    initialValues.name = String(userdata.name);
     initialValues.password = 'password';
     appDispatch(setIsPreloaderOpen(false));
   }
@@ -110,7 +95,6 @@ function EditProfileFormFormik() {
 
     setIsButtonDisabled(true);
     checkFormField('name');
-    // checkFormField('login');
     checkLoginField();
     checkFormField('password');
     if (!errors.name && !errors.login && !errors.password) {
@@ -132,17 +116,17 @@ function EditProfileFormFormik() {
       validate={validateForm}
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
-        // appDispatch(setIsEditProfileModalOpen(false));
         appDispatch(setIsPreloaderOpen(true));
         const newUserData: User = {
-          id: id,
+          id: getUserId.user.id,
           name: values.name,
           login: values.login,
           password: values.password
         };
         await appDispatch(updateUser(newUserData));
         appDispatch(setIsPreloaderOpen(false));
-        if(errorMessage.message === '') {
+        console.log(errorMessage)
+        if(errorMessage.message === '' || errorMessage.message === undefined) {
           appDispatch(setIsEditProfileModalOpen(false));
         }
       }}
