@@ -9,9 +9,9 @@
     "menuItem3": "Создать доску"
   },
   "lang": {
-    "Language": "Язык",
-    "Russian": "Русский",
-    "English": "Английский"
+    "Lang": "Язык",
+    "Ru": "Рус",
+    "En": "Анг"
   },
   "errors": {
     "pagesNotDefined": "Данная страница не найдена"
@@ -30,7 +30,7 @@
     "formTitle": "редактировать профиль",
     "email": "email",
     "name": "имя",
-    "login": "логин",
+    "login": "email",
     "pass": "пароль",
     "submitBtn": "редактировать данные",
     "deleteBtn": "удалить пользователя"

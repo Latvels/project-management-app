@@ -39,10 +39,10 @@ const style = {
 function ConfirmationModal() {
   const {t} = useTranslation();
   const appState = useSelector((state: RootState) => state.appState);
-  const {entities: user} = useSelector(selectUser);
-  const userId = user.id as string;
+  const getUserId = useSelector((state: RootState) => state.awtUser);
+  const userId = getUserId.id as string;
   const {entities: board} = useSelector(selectBoard);
-  const boardId = board.id as string;
+  // const boardId = board[0].idBoard as string;
   const appDispatch = useDispatch<AppDispatch>();
   const userErrorMessage = useSelector((state: RootState) => state.user.error) as Error;
   const boardErrorMessage = useSelector((state: RootState) => state.board.error) as Error;
@@ -94,7 +94,7 @@ function ConfirmationModal() {
       logOut();
       userErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = userErrorMessage;
     } else if (deletedItem === 'board') {
-      await appDispatch(deleteBoard(boardId));
+      // await appDispatch(deleteBoard(boardId));
       appDispatch(setIsPreloaderOpen(false));
       boardErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = userErrorMessage;
   // } else if (deletedItem === 'task') {

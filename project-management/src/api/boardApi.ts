@@ -108,7 +108,7 @@ export const deleteBoard = createAsyncThunk(
 )
 
 const initialState: reqState = {
-  entities: {},
+  entities: [],
   loading: 'idle',
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true}

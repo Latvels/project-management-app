@@ -1,10 +1,19 @@
 import React, {SyntheticEvent, useCallback, useEffect, useState} from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Container, Input, InputLabel } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { singIn } from '../../api/authApi';
-import {AppDispatch, useAppSelector} from '../../store/store';
+import { getUsers, selectUser } from '../../api/userApi';
+import store, { AppDispatch, useAppSelector } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
+import { setUserData } from '../../store/action/appStateAction';
+
+type RootUser = {
+  id?: string,
+  email?: string,
+  password?: string,
+  name?: string,
+}
 
 function Login() {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,7 +25,14 @@ function Login() {
 
   useEffect(() => {
     if (requestStatus === 'fulfilled') {
+      const qwe = store.getState().user
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const dataAwtorizeUser = qwe.entities.find((el: any) => {
+        return el.login === email;
+      })
       navigate('/mainPage');
+      const awtorizUserData: RootUser = dataAwtorizeUser || {};
+      dispatch(setUserData(awtorizUserData));
     }
   }, [requestStatus]);
 
@@ -37,6 +53,7 @@ function Login() {
         login: email,
       };
       dispatch(singIn(data));
+      dispatch(getUsers());
     },
     [password, email]
   );

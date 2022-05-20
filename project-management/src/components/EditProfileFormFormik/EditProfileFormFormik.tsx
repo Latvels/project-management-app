@@ -29,10 +29,22 @@ function EditProfileFormFormik() {
 
   //* работает так
   const {entities: user} = useSelector(selectUser)
-  const id = user.id as string;
-  const pass = user.password;
-  console.log('pass', pass);
+  // const id = user.id as string;
   // console.log('All', id, name, login )
+  const getUserId = useSelector((state: RootState) => state.awtUser);
+  console.log('getUserId');
+  console.log(getUserId);
+  console.log('entries: user');
+  console.log(user);
+  console.log(getUserId);
+  const id = user[0].id as string;
+  const name = user[0].name as string;
+  const login = user[0].login as string;
+  // const password = getUserId.password as string;
+  // const id = getUserId.id as string;
+  // const name = user[0].name as string;
+  // const login = user[0].login as string;
+  // const password = user[0].password as string;
 
   const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
   const err = (errorMessage:Error)=> {
@@ -56,7 +68,7 @@ function EditProfileFormFormik() {
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [ userData, setUserData ] = useState<User | Record<string, null>>({});
-
+  
   const initialValues = {
     name: '',
     password: '',
@@ -67,12 +79,13 @@ function EditProfileFormFormik() {
   const getUserData = async () => {
     // console.log(user);
     appDispatch(setIsPreloaderOpen(true));
-    const data = await appDispatch(getUsersById(id));
+    // const data = await appDispatch(getUsersById(id));
     // console.log(data);
-    const userdata = data.payload as User;
-    setUserData(userdata);
-    initialValues.login = userdata.login!;
-    initialValues.name = userdata.name!;
+    // const userdata = data.payload as User;
+    // setUserData(userdata);
+    initialValues.login = login;
+    initialValues.name = name;
+    initialValues.password = 'password';
     appDispatch(setIsPreloaderOpen(false));
   }
 
@@ -93,9 +106,16 @@ function EditProfileFormFormik() {
       }
     };
 
+    function checkLoginField() {
+      if(!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/.test(values.login)) {
+        errors.login = 'invalid email address';
+      }
+    }
+
     setIsButtonDisabled(true);
     checkFormField('name');
-    checkFormField('login');
+    // checkFormField('login');
+    checkLoginField();
     checkFormField('password');
     if (!errors.name && !errors.login && !errors.password) {
       setIsButtonDisabled(false);
