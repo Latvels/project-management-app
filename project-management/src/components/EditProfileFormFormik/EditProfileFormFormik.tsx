@@ -4,7 +4,7 @@ import { TextField } from 'formik-mui';
 import react, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { setDeletedItem, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import { setDeletedItem, setDeletedId, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { getUsersById, updateUser } from '../../api/userApi';
 import './editProfileFormFormik.scss';
 import { AppDispatch } from '../../store/store';
@@ -26,7 +26,6 @@ function EditProfileFormFormik() {
   //* работает так
   // const {entities: user} = useSelector(selectUser)
   // console.log('All', user.id, user.name, user.login)
-  // const {entities: user} = useSelector(selectUser)
   const getUserId = useSelector((state: RootState) => state.awtUser);
 
   const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
@@ -59,8 +58,6 @@ function EditProfileFormFormik() {
   const getUserData = async () => {
     // console.log(user);
     appDispatch(setIsPreloaderOpen(true));
-    console.log(getUserId.id);
-    console.log(getUserId.user);
     const data = await appDispatch(getUsersById(getUserId.user.id));
     // console.log('2131231', data);
     const userdata = data.payload as User;
@@ -105,6 +102,7 @@ function EditProfileFormFormik() {
 
   const handleClickDeleteUserButton = () => {
     appDispatch(setDeletedItem('user'));
+    appDispatch(setDeletedId(getUserId.user.id));
     appDispatch(setIsEditProfileModalOpen(false));
     appDispatch(setIsConfirmModalOpen(true));
   }

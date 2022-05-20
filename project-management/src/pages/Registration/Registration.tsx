@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch, useAppSelector } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidName, isValidPassword } from '../../utils/validation';
+import { setUserData } from '../../store/action/appStateAction';
 
 function Registration() {
   const { t } = useTranslation();
