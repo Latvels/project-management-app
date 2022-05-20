@@ -123,6 +123,7 @@ function WelcomePage() {
         <p className="comment-box">{t('welcomePage:DiscriptionOne')}</p>
         <p className="comment-box">{t('welcomePage:DescriptionTwo')}</p>
         <p className="comment-box">{t('welcomePage:DescriptionThree')}</p>
+        <p className="comment-box">{t('welcomePage:descriptionSchool')}</p>
       </Box>
     </Container>
   );

@@ -26,7 +26,7 @@ const style = {
 };
 
 function EditProfileModal() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch();
   const handleClose = () => appDispatch(setIsEditProfileModalOpen(false));
@@ -43,11 +43,14 @@ function EditProfileModal() {
         timeout: 700,
       }}
     >
-      <Fade in={appState.isEditProfileModalOpen} >
+      <Fade in={appState.isEditProfileModalOpen}>
         <Box sx={style}>
-        {/* <Box className='modal__window'> */}
-          <Box component='div' className="modal__title" sx={{mb: 2}}>
-            <FaceRetouchingNaturalOutlinedIcon color='primary' sx={{mr: 2}}></FaceRetouchingNaturalOutlinedIcon>
+          {/* <Box className='modal__window'> */}
+          <Box component="div" className="modal__title" sx={{ mb: 2 }}>
+            <FaceRetouchingNaturalOutlinedIcon
+              color="primary"
+              sx={{ mr: 2 }}
+            ></FaceRetouchingNaturalOutlinedIcon>
             <Typography id="transition-modal-title" variant="h6" component="h4">
               {t('editProfileForm:formTitle')}
             </Typography>
