@@ -1,21 +1,16 @@
 import { ActionKindAppState, SET_USER_DATA } from '../actionTypes';
 
-interface IState {
-  data: RootUser;
+interface RootUser {
+  // ! может вы придумаете какой тут тип должен быть
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user?: any,
+  id?: string | null;
+  email?: string | null;
+  password?: string | null;
+  name?: string | null;
 }
-
-type RootUser = {
-  user?: {
-    _id?: string | null,
-    email?: string | null,
-    password?: string | null,
-    name?: string | null,
-  }
-}
-
-const initialState: IState = {
-  data: {
-  }
+  
+const initialState: RootUser = {
 }
 
 interface IAction {
@@ -29,7 +24,7 @@ function stateReducer(state = initialState, action: IAction) {
     {
       return {
         ...state,
-        data: action.payload,
+        user: action.payload,
       }
     }
     default: {

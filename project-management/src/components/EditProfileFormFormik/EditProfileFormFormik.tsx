@@ -25,13 +25,7 @@ function EditProfileFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
   
   //* работает так
-   const {entities: user} = useSelector(selectUser)
-   console.log('All', user[0].id, user[0].name, user[0].login)
-
-  //* работает так
-  // const {entities: user} = useSelector(selectUser)
-  const id = user[0].id as string;
-  // console.log('All', id, name, login )
+  const getUserId = useSelector((state: RootState) => state.awtUser);
 
   const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
   const err = (errorMessage:Error)=> {
@@ -66,7 +60,7 @@ function EditProfileFormFormik() {
   const getUserData = async () => {
     // console.log(user);
     appDispatch(setIsPreloaderOpen(true));
-    const data = await appDispatch(getUsersById(id));
+    const data = await appDispatch(getUsersById(getUserId.user.id));
     // console.log(data);
     const userdata = data.payload as User;
     setUserData(userdata);

@@ -8,12 +8,8 @@ import store, { AppDispatch, useAppSelector } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { setUserData } from '../../store/action/appStateAction';
 
-interface IState {
-  data: RootUser;
-}
-
 type RootUser = {
-  _id?: string,
+  id?: string,
   email?: string,
   password?: string,
   name?: string,
@@ -34,10 +30,9 @@ function Login() {
       const dataAwtorizeUser = qwe.entities.find((el: any) => {
         return el.login === email;
       })
-      const awtorizUserData: RootUser = dataAwtorizeUser || {};
-      console.log('!@', awtorizUserData)
-      dispatch(setUserData(awtorizUserData));
       navigate('/mainPage');
+      const awtorizUserData: RootUser = dataAwtorizeUser || {};
+      dispatch(setUserData(awtorizUserData));
     }
   }, [requestStatus]);
 

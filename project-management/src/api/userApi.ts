@@ -15,7 +15,6 @@ export const getUsers = createAsyncThunk(
           Authorization: `Bearer ${CONFIG.token}`,
         },
       })
-      console.log('response.data', response.data)
       return response.data;
     } catch (e) {
       return rejectWithValue('Failed to load user')
