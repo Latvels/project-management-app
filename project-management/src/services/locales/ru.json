@@ -40,6 +40,15 @@
     "minValue": "минимальная длина 3 символа",
     "maxValue": "максимальная длина 12 символов"
   },
+  "confirmationModal": {
+    "title": "подтвердите свои действия",
+    "commonText": "удалить",
+    "deleteUserText": "пользователя",
+    "deleteBoardText": "доску",
+    "deleteTaskText": "задание",
+    "buttonYes": "да",
+    "buttonNo": "нет"
+  },
   "welcome": {
     "singUp": "Регистрация",
     "signIn": "Войти",

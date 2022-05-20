@@ -12,6 +12,7 @@ import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import './createNewBoardModal.scss';
 import { useTranslation } from 'react-i18next';
 import { CreateNewBoardFormFormik } from '../compunents';
+import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 
 const style = {
   position: 'absolute',
@@ -40,14 +41,14 @@ function CreateNewBoardModal() {
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
-        timeout: 700,
+        timeout: TIMEOUT_FOR_MODAL,
       }}
     >
       <Fade in={appState.isCreateNewBoardModalOpen} >
         <Box sx={style}>
           <Box component='div' className="modal__title" sx={{mb: 2}}>
             <NoteAddOutlinedIcon color='primary' sx={{mr: 2}}></NoteAddOutlinedIcon>
-            <Typography id="transition-modal-title" variant="h6" component="h4">
+            <Typography id="transition-modal-title" variant="h6" component="h4" color='primary'>
               {t('createNewBoardForm:formTitle')}
             </Typography>
           </Box>

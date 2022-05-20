@@ -40,6 +40,15 @@
     "minValue": "min length is 3 characters",
     "maxValue": "max length is 12 characters"
   },
+  "confirmationModal": {
+    "title": "confirm your actions",
+    "commonText": "delete",
+    "deleteUserText": "user",
+    "deleteBoardText": "board",
+    "deleteTaskText": "task",
+    "buttonYes": "yes",
+    "buttonNo": "no"
+  },
   "welcomePage": {
     "singUp": "Sing Up",
     "signIn": "Sign In",

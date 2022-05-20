@@ -37,7 +37,7 @@ export interface File {
 }
 
 export type reqState = {
-  entities: All[];
+  entities: All;
   loading: 'idle' | 'pending';
   signInStatus?: 'fulfilled' | 'pending' | 'rejected' | null;
   signUpStatus?: 'fulfilled' | 'pending' | 'rejected' | null;

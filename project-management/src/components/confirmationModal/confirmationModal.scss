@@ -1,0 +1,18 @@
+@import '../../index.scss';
+
+.modal__text-wrapper {
+  @include confirmationText();
+  justify-content: center;
+}
+
+.modal__buttons {
+  @include modalButtons();
+  & button {
+    flex-grow: 1;
+  }
+}
+
+.modal__title {
+  @include modalTitle();
+  color: $warning-color;
+}

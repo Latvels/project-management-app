@@ -1,17 +1,11 @@
 import React from 'react';
 // import './App.css';
 import MainRoutes from '../../routes/routes';
-import { CreateNewBoardModal, EditProfileModal, Footer, Header, BasicAlerts } from '../../components/compunents';
-import { Preloader } from '../compunents';
+import { CreateNewBoardModal, EditProfileModal, Footer, Header, Preloader, ConfirmationModal } from '../compunents';
 
 
 
 export default function App() {
- const er = {
-  status: 100,
-  message: 'string',
-  visible: true,
- }
   return (
     <div>
       <Header />
@@ -20,6 +14,7 @@ export default function App() {
       <CreateNewBoardModal />
       <EditProfileModal />
       <Preloader />
+      <ConfirmationModal />
     </div>
   );
 }

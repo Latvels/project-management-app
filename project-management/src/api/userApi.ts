@@ -43,7 +43,7 @@ export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (arr: User, { rejectWithValue }) => {
     const { id } = arr;
-    delete arr.id;
+    // delete arr.id;
     try {
       const config = {
         method: 'PUT',
@@ -86,7 +86,7 @@ export const deleteUser = createAsyncThunk(
 )
 
 const initialState: reqState = {
-  entities: [],
+  entities: {},
   loading: 'idle',
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true }
@@ -191,5 +191,5 @@ export const userSlise = createSlice({
   },
 })
 
-export const selectBoard = (state: RootState) => state.board;
+export const selectUser = (state: RootState) => state.user;
 export default userSlise.reducer;
