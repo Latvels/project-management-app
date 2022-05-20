@@ -9,9 +9,9 @@
     "menuItem3": "Создать доску"
   },
   "lang": {
-    "Language": "Язык",
-    "Russian": "Русский",
-    "English": "Английский"
+    "Lang": "Язык",
+    "Ru": "Рус",
+    "En": "Анг"
   },
   "errors": {
     "pagesNotDefined": "Данная страница не найдена"

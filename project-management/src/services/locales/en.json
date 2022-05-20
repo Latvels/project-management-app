@@ -9,9 +9,9 @@
     "menuItem3": "Create New Board"
   },
   "lang": {
-    "Language": "Language",
-    "Russian": "Russian",
-    "English": "English"
+    "Lang": "Lang",
+    "Ru": "Ru",
+    "En": "En"
   },
   "errors": {
     "pagesNotDefined": "This pages is not defined"

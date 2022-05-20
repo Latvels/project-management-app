@@ -20,23 +20,21 @@ function SelectLanguage() {
 
   return (
     <Box>
-      <FormControl sx={{
-        width: () => (width > 660 ? '150px' : '100px'),
-        mr: 2,
+      <FormControl size="small" sx={{
+        width: () => (width > 660 ? '100px' : '90px'),
       }}>
         <InputLabel sx={{
-          display: 'flex',
           color: (theme) =>
             theme.palette.mode === 'light' ? theme.palette.primary.contrastText : theme.palette.secondary.contrastText,
-          }}> <LanguageIcon sx={{ml: 2}} />
+          }}> <LanguageIcon />
         </InputLabel>
         <Select
           value={lang}
           onChange={handleChange}
           inputProps={{ 'aria-label': 'Without label' }}
         >
-          <MenuItem value={'ru'}>{t('lang:Russian')}</MenuItem>
-          <MenuItem value={'en'}>{t('lang:English')}</MenuItem>
+          <MenuItem value={'ru'}>{t('lang:Ru')}</MenuItem>
+          <MenuItem value={'en'}>{t('lang:En')}</MenuItem>
         </Select>
       </FormControl>
     </Box>
