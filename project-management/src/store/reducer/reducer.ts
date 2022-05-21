@@ -9,14 +9,14 @@ import fileReducer from '../../api/fileApi';
 import stateReducer from '../reducer/awtorizateUserDataState';
 
 const rootReducer = combineReducers({
-    awtUser: stateReducer,
-    appState: appStateReducer,
-    board: boardReducer,
-    user: userReducer,
-    auth: authReducer,
-    column: columnReducer,
-    task: taskReducer,
-    file: fileReducer,
+  awtUser: stateReducer,
+  appState: appStateReducer,
+  board: boardReducer,
+  user: userReducer,
+  auth: authReducer,
+  column: columnReducer,
+  task: taskReducer,
+  file: fileReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -30,4 +30,4 @@ export const stringIncludesSpecialCharacter = (string: string): boolean => {
 
 export const isValidName = (string: string): boolean => {
   return string.search(/\d/) === -1 && string.length > 3 && string.length < 12;
-}
+};

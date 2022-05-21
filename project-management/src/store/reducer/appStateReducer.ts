@@ -1,4 +1,11 @@
-import { ActionKindAppState, SET_DELETED_ITEM, SET_IS_CONFIRM_MODAL_OPEN, SET_IS_CREATE_NEW_BOARD_MODAL_OPEN, SET_IS_EDIT_PROFILE_MODAL_OPEN, SET_IS_PRELOADER_OPEN } from '../actionTypes';
+import {
+  ActionKindAppState,
+  SET_DELETED_ITEM,
+  SET_IS_CONFIRM_MODAL_OPEN,
+  SET_IS_CREATE_NEW_BOARD_MODAL_OPEN,
+  SET_IS_EDIT_PROFILE_MODAL_OPEN,
+  SET_IS_PRELOADER_OPEN,
+} from '../actionTypes';
 
 interface IAppState {
   isEditProfileModalOpen: boolean;
@@ -6,7 +13,7 @@ interface IAppState {
   isPreloaderOpen: boolean;
   isConfirmModalOpen: boolean;
   // deletedItem?: 'user' | 'board' | 'task',
-  deletedItem?: string | null,
+  deletedItem?: string | null;
 }
 
 const initialState: IAppState = {
@@ -14,7 +21,7 @@ const initialState: IAppState = {
   isPreloaderOpen: false,
   isEditProfileModalOpen: false,
   isConfirmModalOpen: false,
-}
+};
 
 interface IAction {
   type: ActionKindAppState;
@@ -23,40 +30,35 @@ interface IAction {
 
 function appStateReducer(state = initialState, action: IAction) {
   switch (action.type) {
-    case SET_IS_CREATE_NEW_BOARD_MODAL_OPEN: 
-    {
+    case SET_IS_CREATE_NEW_BOARD_MODAL_OPEN: {
       return {
         ...state,
         isCreateNewBoardModalOpen: action.payload as boolean,
-      }
+      };
     }
-    case SET_IS_PRELOADER_OPEN: 
-    {
+    case SET_IS_PRELOADER_OPEN: {
       return {
         ...state,
         isPreloaderOpen: action.payload as boolean,
-      }
+      };
     }
-    case SET_IS_EDIT_PROFILE_MODAL_OPEN: 
-    {
+    case SET_IS_EDIT_PROFILE_MODAL_OPEN: {
       return {
         ...state,
         isEditProfileModalOpen: action.payload as boolean,
-      }
+      };
     }
-    case SET_IS_CONFIRM_MODAL_OPEN: 
-    {
+    case SET_IS_CONFIRM_MODAL_OPEN: {
       return {
         ...state,
         isConfirmModalOpen: action.payload as boolean,
-      }
+      };
     }
-    case SET_DELETED_ITEM: 
-    {
+    case SET_DELETED_ITEM: {
       return {
         ...state,
         deletedItem: action.payload as string,
-      }
+      };
     }
     default: {
       return state;

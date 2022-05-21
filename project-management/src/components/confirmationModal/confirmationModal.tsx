@@ -13,7 +13,11 @@ import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 import { Button } from '@mui/material';
 import React from 'react';
 import './confirmationModal.scss';
-import { setDeletedItem, setIsConfirmModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import {
+  setDeletedItem,
+  setIsConfirmModalOpen,
+  setIsPreloaderOpen,
+} from '../../store/action/appStateAction';
 import { AppDispatch } from '../../store/store';
 import { deleteUser } from '../../api/userApi';
 import { deleteBoard } from '../../api/boardApi';
@@ -31,21 +35,20 @@ const style = {
   p: 4,
 };
 
-
 function ConfirmationModal() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch<AppDispatch>();
 
   const handleClose = () => appDispatch(setIsConfirmModalOpen(false));
 
   const title = t('confirmationModal:title');
-  const commonText=t('confirmationModal:commonText');
-  const deleteUserText=t('confirmationModal:deleteUserText');
-  const deleteTaskText=t('confirmationModal:deleteTaskText');
-  const deleteBoardText=t('confirmationModal:deleteBoardText');
-  const buttonYesText=t('confirmationModal:buttonYes');
-  const buttonNoText=t('confirmationModal:buttonNo');
+  const commonText = t('confirmationModal:commonText');
+  const deleteUserText = t('confirmationModal:deleteUserText');
+  const deleteTaskText = t('confirmationModal:deleteTaskText');
+  const deleteBoardText = t('confirmationModal:deleteBoardText');
+  const buttonYesText = t('confirmationModal:buttonYes');
+  const buttonNoText = t('confirmationModal:buttonNo');
   const deletedItem = appState.deletedItem as 'user' | 'board' | 'task';
 
   const getConfirmationText = (): string => {
@@ -59,7 +62,7 @@ function ConfirmationModal() {
       case 'task':
         return `${commonText} ${deleteTaskText}?`;
     }
-  }
+  };
 
   const handleYesClick = async () => {
     appDispatch(setIsConfirmModalOpen(false));
@@ -68,8 +71,8 @@ function ConfirmationModal() {
       await appDispatch(deleteUser('id'));
     } else if (deletedItem === 'board') {
       await appDispatch(deleteBoard('id'));
-    // } else if (deletedItem === 'task') {
-    //   await appDispatch(deleteTask());
+      // } else if (deletedItem === 'task') {
+      //   await appDispatch(deleteTask());
     }
     appDispatch(setDeletedItem(null));
     appDispatch(setIsPreloaderOpen(false));
@@ -92,28 +95,29 @@ function ConfirmationModal() {
         timeout: TIMEOUT_FOR_MODAL,
       }}
     >
-      <Fade in={appState.isConfirmModalOpen} >
+      <Fade in={appState.isConfirmModalOpen}>
         <Box sx={style}>
-          <Box component='div' className="modal__title" sx={{mb: 2}}>
-            <WarningAmberOutlinedIcon color='warning' sx={{mr: 2}}></WarningAmberOutlinedIcon>
+          <Box component="div" className="modal__title" sx={{ mb: 2 }}>
+            <WarningAmberOutlinedIcon color="warning" sx={{ mr: 2 }}></WarningAmberOutlinedIcon>
             <Typography id="transition-modal-title" variant="h6" component="h4" color="warning">
               {title}
             </Typography>
           </Box>
-          <Box component='div' className="modal__text-wrapper" sx={{mb: 2}}>
+          <Box component="div" className="modal__text-wrapper" sx={{ mb: 2 }}>
             <Typography id="transition-modal-title" variant="h6" component="h6">
               <p>{getConfirmationText()}</p>
             </Typography>
           </Box>
-          <Box component='div' className="modal__buttons" sx={{mb: 2}}>
+          <Box component="div" className="modal__buttons" sx={{ mb: 2 }}>
             <Button
               variant="outlined"
               color="warning"
               disabled={false}
               onClick={handleYesClick}
               type="button"
-              className="modal__button">
-                {buttonYesText}
+              className="modal__button"
+            >
+              {buttonYesText}
             </Button>
             <Button
               variant="outlined"
@@ -121,8 +125,9 @@ function ConfirmationModal() {
               disabled={false}
               onClick={handleNoClick}
               type="button"
-              className="modal__button">
-                {buttonNoText}
+              className="modal__button"
+            >
+              {buttonNoText}
             </Button>
           </Box>
         </Box>

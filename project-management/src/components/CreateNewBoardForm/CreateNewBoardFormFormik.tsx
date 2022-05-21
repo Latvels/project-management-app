@@ -4,10 +4,13 @@ import { TextField } from 'formik-mui';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import {
+  setIsCreateNewBoardModalOpen,
+  setIsPreloaderOpen,
+} from '../../store/action/appStateAction';
 import './createNewBoardFormFormik.scss';
 // import { getBoardsById } from '../../api/boardApi';
-import { createBoard  } from '../../api/boardApi'
+import { createBoard } from '../../api/boardApi';
 import { AppDispatch } from '../../store/store';
 // import { BasicAlerts } from '../compunents';
 import { RootState } from '../../store/reducer/reducer';
@@ -20,7 +23,7 @@ interface IValues {
 
 function CreateNewBoardFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const titleLabel = t('createNewBoardForm:boardTitle');
   const descriptionLabel = t('createNewBoardForm:boardDescription');
   const buttonText = t('createNewBoardForm:submit');
@@ -54,63 +57,57 @@ function CreateNewBoardFormFormik() {
       setIsButtonDisabled(false);
     }
     return errors;
-  }
+  };
 
   const initialValues = {
     title: '',
     description: '',
-  }
+  };
 
   return (
     <div>
       <Formik
         initialValues={initialValues}
         validate={validateForm}
-        onSubmit={async (values: IValues, {setSubmitting}) => {
+        onSubmit={async (values: IValues, { setSubmitting }) => {
           setSubmitting(false);
-        // appDispatch(setIsCreateNewBoardModalOpen(false));
-        appDispatch(setIsPreloaderOpen(true));
-        await appDispatch(createBoard(values));
-        appDispatch(setIsPreloaderOpen(false));
-        if(errorMessage.message === '') {
-          appDispatch(setIsCreateNewBoardModalOpen(false));
-        }
+          // appDispatch(setIsCreateNewBoardModalOpen(false));
+          appDispatch(setIsPreloaderOpen(true));
+          await appDispatch(createBoard(values));
+          appDispatch(setIsPreloaderOpen(false));
+          if (errorMessage.message === '') {
+            appDispatch(setIsCreateNewBoardModalOpen(false));
+          }
 
-        // Как тут вызывать функции к апи
-        // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491f'))
-        // console.log('createBoards', (await createBoardCard).payload);
-      }}
-    >
-      {({ submitForm }) => (
-        <Form className="form">
-          <Field
-            component={TextField}
-            name="title"
-            type="text"
-            label={titleLabel}
-            color="info"
-          />
-          <Field
-            component={TextField}
-            name="description"
-            type="text"
-            label={descriptionLabel}
-            color="info"
-          />
-          <Button
-            variant="outlined"
-            color="info"
-            disabled={isButtonDisabled}
-            onClick={submitForm}
-            type="submit"
-          >
-            {buttonText}
-          </Button>
-        </Form>
-      )}
-    </Formik>
-    {err(errorMessage)}
-  </div>
+          // Как тут вызывать функции к апи
+          // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491f'))
+          // console.log('createBoards', (await createBoardCard).payload);
+        }}
+      >
+        {({ submitForm }) => (
+          <Form className="form">
+            <Field component={TextField} name="title" type="text" label={titleLabel} color="info" />
+            <Field
+              component={TextField}
+              name="description"
+              type="text"
+              label={descriptionLabel}
+              color="info"
+            />
+            <Button
+              variant="outlined"
+              color="info"
+              disabled={isButtonDisabled}
+              onClick={submitForm}
+              type="submit"
+            >
+              {buttonText}
+            </Button>
+          </Form>
+        )}
+      </Formik>
+      {err(errorMessage)}
+    </div>
   );
 }
 

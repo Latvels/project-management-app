@@ -39,10 +39,14 @@ export default function Footer() {
           placeItems: 'end',
 
           color: (theme) =>
-            theme.palette.mode === 'light' ? theme.palette.primary.contrastText : theme.palette.secondary.contrastText,
-        
+            theme.palette.mode === 'light'
+              ? theme.palette.primary.contrastText
+              : theme.palette.secondary.contrastText,
+
           backgroundColor: (theme) =>
-            theme.palette.mode === 'light' ? theme.palette.primary.main : theme.palette.secondary.main,
+            theme.palette.mode === 'light'
+              ? theme.palette.primary.main
+              : theme.palette.secondary.main,
         }}
       >
         <Box

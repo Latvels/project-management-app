@@ -14,15 +14,12 @@ const theme = createTheme({
       main: '#ffee58',
       dark: '#c9bc1f',
       contrastText: '#000000',
-    }
+    },
   },
   typography: {
     htmlFontSize: 14,
-    fontFamily: [
-        'Inter',
-        'sans-serif',
-      ].join(','),
-  }
+    fontFamily: ['Inter', 'sans-serif'].join(','),
+  },
 });
 
 export default theme;

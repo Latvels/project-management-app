@@ -4,15 +4,18 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from 'react-router-dom';
 import './myMenu.scss';
 import { useDispatch } from 'react-redux';
-import { setIsCreateNewBoardModalOpen, setIsEditProfileModalOpen } from '../../store/action/appStateAction';
+import {
+  setIsCreateNewBoardModalOpen,
+  setIsEditProfileModalOpen,
+} from '../../store/action/appStateAction';
 import { useTranslation } from 'react-i18next';
 
 function MyMenu() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const appDispatch = useDispatch();
   const open = Boolean(anchorEl);
-  
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -23,12 +26,12 @@ function MyMenu() {
   const handleClickOnCreateNewBoardButton = () => {
     handleClose();
     appDispatch(setIsCreateNewBoardModalOpen(true));
-  }
+  };
 
   const handleClickOnEditProfileButton = () => {
     handleClose();
     appDispatch(setIsEditProfileModalOpen(true));
-  }
+  };
   return (
     <div>
       <IconButton

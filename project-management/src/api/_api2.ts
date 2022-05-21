@@ -71,7 +71,7 @@ export const defaultApi = createApi({
         },
         body: req,
       }),
-      invalidatesTags: ['api']
+      invalidatesTags: ['api'],
     }),
     deleteUser: build.query({
       query: (id) => ({
@@ -115,7 +115,7 @@ export const defaultApi = createApi({
         data: {
           title: req.title,
           description: req.description,
-        }
+        },
       }),
       providesTags: (result) => ['api'],
     }),
@@ -129,7 +129,7 @@ export const defaultApi = createApi({
         data: {
           title: req.title,
           description: req.description,
-        }
+        },
       }),
       providesTags: (result) => ['api'],
     }),
@@ -175,7 +175,7 @@ export const defaultApi = createApi({
         data: {
           title: req.title,
           description: req.description,
-        }
+        },
       }),
       providesTags: (result) => ['api'],
     }),
@@ -189,7 +189,7 @@ export const defaultApi = createApi({
         data: {
           title: req.title,
           description: req.description,
-        }
+        },
       }),
       providesTags: (result) => ['api'],
     }),
@@ -238,7 +238,7 @@ export const defaultApi = createApi({
           order: req.order,
           description: req.description,
           userId: req.userId,
-        }
+        },
       }),
       providesTags: (result) => ['api'],
     }),
@@ -255,7 +255,7 @@ export const defaultApi = createApi({
           order: req.order,
           description: req.description,
           userId: req.userId,
-        }
+        },
       }),
       providesTags: (result) => ['api'],
     }),
@@ -277,7 +277,7 @@ export const defaultApi = createApi({
         method: 'GET',
         headers: {
           Authorization: `Bearer ${CONFIG.token}`,
-        }
+        },
       }),
       providesTags: (result) => ['api'],
     }),
@@ -290,13 +290,17 @@ export const defaultApi = createApi({
         },
         data: {
           file: req,
-        }
+        },
       }),
       providesTags: (result) => ['api'],
     }),
-
-
   }),
 });
 
-export const { useGetUsersAllQuery, useUpdateUserMutMutation, useUpdateUserQuery, useGetBoardsQuery, useCreateBoardsQuery } = defaultApi;
+export const {
+  useGetUsersAllQuery,
+  useUpdateUserMutMutation,
+  useUpdateUserQuery,
+  useGetBoardsQuery,
+  useCreateBoardsQuery,
+} = defaultApi;

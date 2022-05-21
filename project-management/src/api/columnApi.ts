@@ -14,31 +14,34 @@ export const getColumns = createAsyncThunk(
           Accept: 'application/json',
           Authorization: `Bearer ${CONFIG.token}`,
         },
-      })
+      });
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to load columns')
+      return rejectWithValue('Failed to load columns');
     }
   }
-)
+);
 
 export const getColumnById = createAsyncThunk(
   'column/getColumnById',
   async (data: Column, { rejectWithValue }) => {
     const { idBoard, id } = data;
     try {
-      const response = await axios.get<Column[]>(`${CONFIG.basicURL}/boards/${idBoard}/columns/${id}`, {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${CONFIG.token}`,
-        },
-      })
+      const response = await axios.get<Column[]>(
+        `${CONFIG.basicURL}/boards/${idBoard}/columns/${id}`,
+        {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${CONFIG.token}`,
+          },
+        }
+      );
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to load columns by id')
+      return rejectWithValue('Failed to load columns by id');
     }
   }
-)
+);
 
 export const createColumn = createAsyncThunk(
   'column/createColumn',
@@ -50,19 +53,19 @@ export const createColumn = createAsyncThunk(
         method: 'POST',
         url: `${CONFIG.basicURL}/boards/${idBoard}/columns`,
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${CONFIG.token}`,
-          'Content-Type': 'application/x-www-form-urlencoded'
+          Accept: 'application/json',
+          Authorization: `Bearer ${CONFIG.token}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         data: qs.stringify(data),
-      }
-      const response = await axios(config)
+      };
+      const response = await axios(config);
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to create column')
+      return rejectWithValue('Failed to create column');
     }
   }
-)
+);
 
 export const updateColumn = createAsyncThunk(
   'column/updateColumn',
@@ -75,20 +78,20 @@ export const updateColumn = createAsyncThunk(
         method: 'PUT',
         url: `${CONFIG.basicURL}/boards/${idBoard}/columns/${id}`,
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${CONFIG.token}`,
-          'Content-Type': 'application/x-www-form-urlencoded'
+          Accept: 'application/json',
+          Authorization: `Bearer ${CONFIG.token}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         data: qs.stringify(data),
-      }
-      const response = await axios(config)
+      };
+      const response = await axios(config);
       return response.data;
     } catch (e) {
-      rejectWithValue(e)
-      return rejectWithValue('Failed to change column')
+      rejectWithValue(e);
+      return rejectWithValue('Failed to change column');
     }
   }
-)
+);
 
 export const deleteColumn = createAsyncThunk(
   'column/deleteColumn',
@@ -99,25 +102,25 @@ export const deleteColumn = createAsyncThunk(
         method: 'DELETE',
         url: `${CONFIG.basicURL}/boards/${idBoard}/columns/${id}`,
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${CONFIG.token}`,
-        }
-      }
-      const response = await axios(config)
+          Accept: 'application/json',
+          Authorization: `Bearer ${CONFIG.token}`,
+        },
+      };
+      const response = await axios(config);
       return response.data;
     } catch (e) {
-      rejectWithValue(e)
-      return rejectWithValue('Failed to delete column')
+      rejectWithValue(e);
+      return rejectWithValue('Failed to delete column');
     }
   }
-)
+);
 
 const initialState: reqState = {
   entities: [],
   loading: 'idle',
   currentRequestId: undefined,
-  error: { status: 0, message: '', visible: true }
-}
+  error: { status: 0, message: '', visible: true },
+};
 
 export const columnSlise = createSlice({
   name: 'column',

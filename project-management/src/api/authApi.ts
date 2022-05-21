@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import qs from 'qs';
 import { RootState } from '../store/reducer/reducer';
 import { CONFIG } from '../constants/constant';
 import { User, reqState, ACTION_STATUSES, Error } from '../typings/typings';
+import i18n from '../services/i18n';
 
 export const singIn = createAsyncThunk('auth/singIn', async (arr: User, { rejectWithValue }) => {
   try {
@@ -21,32 +23,29 @@ export const singIn = createAsyncThunk('auth/singIn', async (arr: User, { reject
     return response.data;
   } catch (e) {
     rejectWithValue(e);
-    return rejectWithValue('Failed to singIn');
+    return rejectWithValue(i18n.t('errors:AnErrorHasOccurred'));
   }
 });
 
-export const singUp = createAsyncThunk(
-  'auth/singUp',
-  async (arr: User, { rejectWithValue }) => {
-    try {
-      const config = {
-        method: 'POST',
-        url: `${CONFIG.basicURL}/signup`,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${CONFIG.token}`,
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        data: qs.stringify(arr),
-      }
-      const response = await axios(config)
-      return response.data;
-    } catch (e) {
-      rejectWithValue(e)
-      return rejectWithValue('Failed to singUp')
-    }
+export const singUp = createAsyncThunk('auth/singUp', async (arr: User, { rejectWithValue }) => {
+  try {
+    const config = {
+      method: 'POST',
+      url: `${CONFIG.basicURL}/signup`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${CONFIG.token}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data: qs.stringify(arr),
+    };
+    const response = await axios(config);
+    return response.data;
+  } catch (e) {
+    rejectWithValue(e);
+    return rejectWithValue(i18n.t('errors:ThisUserWasNotFound'));
   }
-);
+});
 
 const initialState: reqState = {
   entities: [],
@@ -88,6 +87,7 @@ export const authSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
+        action.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
@@ -114,6 +114,7 @@ export const authSlise = createSlice({
       state.signUpStatus = ACTION_STATUSES.REJECTED;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
+        action.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }

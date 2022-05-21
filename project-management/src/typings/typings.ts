@@ -52,9 +52,9 @@ export type reqState = {
 };
 //! Убрал error: Error | null; Если у вас не заработает, проверьте тут
 export interface Error {
-  status?: number,
-  message?: string,
-  visible?: boolean,
+  status?: number;
+  message?: string;
+  visible?: boolean;
 }
 
 export interface All {

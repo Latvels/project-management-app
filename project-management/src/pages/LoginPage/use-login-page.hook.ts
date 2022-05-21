@@ -14,12 +14,12 @@ export interface ILoginValues {
 }
 
 type RootUser = {
-  id?: string,
-  email?: string,
-  password?: string,
-  name?: string,
-  login?: string,
-}
+  id?: string;
+  email?: string;
+  password?: string;
+  name?: string;
+  login?: string;
+};
 interface UseRegistrationReturnValues {
   initialValues: ILoginValues;
   loginLabel: string;
@@ -48,9 +48,9 @@ export const useLoginPage = (): UseRegistrationReturnValues => {
     const qwe = store.getState().user;
     const params = qs.stringify({ isUserActivated: true });
     if (requestStatus === ACTION_STATUSES.FULFILLED) {
-    const dataAwtorizeUser = qwe.entities.find((el: RootUser) => {
-      return el.login === email;
-    })
+      const dataAwtorizeUser = qwe.entities.find((el: RootUser) => {
+        return el.login === email;
+      });
       navigate(`/?${params}`);
       const awtorizUserData: RootUser = dataAwtorizeUser || {};
       dispatch(setUserData(awtorizUserData));

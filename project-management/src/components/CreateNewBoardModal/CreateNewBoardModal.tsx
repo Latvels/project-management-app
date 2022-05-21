@@ -27,7 +27,7 @@ const style = {
 };
 
 function CreateNewBoardModal() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch();
   const handleClose = () => appDispatch(setIsCreateNewBoardModalOpen(false));
@@ -44,11 +44,11 @@ function CreateNewBoardModal() {
         timeout: TIMEOUT_FOR_MODAL,
       }}
     >
-      <Fade in={appState.isCreateNewBoardModalOpen} >
+      <Fade in={appState.isCreateNewBoardModalOpen}>
         <Box sx={style}>
-          <Box component='div' className="modal__title" sx={{mb: 2}}>
-            <NoteAddOutlinedIcon color='primary' sx={{mr: 2}}></NoteAddOutlinedIcon>
-            <Typography id="transition-modal-title" variant="h6" component="h4" color='primary'>
+          <Box component="div" className="modal__title" sx={{ mb: 2 }}>
+            <NoteAddOutlinedIcon color="primary" sx={{ mr: 2 }}></NoteAddOutlinedIcon>
+            <Typography id="transition-modal-title" variant="h6" component="h4" color="primary">
               {t('createNewBoardForm:formTitle')}
             </Typography>
           </Box>

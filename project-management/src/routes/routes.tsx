@@ -2,7 +2,14 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 // import { Dashboard } from '../components/compunents'
-import {NotFoundPage, WelcomePage, MainPage, BoardPage, LoginPage, Registration} from '../pages/pages';
+import {
+  NotFoundPage,
+  WelcomePage,
+  MainPage,
+  BoardPage,
+  LoginPage,
+  Registration,
+} from '../pages/pages';
 
 const MainRoutes = () => (
   <Routes>

@@ -8,8 +8,7 @@ interface RootUser {
   name?: string | null;
 }
 
-const initialState: RootUser = {
-}
+const initialState: RootUser = {};
 
 interface IAction {
   type: ActionKindAppState;
@@ -18,12 +17,11 @@ interface IAction {
 
 function stateReducer(state = initialState, action: IAction) {
   switch (action.type) {
-    case SET_USER_DATA: 
-    {
+    case SET_USER_DATA: {
       return {
         ...state,
         user: action.payload,
-      }
+      };
     }
     default: {
       return state;

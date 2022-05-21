@@ -48,10 +48,13 @@ function EditProfileModal() {
     >
       <Fade in={appState.isEditProfileModalOpen}>
         <Box sx={style}>
-        {/* <Box className='modal__window'> */}
-          <Box component='div' className="modal__title" sx={{mb: 2}}>
-            <FaceRetouchingNaturalOutlinedIcon color='primary' sx={{mr: 2}}></FaceRetouchingNaturalOutlinedIcon>
-            <Typography id="transition-modal-title" variant="h6" component="h4" color='primary'>
+          {/* <Box className='modal__window'> */}
+          <Box component="div" className="modal__title" sx={{ mb: 2 }}>
+            <FaceRetouchingNaturalOutlinedIcon
+              color="primary"
+              sx={{ mr: 2 }}
+            ></FaceRetouchingNaturalOutlinedIcon>
+            <Typography id="transition-modal-title" variant="h6" component="h4" color="primary">
               {t('editProfileForm:formTitle')}
             </Typography>
           </Box>

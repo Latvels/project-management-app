@@ -14,7 +14,10 @@
     "En": "Анг"
   },
   "errors": {
-    "pagesNotDefined": "Данная страница не найдена"
+    "Error:" : "Ошибка:",
+    "pagesNotDefined": "Данная страница не найдена",
+    "ThisUserWasNotFound": "Данный пользователь не найден",
+    "AnErrorHasOccurred": "Произошла ошибка, попробуйте ещё раз"
   },
   "description": {
     "part1": "Чтобы начать работу",

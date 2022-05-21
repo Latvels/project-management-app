@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Box, Alert, IconButton, Collapse, AlertTitle } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Error } from '../../typings/typings';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   error: Error;
@@ -10,6 +11,7 @@ type Props = {
 export default function BasicAlerts(props: Props) {
   const [open, setOpen] = React.useState(true);
   const { status, message } = props.error;
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -37,7 +39,7 @@ export default function BasicAlerts(props: Props) {
           sx={{ mb: 2 }}
         >
           <AlertTitle>{status}</AlertTitle>
-          This is an error alert - <strong>{message}</strong>
+          {t('errors:Error:')} <strong>{message}</strong>
         </Alert>
       </Collapse>
     </Box>

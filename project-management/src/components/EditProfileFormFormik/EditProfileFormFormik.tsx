@@ -4,7 +4,12 @@ import { TextField } from 'formik-mui';
 import react, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { setDeletedItem, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import {
+  setDeletedItem,
+  setIsConfirmModalOpen,
+  setIsEditProfileModalOpen,
+  setIsPreloaderOpen,
+} from '../../store/action/appStateAction';
 import { getUsersById, updateUser, selectUser } from '../../api/userApi';
 import './editProfileFormFormik.scss';
 import store, { AppDispatch, useAppSelector } from '../../store/store';
@@ -17,24 +22,24 @@ import { BasicAlerts } from '../compunents';
 
 interface IValues {
   name: string;
-  password: string,
-  login: string,
+  password: string;
+  login: string;
 }
 
 function EditProfileFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
-  const getUserId:{user: {id: string}} = useSelector((state: RootState) => state.awtUser);
+  const getUserId: { user: { id: string } } = useSelector((state: RootState) => state.awtUser);
   const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
-  const err = (errorMessage:Error)=> {
-    const { message } = errorMessage
+  const err = (errorMessage: Error) => {
+    const { message } = errorMessage;
     if (message !== '') {
-      console.log('error')
-      return <BasicAlerts error={errorMessage}/>
+      console.log('error');
+      return <BasicAlerts error={errorMessage} />;
       //здесь надо обнулить error в стейте, иначе при следующем открытии окна - сразу висит alert с ошибкой, а если окно не закрыл и корректируешь данные - повторно сообщение о ошибке не показывается
     }
-  }
+  };
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const nameLabel = t('editProfileForm:name');
   const loginLabel = t('editProfileForm:login');
   const passLabel = t('editProfileForm:pass');
@@ -45,14 +50,14 @@ function EditProfileFormFormik() {
   const required = t('formValidation:required');
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [ userData, setUserData ] = useState<User | Record<string, null>>({});
-  
+  const [userData, setUserData] = useState<User | Record<string, null>>({});
+
   const initialValues = {
     name: '',
     password: '',
     login: '',
-  }
-  //todo 
+  };
+  //todo
 
   const getUserData = async () => {
     appDispatch(setIsPreloaderOpen(true));
@@ -62,24 +67,23 @@ function EditProfileFormFormik() {
     initialValues.login = userdata.login!;
     initialValues.name = userdata.name!;
     appDispatch(setIsPreloaderOpen(false));
-  }
+  };
 
-  useEffect( () => {
+  useEffect(() => {
     getUserData();
-  },[]);
-
+  }, []);
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
     function checkFormField(key: keyof IValues) {
       if (!values[key]) {
         errors[key] = required;
-      } else if(values[key].length < 3) {
+      } else if (values[key].length < 3) {
         errors[key] = minValue;
-      } else if(values[key].length > 12) {
+      } else if (values[key].length > 12) {
         errors[key] = maxValue;
       }
-    };
+    }
 
     setIsButtonDisabled(true);
     checkFormField('name');
@@ -89,80 +93,68 @@ function EditProfileFormFormik() {
       setIsButtonDisabled(false);
     }
     return errors;
-  }
+  };
 
   const handleClickDeleteUserButton = () => {
     appDispatch(setDeletedItem('user'));
     appDispatch(setIsEditProfileModalOpen(false));
     appDispatch(setIsConfirmModalOpen(true));
-  }
+  };
 
   return (
     <>
-    <Formik
-      initialValues={initialValues}
-      validate={validateForm}
-      onSubmit={async (values: IValues, {setSubmitting}) => {
-        setSubmitting(false);
-        // appDispatch(setIsEditProfileModalOpen(false));
-        appDispatch(setIsPreloaderOpen(true));
-        const newUserData: User = {
-          ...userData,
-          name: values.name,
-          login: values.login,
-          password: values.password
-        };
-        await appDispatch(updateUser(newUserData));
-        appDispatch(setIsPreloaderOpen(false));
-        if(errorMessage.message === '') {
-          appDispatch(setIsEditProfileModalOpen(false));
-        }
-      }}
-    >
-      {({ submitForm }) => (
-        <Form className="form">
-          <Field
-            component={TextField}
-            name="name"
-            type="text"
-            label={nameLabel}
-            color="info"
-          />
-          <Field
-            component={TextField}
-            name="login"
-            type="text"
-            label={loginLabel}
-            color="info"
-          />
-          <Field
-            component={TextField}
-            name="password"
-            type="text"
-            label={passLabel}
-            color="info"
-          />
-          <Button
-            variant="outlined"
-            color="info"
-            disabled={isButtonDisabled}
-            onClick={submitForm}
-            type="submit"
-          >
-            {submitButtonText}
-          </Button>
-          <Button
-            variant="outlined"
-            color="warning"
-            disabled={false}
-            onClick={handleClickDeleteUserButton}
-          >
-            {deleteButtonText}
-          </Button>
-        </Form>
-      )}
-    </Formik>
-    {err(errorMessage)}
+      <Formik
+        initialValues={initialValues}
+        validate={validateForm}
+        onSubmit={async (values: IValues, { setSubmitting }) => {
+          setSubmitting(false);
+          // appDispatch(setIsEditProfileModalOpen(false));
+          appDispatch(setIsPreloaderOpen(true));
+          const newUserData: User = {
+            ...userData,
+            name: values.name,
+            login: values.login,
+            password: values.password,
+          };
+          await appDispatch(updateUser(newUserData));
+          appDispatch(setIsPreloaderOpen(false));
+          if (errorMessage.message === '') {
+            appDispatch(setIsEditProfileModalOpen(false));
+          }
+        }}
+      >
+        {({ submitForm }) => (
+          <Form className="form">
+            <Field component={TextField} name="name" type="text" label={nameLabel} color="info" />
+            <Field component={TextField} name="login" type="text" label={loginLabel} color="info" />
+            <Field
+              component={TextField}
+              name="password"
+              type="text"
+              label={passLabel}
+              color="info"
+            />
+            <Button
+              variant="outlined"
+              color="info"
+              disabled={isButtonDisabled}
+              onClick={submitForm}
+              type="submit"
+            >
+              {submitButtonText}
+            </Button>
+            <Button
+              variant="outlined"
+              color="warning"
+              disabled={false}
+              onClick={handleClickDeleteUserButton}
+            >
+              {deleteButtonText}
+            </Button>
+          </Form>
+        )}
+      </Formik>
+      {err(errorMessage)}
     </>
   );
 }
