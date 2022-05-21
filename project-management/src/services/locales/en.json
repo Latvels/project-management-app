@@ -31,14 +31,15 @@
     "email": "email",
     "name": "name",
     "login": "email",
-    "pass": "password",
+    "pass": "input new password",
     "submitBtn": "edit data",
     "deleteBtn": "delete user"
   },
   "formValidation": {
     "required": "field is required",
     "minValue": "min length is 3 characters",
-    "maxValue": "max length is 12 characters"
+    "maxValue": "max length is 12 characters",
+    "maxValueDescription": "max length is 30 characters"
   },
   "confirmationModal": {
     "title": "confirm your actions",
@@ -66,5 +67,8 @@
     "name": "Name",
     "password": "Password",
     "submit": "Register"
+  },
+  "mainPage": {
+    "cardsIsEmpty": "Create Your Boards"
   }
 }
