@@ -25,25 +25,28 @@ export const singIn = createAsyncThunk('auth/singIn', async (arr: User, { reject
   }
 });
 
-export const singUp = createAsyncThunk('auth/singUp', async (arr: User, { rejectWithValue }) => {
-  try {
-    const config = {
-      method: 'POST',
-      url: `${CONFIG.basicURL}/signup`,
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${CONFIG.token}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      data: qs.stringify(arr),
-    };
-    const response = await axios(config);
-    return response.data;
-  } catch (e) {
-    rejectWithValue(e);
-    return rejectWithValue('Failed to singUp');
+export const singUp = createAsyncThunk(
+  'auth/singUp',
+  async (arr: User, { rejectWithValue }) => {
+    try {
+      const config = {
+        method: 'POST',
+        url: `${CONFIG.basicURL}/signup`,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${CONFIG.token}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: qs.stringify(arr),
+      }
+      const response = await axios(config)
+      return response.data;
+    } catch (e) {
+      rejectWithValue(e)
+      return rejectWithValue('Failed to singUp')
+    }
   }
-});
+);
 
 const initialState: reqState = {
   entities: [],

@@ -20,3 +20,15 @@
   flex-direction: column;
   row-gap: $margin;
 }
+
+@mixin modalButtons() {
+  display: flex;
+  justify-content: space-between;
+  column-gap: $margin;
+}
+
+@mixin confirmationText() {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}

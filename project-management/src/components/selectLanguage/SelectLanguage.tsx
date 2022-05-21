@@ -1,7 +1,7 @@
 import React from 'react';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useWindowDimensions } from '../../services/service';
-import { Box, InputLabel, MenuItem, FormControl } from '@mui/material';
+import { Box, InputLabel, MenuItem, FormControl, Button } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useTranslation } from 'react-i18next';
 import './selectLanguage.scss';
@@ -9,34 +9,24 @@ import './selectLanguage.scss';
 function SelectLanguage() {
   const { i18n,  t } = useTranslation();
 
-  const [lang, setLang] = React.useState('');
+  const [lang, setLang] = React.useState(localStorage.getItem('lang') || 'en');
   
-  const handleChange = (event: SelectChangeEvent) => {
-    i18n.changeLanguage(event.target.value);
-    setLang(event.target.value as string);
+  const handleChange = () => {
+    i18n.changeLanguage(lang === 'en' ? 'ru' : 'en');
+    setLang(lang === 'en' ? 'ru' : 'en');
+    localStorage.setItem('lang', lang === 'en' ? 'ru' : 'en');
     window.location.reload();
   };
   const { width } = useWindowDimensions();
 
   return (
     <Box>
-      <FormControl sx={{
-        width: () => (width > 660 ? '200px' : '120px'),
+      <FormControl size="small" sx={{
+        width: () => (width > 660 ? '100px' : '90px'),
       }}>
-        <InputLabel sx={{
-          display: 'flex',
-          color: (theme) =>
-            theme.palette.mode === 'light' ? theme.palette.primary.contrastText : theme.palette.secondary.contrastText,
-          }}>{t('lang:Language')}  <LanguageIcon />
-        </InputLabel>
-        <Select
-          value={lang}
-          onChange={handleChange}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          <MenuItem value={'ru'}>{t('lang:Russian')}</MenuItem>
-          <MenuItem value={'en'}>{t('lang:English')}</MenuItem>
-        </Select>
+        <Button variant="outlined" onClick={() => {
+          handleChange();
+        }}>{lang}</Button>
       </FormControl>
     </Box>
   );

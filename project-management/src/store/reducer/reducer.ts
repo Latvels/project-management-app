@@ -6,8 +6,10 @@ import authReducer from '../../api/authApi';
 import columnReducer from '../../api/columnApi';
 import taskReducer from '../../api/taskApi';
 import fileReducer from '../../api/fileApi';
+import stateReducer from '../reducer/awtorizateUserDataState';
 
 const rootReducer = combineReducers({
+    awtUser: stateReducer,
     appState: appStateReducer,
     board: boardReducer,
     user: userReducer,

@@ -9,9 +9,9 @@
     "menuItem3": "Создать доску"
   },
   "lang": {
-    "Language": "Язык",
-    "Russian": "Русский",
-    "English": "Английский"
+    "Lang": "Язык",
+    "Ru": "Рус",
+    "En": "Анг"
   },
   "errors": {
     "pagesNotDefined": "Данная страница не найдена"
@@ -39,6 +39,15 @@
     "required": "поле обязательно для заполнения",
     "minValue": "минимальная длина 3 символа",
     "maxValue": "максимальная длина 12 символов"
+  },
+  "confirmationModal": {
+    "title": "подтвердите свои действия",
+    "commonText": "удалить",
+    "deleteUserText": "пользователя",
+    "deleteBoardText": "доску",
+    "deleteTaskText": "задание",
+    "buttonYes": "да",
+    "buttonNo": "нет"
   },
   "welcomePage": {
     "mainPageBtn": "Перейти на главную страницу",

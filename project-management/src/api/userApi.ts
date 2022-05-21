@@ -191,5 +191,5 @@ export const userSlise = createSlice({
   },
 })
 
-export const selectBoard = (state: RootState) => state.board;
+export const selectUser = (state: RootState) => state.user;
 export default userSlise.reducer;
