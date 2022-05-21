@@ -55,17 +55,21 @@ function BoardCard(props: Props) {
         }}>
           <CardMedia
             component="img"
-            
             image={boardIcon}
             alt="icon"
-            color='secondary'
             sx={{
               alignSelf: 'center',
               width: () => (width > 660 ? '80px' : '50px'),
+              marginBottom: '1rem',
             }}
           />
           <CardContent>
-            <Typography sx={{ fontSize: '1.3rem', textTransform: 'uppercase'}} variant='h6' component='h4' color='text.secondary' gutterBottom>
+            <Typography
+            sx={{
+              fontSize: '1.3rem',
+              textTransform: 'uppercase',
+              marginBottom: '0.7rem',
+            }} variant='h6' component='h4' color='text.secondary' gutterBottom>
               {props.title}
             </Typography>
             <Typography sx={{ fontSize: '1rem' }}>
