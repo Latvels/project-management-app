@@ -74,4 +74,5 @@ export interface All {
   login?: string;
   token?: string;
   idBoard?: string;
+  user?: string | unknown | object | never;
 }

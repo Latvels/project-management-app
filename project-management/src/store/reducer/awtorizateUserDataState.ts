@@ -1,15 +1,13 @@
 import { ActionKindAppState, SET_USER_DATA } from '../actionTypes';
-
+import { All } from '../../typings/typings';
 interface RootUser {
-  // ! может вы придумаете какой тут тип должен быть
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user?: any,
+  user?: string | null;
   id?: string | null;
   email?: string | null;
   password?: string | null;
   name?: string | null;
 }
-  
+
 const initialState: RootUser = {
 }
 

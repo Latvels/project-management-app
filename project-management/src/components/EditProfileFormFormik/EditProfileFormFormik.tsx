@@ -23,10 +23,7 @@ interface IValues {
 
 function EditProfileFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
-  
-  //* работает так
-  const getUserId = useSelector((state: RootState) => state.awtUser);
-
+  const getUserId:{user: {id: string}} = useSelector((state: RootState) => state.awtUser);
   const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
   const err = (errorMessage:Error)=> {
     const { message } = errorMessage
@@ -58,10 +55,8 @@ function EditProfileFormFormik() {
   //todo 
 
   const getUserData = async () => {
-    // console.log(user);
     appDispatch(setIsPreloaderOpen(true));
     const data = await appDispatch(getUsersById(getUserId.user.id));
-    // console.log(data);
     const userdata = data.payload as User;
     setUserData(userdata);
     initialValues.login = userdata.login!;
