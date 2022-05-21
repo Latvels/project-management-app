@@ -5,7 +5,6 @@ interface IAppState {
   isCreateNewBoardModalOpen: boolean;
   isPreloaderOpen: boolean;
   isConfirmModalOpen: boolean;
-  // deletedItem?: 'user' | 'board' | 'task',
   deletedItem?: string | null,
   deletedId?: string | null,
 }
