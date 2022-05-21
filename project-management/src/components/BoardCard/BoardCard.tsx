@@ -3,9 +3,10 @@ import {Box, Card, CardContent, Typography, CardActions, Button, CardMedia } fro
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { setDeletedItem, setDeletedId, setIsConfirmModalOpen } from '../../store/action/appStateAction';
+import { setDeletedItem, setDeletedId, setIsConfirmModalOpen, setCurrentBoardId } from '../../store/action/appStateAction';
 import boardIcon from '../../assets/icon.png';
 import { useWindowDimensions } from '../../services/service';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
 	id?: string,
@@ -15,16 +16,28 @@ type Props = {
 
 function BoardCard(props: Props) {
   const appDispatch = useDispatch<AppDispatch>();
-  const deleteBoard = () => {
+  const navigate = useNavigate();
+
+  const deleteBoard = (e: React.MouseEvent<HTMLElement> ) => {
+    e.stopPropagation();
     appDispatch(setDeletedItem('board'));
     appDispatch(setDeletedId(String(props.id)));
     appDispatch(setIsConfirmModalOpen(true));
   };
 
+  const handleBoardCardClick = () => {
+    appDispatch(setCurrentBoardId(props.id!));
+    navigate('/boardPage');
+  }
+
   const { width } = useWindowDimensions();
 
   return (
-    <Box sx={{ padding: '1rem'}}>
+    <Box
+      sx={{ padding: '1rem', cursor: 'pointer'}}
+      component='div'
+      onClick={handleBoardCardClick}
+    >
       <Card
         sx={{
           display: 'flex',
