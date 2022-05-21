@@ -1,47 +1,52 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import react, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { BoardCard } from '../../components/compunents';
-import { getBoards, createBoard,updateBoards, getBoardsById, deleteBoard, selectBoard } from '../../api/boardApi'
-import store, { AppDispatch } from '../../store/store';
+import { getBoards } from '../../api/boardApi'
+import { AppDispatch } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/reducer/reducer';
+import { Board } from '../../typings/typings';
+
+const CardsIsEmpty = () => {
+  const { t } = useTranslation();
+  const message = t('mainPage:cardsIsEmpty');
+  console.log('message')
+  return <Typography color='warning' variant="h6" component="p">{message}</Typography>;
+};
+
 
 function MainPage() {
   const appDispatch = useDispatch<AppDispatch>();
-  const { t } = useTranslation();
+  const [ isCardsIsEmptyOpen, setIsCarsIsEmptyOpen ] = useState(false);
 
-  //! пример
-  // const dataaa = useSelector(getBoards)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const allBoards = useSelector((state: any) => state.board.entities);
-  // const allBoards = appDispatch(getBoards());
-  // console.log('board', allBoards)
-  const iiid = 'dfa66578-979d-4a8e-b724-7092e7c94e0a'
-  // console.log('store',  board, loading)
+  const allBoards = useSelector((state: RootState) => state.board.entities) as Board[];
 
-  const testFunc = async () => {
-    // await appDispatch(getBoards()) // получаю все записи 
-    // await appDispatch(getBoardsById(iiid)) // получаю запись 
-    // await appDispatch(updateBoards(bdat)) // обновление
-    // await appDispatch(deleteBoard(iiid)) // удаление
-    // await appDispatch(createBoard(bdat)) // создание
+  const getAllBoards = async () => {
+    const boards = await appDispatch(getBoards());
+    if (!boards.payload) {
+      setIsCarsIsEmptyOpen(true);
+    }
   }
-  React.useEffect(() => {
-    appDispatch(getBoards());
-    testFunc();
-  }, [appDispatch])
- // ! конец примера
+
+  useEffect(() => {
+    getAllBoards();
+  }, [appDispatch]);
+
   return (
     <Box sx={{
       display: 'flex',
       flexWrap: 'wrap',
       padding: '1rem 1rem 5rem 1rem',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
+      rowGap: '1rem',
+      columnGap: '1rem',
     }}>
-      {allBoards && allBoards.map((el:{ id: string, title: string, description: string}) => {
+      {allBoards.length && allBoards.map((el: Board) => {
         return (<BoardCard key={el.id} id={el.id} title={el.title} description={el.description}/>)
       })}
+    {isCardsIsEmptyOpen && <CardsIsEmpty />}
     </Box>
   );
 }
