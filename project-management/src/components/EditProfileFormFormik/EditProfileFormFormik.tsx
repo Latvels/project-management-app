@@ -63,7 +63,7 @@ function EditProfileFormFormik() {
     const userdata = data.payload as User;
     initialValues.login = String(userdata.login);
     initialValues.name = String(userdata.name);
-    initialValues.password = 'password';
+    initialValues.password = '';
     appDispatch(setIsPreloaderOpen(false));
   }
 
@@ -157,7 +157,7 @@ function EditProfileFormFormik() {
             color="info"
             disabled={isButtonDisabled}
             onClick={submitForm}
-            type="submit"
+            // type="submit"
           >
             {submitButtonText}
           </Button>
