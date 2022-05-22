@@ -117,7 +117,11 @@ const initialState: reqState = {
 export const boardSlise = createSlice({
   name: 'board',
   initialState,
-  reducers: {},
+  reducers: {
+    setBoards: (state) => {
+      state.entities = [];
+    }
+  },
   extraReducers: {
 		[getBoards.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
