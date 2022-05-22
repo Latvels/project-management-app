@@ -16,31 +16,25 @@ const CardsIsEmpty = () => {
   const { t } = useTranslation();
   const message = t('mainPage:cardsIsEmpty');
   console.log('message')
-  return <Typography color='warning' variant="h6" component="p">{message}</Typography>;
+  return <Typography variant="h6" component="p" sx={{color: '#ed6c02', textTransform: 'uppercase'}}>{message}</Typography>;
 };
 
 
 function MainPage() {
   const appDispatch = useDispatch<AppDispatch>();
-  const [ isCardsIsEmptyOpen, setIsCarsIsEmptyOpen ] = useState(false);
-  const allBoards = useSelector((state: RootState) => state.board.entities) as Board[];
-  let myBoards: Board[] = [];
+  // const [ isCardsIsEmptyOpen, setIsCarsIsEmptyOpen ] = useState(false);
+  const allBoards = useSelector((state: RootState) => state.board.entities);
   const { setBoards } = boardSlise.actions;
 
   const searchInputRef: react.RefObject<HTMLFormElement> | null = useRef(null);
 
   const getAllBoards = async () => {
-    const resp = await appDispatch(getBoards());
-    const boards = resp.payload as Board[];
-    myBoards = boards;
-    if (myBoards.length === 0) {
-      setIsCarsIsEmptyOpen(true);
-    }
-  }
+    await appDispatch(getBoards());
+  };
 
   useEffect(() => {
-    getAllBoards(); // получили все boards из бэк
-  }, []);
+    getAllBoards();
+  }, [appDispatch]);
 
   const filterByKey = (searchValue: string) => {
     const res: Board[] = [];
@@ -57,20 +51,31 @@ function MainPage() {
     return res;
   }
 
-  const filterBoards = async (value: string | null) => {
-    await getAllBoards();
-    console.log(allBoards);
+  const filterBoards = (value: string | null) => {
     if (value) {
       const filteredBoards = filterByKey(value);
-      console.log(filteredBoards);
       appDispatch(setBoards(filteredBoards));
     }
   }
 
-  const handleSearchButtonClick = async () => {
+  const handleSearchButtonClick = () => {
     const input = searchInputRef.current!.querySelector('input') as HTMLInputElement;
     const value = input.value;
-    await filterBoards(value);
+    filterBoards(value);
+    input.value = '';
+  }
+
+  const handleFocusOnInput = async () => {
+    await getAllBoards();
+  }
+
+  const handleKeyDown = (e: react.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'Enter') {
+      e.preventDefault();
+      handleSearchButtonClick();
+      const el = e.target as HTMLInputElement;
+      el.blur();
+    }
   }
 
   return (
@@ -87,6 +92,8 @@ function MainPage() {
         inputProps={{ 'aria-label': 'search' }}
         color='info'
         ref={searchInputRef}
+        onFocus={handleFocusOnInput}
+        onKeyDown={handleKeyDown}
       />
       <IconButton sx={{ p: '10px' }} aria-label="search" onClick={handleSearchButtonClick}>
         <SearchIcon color='info'/>
@@ -100,10 +107,9 @@ function MainPage() {
         rowGap: '1rem',
         columnGap: '1rem',
       }}>
-        {allBoards.length !== 0 && allBoards.map((el: Board) => {
+        { allBoards && allBoards.length !== 0 ? allBoards.map((el: Board) => {
           return (<BoardCard key={el.id} id={el.id} title={el.title} description={el.description}/>)
-        })}
-      {isCardsIsEmptyOpen && <CardsIsEmpty />}
+        }) : <CardsIsEmpty />}
       </Box>
     </>
   );

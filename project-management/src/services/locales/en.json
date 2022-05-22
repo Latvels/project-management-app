@@ -69,6 +69,6 @@
     "submit": "Register"
   },
   "mainPage": {
-    "cardsIsEmpty": "Create Your Boards"
+    "cardsIsEmpty": "No boards found"
   }
 }
