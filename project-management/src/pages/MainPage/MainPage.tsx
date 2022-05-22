@@ -25,6 +25,8 @@ function MainPage() {
   // const [ isCardsIsEmptyOpen, setIsCarsIsEmptyOpen ] = useState(false);
   const allBoards = useSelector((state: RootState) => state.board.entities);
   const { setBoards } = boardSlise.actions;
+  const {t} = useTranslation();
+  const searchInputPlaceholder = t('mainPage:searchInputPlaceholder');
 
   const searchInputRef: react.RefObject<HTMLFormElement> | null = useRef(null);
 
@@ -88,7 +90,7 @@ function MainPage() {
       >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search"
+        placeholder={searchInputPlaceholder}
         inputProps={{ 'aria-label': 'search' }}
         color='info'
         ref={searchInputRef}

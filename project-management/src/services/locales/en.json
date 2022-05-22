@@ -69,6 +69,7 @@
     "submit": "Register"
   },
   "mainPage": {
-    "cardsIsEmpty": "No boards found"
+    "cardsIsEmpty": "No boards found",
+    "searchInputPlaceholder": "search"
   }
 }
