@@ -118,8 +118,8 @@ export const boardSlise = createSlice({
   name: 'board',
   initialState,
   reducers: {
-    setBoards: (state) => {
-      state.entities = [];
+    setBoards: (state, action) => {
+      state.entities = action.payload;
     }
   },
   extraReducers: {

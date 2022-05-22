@@ -24,28 +24,23 @@ function MainPage() {
   const appDispatch = useDispatch<AppDispatch>();
   const [ isCardsIsEmptyOpen, setIsCarsIsEmptyOpen ] = useState(false);
   const allBoards = useSelector((state: RootState) => state.board.entities) as Board[];
+  let myBoards: Board[] = [];
   const { setBoards } = boardSlise.actions;
 
   const searchInputRef: react.RefObject<HTMLFormElement> | null = useRef(null);
 
   const getAllBoards = async () => {
     const resp = await appDispatch(getBoards());
-    const boards = resp.payload as Board[] | undefined;
-    // console.log(allBoards);
-    // console.log(boards)
-    // console.log(boards?.length);
-    if (!boards || boards.length === 0) {
+    const boards = resp.payload as Board[];
+    myBoards = boards;
+    if (myBoards.length === 0) {
       setIsCarsIsEmptyOpen(true);
     }
   }
 
   useEffect(() => {
-    getAllBoards();
-  }, [appDispatch]);
-
-  // useEffect(() => {
-  //   console.log('rewrite');
-  // }, [filteredBoards]);
+    getAllBoards(); // получили все boards из бэк
+  }, []);
 
   const filterByKey = (searchValue: string) => {
     const res: Board[] = [];
@@ -62,17 +57,20 @@ function MainPage() {
     return res;
   }
 
-  const filterBoards = (value: string | null) => {
+  const filterBoards = async (value: string | null) => {
+    await getAllBoards();
+    console.log(allBoards);
     if (value) {
       const filteredBoards = filterByKey(value);
       console.log(filteredBoards);
+      appDispatch(setBoards(filteredBoards));
     }
   }
 
-  const handleSearchButtonClick = () => {
+  const handleSearchButtonClick = async () => {
     const input = searchInputRef.current!.querySelector('input') as HTMLInputElement;
     const value = input.value;
-    filterBoards(value);
+    await filterBoards(value);
   }
 
   return (
