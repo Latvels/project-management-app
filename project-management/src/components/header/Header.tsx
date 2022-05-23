@@ -62,7 +62,7 @@ function Header() {
           >
             RS-Drive
           </Typography>
-          <SelectLanguage />
+          {showMainPageButton && <SelectLanguage />}
           {showMainPageButton && (
             <Button onClick={logOut} color="inherit">
               {t('header:Logout')}

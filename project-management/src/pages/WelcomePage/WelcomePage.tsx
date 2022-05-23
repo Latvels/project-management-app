@@ -9,6 +9,7 @@ import {
   Container,
   Grid,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import './welcomePage.scss';
 import women from '../../assets/woman.png';
@@ -16,8 +17,11 @@ import man from '../../assets/man.png';
 import girl from '../../assets/girl.png';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/material/styles';
 
 function WelcomePage() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const { t } = useTranslation();
   const [params] = useSearchParams();
   const navigate = useNavigate();
@@ -28,9 +32,11 @@ function WelcomePage() {
     navigate('/mainPage');
   }, []);
 
+  const adaptive = useMediaQuery('(max-width: 600px');
+
   return (
     <Container sx={{ mb: 12, mt: 6 }}>
-      <div className={'container--lin'}>
+      <div className={'container--link'}>
         {showMainPageButton ? (
           <Button variant="contained" onClick={onMainPageBtnClick} className="registration-button">
             {t('welcomePage:mainPageBtn')}
@@ -47,11 +53,11 @@ function WelcomePage() {
         )}
       </div>
       <h2>{t('welcomePage:team')}</h2>
-      <Grid sx={{ mb: 5 }} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+      <Grid sx={{ mb: 5 }} container direction={matches ? 'column' : 'row'}>
         <Grid item xs={4}>
-          <Card sx={{ maxWidth: 345 }}>
+          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345 }}>
             <CardMedia
-              sx={{ width: 200 }}
+              sx={adaptive ? { width: 150 } : { width: 200 }}
               className="card--media"
               component="img"
               alt="Evgeny"
@@ -65,16 +71,16 @@ function WelcomePage() {
                 Frontend Dev | Team Lead
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Hello, my name is Zhenya and in this project I have done: API, Footer
+                {t('welcomePage:doEvgeny')}
               </Typography>
             </CardContent>
             <CardActions />
           </Card>
         </Grid>
         <Grid item xs={4}>
-          <Card sx={{ maxWidth: 345 }}>
+          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345 }}>
             <CardMedia
-              sx={{ width: 200 }}
+              sx={adaptive ? { width: 150 } : { width: 200 }}
               className="card--media"
               component="img"
               alt="Tatiana"
@@ -88,16 +94,16 @@ function WelcomePage() {
                 Frontend Dev
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Hello, my name is Tatiana and in this project I have done: Header, Create new board
+                {t('welcomePage:doTatiana')}
               </Typography>
             </CardContent>
             <CardActions />
           </Card>
         </Grid>
         <Grid item xs={4}>
-          <Card sx={{ maxWidth: 345 }}>
+          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345 }}>
             <CardMedia
-              sx={{ width: 200 }}
+              sx={adaptive ? { width: 150 } : { width: 200 }}
               className="card--media"
               component="img"
               alt="Elizaveta"
@@ -111,14 +117,14 @@ function WelcomePage() {
                 Frontend Dev
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Hello, my name is Liza and in this project I have done: Welcome page, Sign In / Sign
-                Up
+                {t('welcomePage:doElizaveta')}
               </Typography>
             </CardContent>
             <CardActions />
           </Card>
         </Grid>
       </Grid>
+
       <Box sx={{ p: 2, border: '1px solid grey' }}>
         <p className="comment-box">{t('welcomePage:DiscriptionOne')}</p>
         <p className="comment-box">{t('welcomePage:DescriptionTwo')}</p>
