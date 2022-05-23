@@ -123,7 +123,6 @@ function EditProfileFormFormik() {
         };
         await appDispatch(updateUser(newUserData));
         appDispatch(setIsPreloaderOpen(false));
-        console.log(errorMessage)
         if(errorMessage.message === '' || errorMessage.message === undefined) {
           appDispatch(setIsEditProfileModalOpen(false));
         }

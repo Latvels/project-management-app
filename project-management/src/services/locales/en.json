@@ -70,6 +70,7 @@
   },
   "mainPage": {
     "cardsIsEmpty": "No boards found",
-    "searchInputPlaceholder": "search"
+    "searchInputPlaceholder": "search",
+    "resetSearchBtn": "reset search"
   }
 }

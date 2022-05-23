@@ -70,6 +70,7 @@
   },
   "mainPage": {
     "cardsIsEmpty": "ни одной доски не найдено",
-    "searchInputPlaceholder": "поиск"
+    "searchInputPlaceholder": "поиск",
+    "resetSearchBtn": "очистить поиск"
   }
 }
