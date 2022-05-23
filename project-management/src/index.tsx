@@ -6,21 +6,24 @@ import { Provider } from 'react-redux';
 import './services/i18n';
 import './index.scss';
 import App from './components/App/App';
-import store from './store/store';
+import store, { persistor } from './store/store';
 import reportWebVitals from './reportWebVitals';
 import theme from './constants/theme';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 function render() {
   root.render(
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <React.StrictMode>
-            <App />
-          </React.StrictMode>
-        </BrowserRouter>
-      </ThemeProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <React.StrictMode>
+              <App />
+            </React.StrictMode>
+          </BrowserRouter>
+        </ThemeProvider>
+      </PersistGate>
     </Provider>
   );
 }
