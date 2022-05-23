@@ -30,15 +30,16 @@
     "formTitle": "редактировать профиль",
     "email": "email",
     "name": "имя",
-    "login": "логин",
-    "pass": "пароль",
+    "login": "email",
+    "pass": "введите новый пароль",
     "submitBtn": "редактировать данные",
     "deleteBtn": "удалить пользователя"
   },
   "formValidation": {
     "required": "поле обязательно для заполнения",
     "minValue": "минимальная длина 3 символа",
-    "maxValue": "максимальная длина 12 символов"
+    "maxValue": "максимальная длина 12 символов",
+    "maxValueDescription": "максимальная длина 30 символов"
   },
   "confirmationModal": {
     "title": "подтвердите свои действия",
@@ -72,6 +73,11 @@
     "name": "Имя",
     "password": "Пароль",
     "submit": "Зарегистрироваться"
+  },
+  "mainPage": {
+    "cardsIsEmpty": "ни одной доски не найдено",
+    "searchInputPlaceholder": "поиск",
+    "resetSearchBtn": "очистить поиск"
   },
   "login": {
     "title": "Пожалуйста, введите ваш логин пароль"

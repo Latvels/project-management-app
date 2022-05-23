@@ -30,15 +30,16 @@
     "formTitle": "edit profile",
     "email": "email",
     "name": "name",
-    "login": "login",
-    "pass": "password",
+    "login": "email",
+    "pass": "input new password",
     "submitBtn": "edit data",
     "deleteBtn": "delete user"
   },
   "formValidation": {
     "required": "field is required",
     "minValue": "min length is 3 characters",
-    "maxValue": "max length is 12 characters"
+    "maxValue": "max length is 12 characters",
+    "maxValueDescription": "max length is 30 characters"
   },
   "confirmationModal": {
     "title": "confirm your actions",
@@ -75,5 +76,10 @@
   },
   "login": {
     "title": "Please enter your login and password"
+  },
+  "mainPage": {
+    "cardsIsEmpty": "No boards found",
+    "searchInputPlaceholder": "search",
+    "resetSearchBtn": "reset search"
   }
 }

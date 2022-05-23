@@ -8,8 +8,8 @@ const MainRoutes = () => (
   <Routes>
     <Route path="*" element={<Navigate replace to="404" />} />
     <Route path="/" element={<WelcomePage />} />
-    <Route path="/mainPage" element={<MainPage />} />
-    <Route path="/boardPage" element={<BoardPage />} />
+    <Route path="/mainpage" element={<MainPage />} />
+    <Route path="/boardpage" element={<BoardPage />} />
     <Route path="/404" element={<NotFoundPage />} />
     <Route path="/signup" element={<Registration />} />
     <Route path="/signin" element={<LoginPage />} />

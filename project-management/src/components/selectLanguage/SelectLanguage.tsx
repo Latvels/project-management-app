@@ -24,7 +24,7 @@ function SelectLanguage() {
       <FormControl size="small" sx={{
         width: () => (width > 660 ? '100px' : '90px'),
       }}>
-        <Button variant="outlined" onClick={() => {
+        <Button variant="outlined" sx={{color: 'white'}} onClick={() => {
           handleChange();
         }}>{lang}</Button>
       </FormControl>

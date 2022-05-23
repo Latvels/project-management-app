@@ -2,8 +2,9 @@ import { ActionKindAppState, SET_USER_DATA } from '../actionTypes';
 
 interface RootUser {
   // ! может вы придумаете какой тут тип должен быть
+  // user?: {id: string, name: string, login: string};
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user?: any,
+  user?: any;
   id?: string | null;
   email?: string | null;
   password?: string | null;

@@ -1,11 +1,6 @@
 import react from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import {Backdrop, Box, Modal, Fade, Typography} from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import { useTranslation } from 'react-i18next';
@@ -13,11 +8,15 @@ import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 import { Button } from '@mui/material';
 import React from 'react';
 import './confirmationModal.scss';
+import { useNavigate } from 'react-router-dom';
 import { setDeletedItem, setIsConfirmModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { AppDispatch } from '../../store/store';
-import { deleteUser } from '../../api/userApi';
-import { deleteBoard } from '../../api/boardApi';
+import { deleteUser, selectUser } from '../../api/userApi';
+import { deleteBoard, selectBoard } from '../../api/boardApi';
 import { deleteTask } from '../../api/taskApi';
+import { err } from '../../utils/showBasicAlerts';
+import { authSlise } from '../../api/authApi';
+import { Error } from '../../typings/typings';
 
 const style = {
   position: 'absolute',
@@ -34,8 +33,16 @@ const style = {
 
 function ConfirmationModal() {
   const {t} = useTranslation();
+  const navigate = useNavigate();
   const appState = useSelector((state: RootState) => state.appState);
+  const getUserId = useSelector((state: RootState) => state.awtUser);
+  const {entities: board} = useSelector(selectBoard);
   const appDispatch = useDispatch<AppDispatch>();
+  const userErrorMessage = useSelector((state: RootState) => state.user.error) as Error;
+  const boardErrorMessage = useSelector((state: RootState) => state.board.error) as Error;
+  const taskErrorMessage = useSelector((state: RootState) => state.task.error) as Error;
+  const signInStatus = useSelector((state: RootState) => state.auth.signInStatus);
+  let errorMessage: Error = {};
 
   const handleClose = () => appDispatch(setIsConfirmModalOpen(false));
 
@@ -61,18 +68,33 @@ function ConfirmationModal() {
     }
   }
 
+  const logOut = () => {
+    console.log('signInStatus', signInStatus);
+    // 
+    // dispatchEvent(resetStatuses());
+    navigate('/');
+  }
+
   const handleYesClick = async () => {
     appDispatch(setIsConfirmModalOpen(false));
     appDispatch(setIsPreloaderOpen(true));
     if (deletedItem === 'user') {
-      await appDispatch(deleteUser('id'));
+      await appDispatch(deleteUser(String(appState.deletedId)));
+      // await appDispatch(deleteUser(getUserId.user.id));
+      appDispatch(setIsPreloaderOpen(false));
+      logOut();
+      userErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = userErrorMessage;
     } else if (deletedItem === 'board') {
-      await appDispatch(deleteBoard('id'));
-    // } else if (deletedItem === 'task') {
-    //   await appDispatch(deleteTask());
+      await appDispatch(deleteBoard(String(appState.deletedId)));
+      window.location.reload();
+      appDispatch(setIsPreloaderOpen(false));
+      boardErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = userErrorMessage;
+  // } else if (deletedItem === 'task') {
+  //   await appDispatch(deleteTask());
+  //  appDispatch(setIsPreloaderOpen(false));
+  //  taskErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = taskErrorMessage;
     }
     appDispatch(setDeletedItem(null));
-    appDispatch(setIsPreloaderOpen(false));
   };
 
   const handleNoClick = () => {
@@ -125,6 +147,7 @@ function ConfirmationModal() {
                 {buttonNoText}
             </Button>
           </Box>
+          {err(errorMessage)}
         </Box>
       </Fade>
     </Modal>

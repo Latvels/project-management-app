@@ -4,13 +4,12 @@ import { TextField } from 'formik-mui';
 import react, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { setDeletedItem, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
-import { getUsersById, updateUser, selectUser } from '../../api/userApi';
+import { setDeletedItem, setDeletedId, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import { getUsersById, updateUser } from '../../api/userApi';
 import './editProfileFormFormik.scss';
-import store, { AppDispatch, useAppSelector } from '../../store/store';
+import { AppDispatch } from '../../store/store';
 import { useSelector } from 'react-redux';
-// import { RootState } from '../../store/reducer/reducer';
-import { User } from '../../typings/typings';
+import { User, Error } from '../../typings/typings';
 import { RootState } from '../../store/reducer/reducer';
 import { BasicAlerts } from '../compunents';
 // import { err } from '../../utils/showBasicAlerts';
@@ -25,15 +24,16 @@ function EditProfileFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
   
   //* работает так
+  // const {entities: user} = useSelector(selectUser)
+  // console.log('All', user.id, user.name, user.login)
   const getUserId = useSelector((state: RootState) => state.awtUser);
 
   const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
   const err = (errorMessage:Error)=> {
     const { message } = errorMessage
-    if (message !== '') {
-      console.log('error')
+    if(message === '' || message === undefined) {
+      console.log(errorMessage)
       return <BasicAlerts error={errorMessage}/>
-      //здесь надо обнулить error в стейте, иначе при следующем открытии окна - сразу висит alert с ошибкой, а если окно не закрыл и корректируешь данные - повторно сообщение о ошибке не показывается
     }
   }
 
@@ -48,24 +48,22 @@ function EditProfileFormFormik() {
   const required = t('formValidation:required');
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [ userData, setUserData ] = useState<User | Record<string, null>>({});
-  
+
   const initialValues = {
     name: '',
     password: '',
     login: '',
   }
-  //todo 
 
   const getUserData = async () => {
     // console.log(user);
     appDispatch(setIsPreloaderOpen(true));
     const data = await appDispatch(getUsersById(getUserId.user.id));
-    // console.log(data);
+    // console.log('2131231', data);
     const userdata = data.payload as User;
-    setUserData(userdata);
-    initialValues.login = userdata.login!;
-    initialValues.name = userdata.name!;
+    initialValues.login = String(userdata.login);
+    initialValues.name = String(userdata.name);
+    initialValues.password = '';
     appDispatch(setIsPreloaderOpen(false));
   }
 
@@ -86,9 +84,15 @@ function EditProfileFormFormik() {
       }
     };
 
+    function checkLoginField() {
+      if(!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/.test(values.login)) {
+        errors.login = 'invalid email address';
+      }
+    }
+
     setIsButtonDisabled(true);
     checkFormField('name');
-    checkFormField('login');
+    checkLoginField();
     checkFormField('password');
     if (!errors.name && !errors.login && !errors.password) {
       setIsButtonDisabled(false);
@@ -98,6 +102,7 @@ function EditProfileFormFormik() {
 
   const handleClickDeleteUserButton = () => {
     appDispatch(setDeletedItem('user'));
+    appDispatch(setDeletedId(getUserId.user.id));
     appDispatch(setIsEditProfileModalOpen(false));
     appDispatch(setIsConfirmModalOpen(true));
   }
@@ -109,17 +114,16 @@ function EditProfileFormFormik() {
       validate={validateForm}
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
-        // appDispatch(setIsEditProfileModalOpen(false));
         appDispatch(setIsPreloaderOpen(true));
         const newUserData: User = {
-          ...userData,
+          id: getUserId.user.id,
           name: values.name,
           login: values.login,
           password: values.password
         };
         await appDispatch(updateUser(newUserData));
         appDispatch(setIsPreloaderOpen(false));
-        if(errorMessage.message === '') {
+        if(errorMessage.message === '' || errorMessage.message === undefined) {
           appDispatch(setIsEditProfileModalOpen(false));
         }
       }}
@@ -152,7 +156,7 @@ function EditProfileFormFormik() {
             color="info"
             disabled={isButtonDisabled}
             onClick={submitForm}
-            type="submit"
+            // type="submit"
           >
             {submitButtonText}
           </Button>

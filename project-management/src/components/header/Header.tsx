@@ -6,12 +6,17 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../store/store';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { authSlise } from '../../api/authApi';
-import { useDispatch } from 'react-redux';
 import { ACTION_STATUSES } from '../../typings/typings';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { RootState } from '../../store/reducer/reducer';
+import { useSelector } from 'react-redux';
+import { Root } from 'react-dom/client';
 
 function Header() {
+  const appDispatch = useDispatch<AppDispatch>();
+  const appState = useSelector((state: RootState) => state.appState);
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const [params] = useSearchParams();
   const headerRef: React.RefObject<HTMLElement> | null = useRef(null);
   const navigate = useNavigate();
@@ -22,7 +27,7 @@ function Header() {
 
   useEffect(() => {
     checkScroll() ? addSticky() : delSticky();
-  });
+  }, [appDispatch, appState]);
 
   const checkScroll = (): boolean => {
     return document.body.offsetHeight > window.innerHeight;
@@ -40,7 +45,7 @@ function Header() {
 
   const logOut = useCallback(() => {
     if (requestStatus === ACTION_STATUSES.FULFILLED) {
-      dispatch(resetStatuses());
+      appDispatch(resetStatuses());
       navigate('/');
     }
   }, [requestStatus]);
