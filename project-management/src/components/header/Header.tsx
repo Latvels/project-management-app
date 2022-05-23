@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useLayoutEffect } from 'react';
 import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 import { SelectLanguage, MyMenu } from '../compunents';
 import './header.scss';
@@ -15,10 +15,6 @@ function Header() {
   const {t} = useTranslation();
   const headerRef: React.RefObject<HTMLElement> | null = useRef(null);
 
-  useEffect(() => {
-    checkScroll() ? addSticky() : delSticky();
-  },[appDispatch, appState]);
-
   const checkScroll = (): boolean => {
     return document.body.offsetHeight > window.innerHeight;
   };
@@ -32,7 +28,23 @@ function Header() {
     headerRef.current?.classList.remove('header--sticky');
     document.body.style.marginTop = '0px';
   };
-  
+
+  const onResize = () => {
+    checkScroll() ? addSticky() : delSticky();
+  }
+
+  useLayoutEffect(() => {
+    delSticky();
+    window.addEventListener('scroll', onResize);
+    return () => {
+      window.removeEventListener('scroll', onResize);
+    }
+  });
+
+  useLayoutEffect(() => {
+    delSticky();
+  }, [appState]);
+
   return (
     <Box ref={headerRef} sx={{ flexGrow: 1, width: '100%', top: 0, zIndex: 100 }} className="header" component="div">
       <AppBar position="static" className="header__appBar">
