@@ -15,7 +15,7 @@ import './welcomePage.scss';
 import women from '../../assets/woman.png';
 import man from '../../assets/man.png';
 import girl from '../../assets/girl.png';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import {useLocation, useNavigate, useSearchParams} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 
@@ -24,13 +24,14 @@ function WelcomePage() {
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const { t } = useTranslation();
   const [params] = useSearchParams();
+  const { search } = useLocation();
   const navigate = useNavigate();
   const showMainPageButton =
     params.get('isUserActivated') && params.get('isUserActivated') === 'true';
 
   const onMainPageBtnClick = useCallback(() => {
-    navigate('/mainPage');
-  }, []);
+    navigate(`/mainPage${search}`);
+  }, [search]);
 
   const adaptive = useMediaQuery('(max-width: 600px');
 

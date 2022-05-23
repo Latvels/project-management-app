@@ -1,7 +1,7 @@
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import { NavLink } from 'react-router-dom';
+import {NavLink, useLocation, useNavigate} from 'react-router-dom';
 import './myMenu.scss';
 import { useDispatch } from 'react-redux';
 import { setIsCreateNewBoardModalOpen, setIsEditProfileModalOpen } from '../../store/action/appStateAction';
@@ -12,6 +12,8 @@ function MyMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const appDispatch = useDispatch();
   const open = Boolean(anchorEl);
+  const { search } = useLocation();
+  const navigate = useNavigate();
   
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -19,6 +21,11 @@ function MyMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const onMainPageBtnClick = useCallback(() => {
+    navigate(`/mainPage${search}`);
+    handleClose();
+  }, [search]);
 
   const handleClickOnCreateNewBoardButton = () => {
     handleClose();
@@ -50,9 +57,7 @@ function MyMenu() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <NavLink to="/mainPage" className="menu__navLink">
-          <MenuItem onClick={handleClose}>{t('header:menuItem1')}</MenuItem>
-        </NavLink>
+        <MenuItem onClick={onMainPageBtnClick}>{t('header:menuItem1')}</MenuItem>
         <MenuItem onClick={handleClickOnEditProfileButton}>{t('header:menuItem2')}</MenuItem>
         <MenuItem onClick={handleClickOnCreateNewBoardButton}>{t('header:menuItem3')}</MenuItem>
       </Menu>
