@@ -21,26 +21,12 @@ function SelectLanguage() {
 
   return (
     <Box>
-      <FormControl
-        size="small"
-        sx={{
-          width: () => (width > 660 ? '100px' : '90px'),
-        }}
-      >
-        <Button
-          variant="outlined"
-          onClick={() => {
-            handleChange();
-          }}
-          sx={{
-            color: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.primary.contrastText
-                : theme.palette.secondary.contrastText,
-          }}
-        >
-          {lang}
-        </Button>
+      <FormControl size="small" sx={{
+        width: () => (width > 660 ? '100px' : '90px'),
+      }}>
+        <Button variant="outlined" sx={{color: 'white'}} onClick={() => {
+          handleChange();
+        }}>{lang}</Button>
       </FormControl>
     </Box>
   );

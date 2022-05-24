@@ -1,19 +1,13 @@
-import {
-  ActionKindAppState,
-  SET_DELETED_ITEM,
-  SET_IS_CONFIRM_MODAL_OPEN,
-  SET_IS_CREATE_NEW_BOARD_MODAL_OPEN,
-  SET_IS_EDIT_PROFILE_MODAL_OPEN,
-  SET_IS_PRELOADER_OPEN,
-} from '../actionTypes';
+import { ActionKindAppState, SET_CURRENT_BOARD_ID, SET_DELETED_ID, SET_DELETED_ITEM, SET_IS_CONFIRM_MODAL_OPEN, SET_IS_CREATE_NEW_BOARD_MODAL_OPEN, SET_IS_EDIT_PROFILE_MODAL_OPEN, SET_IS_PRELOADER_OPEN } from '../actionTypes';
 
 interface IAppState {
   isEditProfileModalOpen: boolean;
   isCreateNewBoardModalOpen: boolean;
   isPreloaderOpen: boolean;
   isConfirmModalOpen: boolean;
-  // deletedItem?: 'user' | 'board' | 'task',
-  deletedItem?: string | null;
+  deletedItem?: string | null,
+  deletedId?: string | null,
+  currentBoardId: string | null,
 }
 
 const initialState: IAppState = {
@@ -21,7 +15,8 @@ const initialState: IAppState = {
   isPreloaderOpen: false,
   isEditProfileModalOpen: false,
   isConfirmModalOpen: false,
-};
+  currentBoardId: null,
+}
 
 interface IAction {
   type: ActionKindAppState;
@@ -59,6 +54,20 @@ function appStateReducer(state = initialState, action: IAction) {
         ...state,
         deletedItem: action.payload as string,
       };
+    }
+    case SET_DELETED_ID: 
+    {
+      return {
+        ...state,
+        deletedId: action.payload as string,
+      }
+    }
+    case SET_CURRENT_BOARD_ID: 
+    {
+      return {
+        ...state,
+        currentBoardId: action.payload as string,
+      }
     }
     default: {
       return state;

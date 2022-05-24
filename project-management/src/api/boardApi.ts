@@ -114,7 +114,11 @@ const initialState: reqState = {
 export const boardSlise = createSlice({
   name: 'board',
   initialState,
-  reducers: {},
+  reducers: {
+    setBoards: (state, action) => {
+      state.entities = action.payload;
+    },
+  },
   extraReducers: {
     [getBoards.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
@@ -172,7 +176,8 @@ export const boardSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
+        state.entities.push(action.payload);
         state.currentRequestId = undefined;
       }
     },

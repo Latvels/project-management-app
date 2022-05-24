@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { SyntheticEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Field, Form, Formik } from 'formik';
-import { Button, Container } from '@mui/material';
+import { Button, Container, Input, InputLabel } from '@mui/material';
 import './registration.scss';
 import { singUp } from '../../api/authApi';
 import { TextField } from 'formik-mui';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store/store';
+import { AppDispatch, useAppSelector } from '../../store/store';
+import { useNavigate } from 'react-router-dom';
+import { isValidEmail, isValidName, isValidPassword } from '../../utils/validation';
+import { setUserData } from '../../store/action/appStateAction';
 import { IRegistrationValues, useRegistration } from './use-registration.hook';
 import { ACTION_STATUSES } from '../../typings/typings';
 import Preloader from '../../components/Preloader/Preloader';
 import BasicAlerts from '../../components/Alert/alerts';
-
+import { Field, Form, Formik } from 'formik';
 function Registration() {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
