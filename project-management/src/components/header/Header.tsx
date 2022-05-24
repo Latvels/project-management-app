@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../store/store';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { authSlise } from '../../api/authApi';
-import { useDispatch } from 'react-redux';
 import { ACTION_STATUSES } from '../../typings/typings';
+import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { RootState } from '../../store/reducer/reducer';
 import { useSelector } from 'react-redux';
@@ -27,7 +27,7 @@ function Header() {
 
   useEffect(() => {
     checkScroll() ? addSticky() : delSticky();
-  },[appDispatch, appState]);
+  }, [appDispatch, appState]);
 
   const checkScroll = (): boolean => {
     return document.body.offsetHeight > window.innerHeight;
@@ -51,7 +51,12 @@ function Header() {
   }, [requestStatus]);
 
   return (
-    <Box ref={headerRef} sx={{ flexGrow: 1, width: '100%', top: 0, zIndex: 100 }} className="header" component="div">
+    <Box
+      ref={headerRef}
+      sx={{ flexGrow: 1, width: '100%', top: 0 }}
+      className="header"
+      component="div"
+    >
       <AppBar position="static" className="header__appBar">
         <Toolbar>
           {showMainPageButton && <MyMenu />}
@@ -62,7 +67,7 @@ function Header() {
           >
             RS-Drive
           </Typography>
-          <SelectLanguage />
+          {showMainPageButton && <SelectLanguage />}
           {showMainPageButton && (
             <Button onClick={logOut} color="inherit">
               {t('header:Logout')}

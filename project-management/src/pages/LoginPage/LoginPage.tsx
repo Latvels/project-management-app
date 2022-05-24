@@ -22,6 +22,7 @@ function Login() {
     requestStatus,
     requestError,
     validateForm,
+    setEmail,
   } = useLoginPage();
   //! conflict
 /*  const navigate = useNavigate();
@@ -77,6 +78,7 @@ function Login() {
           validate={validateForm}
           onSubmit={async (values: ILoginValues, { setSubmitting }) => {
             setSubmitting(false);
+            setEmail(values.login);
             const data = {
               login: values.login,
               password: values.password,

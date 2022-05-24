@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import store, { AppDispatch, useAppSelector } from '../../store/store';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../../store/action/appStateAction';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ACTION_STATUSES, Error } from '../../typings/typings';
-import { CONFIG } from '../../constants/constant';
+import { ACTION_STATUSES, All, Error } from '../../typings/typings';
 import qs from 'qs';
 import { getUsers } from '../../api/userApi';
 export interface ILoginValues {
@@ -28,20 +27,37 @@ interface UseRegistrationReturnValues {
   requestStatus: ACTION_STATUSES;
   requestError: Error;
   validateForm: (values: ILoginValues) => void;
+  setEmail: Dispatch<SetStateAction<string>>;
 }
 
 export const useLoginPage = (): UseRegistrationReturnValues => {
   const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [token, setToken] = useState(CONFIG.token);
   const requestStatus = useAppSelector((state) => state.auth.signInStatus);
   const requestError = useAppSelector((state) => state.auth.error);
+  const currentUser = useAppSelector((state) => state.user);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
   const loginLabel = t('editProfileForm:login');
   const passLabel = t('editProfileForm:pass');
   const { search } = useLocation();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState<string>('');
+
+/* конфликт
+
+  useEffect(() => {
+    if (requestStatus === ACTION_STATUSES.FULFILLED) {
+      const dataAwtorizeUser = currentUser.entities.find((entity: All) => {
+        return entity.login === email;
+      });
+      const awtorizUserData: RootUser = dataAwtorizeUser || {};
+      const setUser = async () => {
+        dispatch(setUserData(awtorizUserData));
+      };
+      setUser();
+    }
+  }, [requestStatus, email]);
+   */
 
   useEffect(() => {
     dispatch(getUsers());
@@ -79,5 +95,6 @@ export const useLoginPage = (): UseRegistrationReturnValues => {
     requestStatus: requestStatus as ACTION_STATUSES,
     requestError: requestError as Error,
     validateForm,
+    setEmail,
   };
 };

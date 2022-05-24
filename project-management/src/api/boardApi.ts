@@ -117,7 +117,7 @@ export const boardSlise = createSlice({
   reducers: {
     setBoards: (state, action) => {
       state.entities = action.payload;
-    }
+    },
   },
   extraReducers: {
     [getBoards.pending.type]: (state, action) => {

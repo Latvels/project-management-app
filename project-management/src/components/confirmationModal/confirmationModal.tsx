@@ -46,9 +46,6 @@ function ConfirmationModal() {
   const taskErrorMessage = useSelector((state: RootState) => state.task.error) as Error;
   const signInStatus = useSelector((state: RootState) => state.auth.signInStatus);
   let errorMessage: Error = {};
-  //todo доработать logOut
-  // const { resetStatuses } = authSlise.actions;
-
 
   const handleClose = () => appDispatch(setIsConfirmModalOpen(false));
 
