@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useLayoutEffect, useCallback } from 'react';
 import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 import { SelectLanguage, MyMenu } from '../compunents';
 import './header.scss';
@@ -25,10 +25,6 @@ function Header() {
   const showMainPageButton =
     params.get('isUserActivated') && params.get('isUserActivated') === 'true';
 
-  useEffect(() => {
-    checkScroll() ? addSticky() : delSticky();
-  }, [appDispatch, appState]);
-
   const checkScroll = (): boolean => {
     return document.body.offsetHeight > window.innerHeight;
   };
@@ -49,11 +45,27 @@ function Header() {
       navigate('/');
     }
   }, [requestStatus]);
+  
+  const onResize = () => {
+    checkScroll() ? addSticky() : delSticky();
+  }
+
+  useLayoutEffect(() => {
+    delSticky();
+    window.addEventListener('scroll', onResize);
+    return () => {
+      window.removeEventListener('scroll', onResize);
+    }
+  });
+
+  useLayoutEffect(() => {
+    delSticky();
+  }, [appState]);
 
   return (
     <Box
       ref={headerRef}
-      sx={{ flexGrow: 1, width: '100%', top: 0 }}
+      sx={{ flexGrow: 1, width: '100%', top: 0, zIndex: 100 }}
       className="header"
       component="div"
     >
