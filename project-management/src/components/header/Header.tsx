@@ -8,10 +8,15 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { authSlise } from '../../api/authApi';
 import { useDispatch } from 'react-redux';
 import { ACTION_STATUSES } from '../../typings/typings';
+import { AppDispatch } from '../../store/store';
+import { RootState } from '../../store/reducer/reducer';
+import { useSelector } from 'react-redux';
+import { Root } from 'react-dom/client';
 
 function Header() {
+  const appState = useSelector((state: RootState) => state.appState);
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const appDispatch = useDispatch<AppDispatch>();
   const [params] = useSearchParams();
   const headerRef: React.RefObject<HTMLElement> | null = useRef(null);
   const navigate = useNavigate();
@@ -22,7 +27,7 @@ function Header() {
 
   useEffect(() => {
     checkScroll() ? addSticky() : delSticky();
-  });
+  },[appDispatch, appState]);
 
   const checkScroll = (): boolean => {
     return document.body.offsetHeight > window.innerHeight;
@@ -40,18 +45,13 @@ function Header() {
 
   const logOut = useCallback(() => {
     if (requestStatus === ACTION_STATUSES.FULFILLED) {
-      dispatch(resetStatuses());
+      appDispatch(resetStatuses());
       navigate('/');
     }
   }, [requestStatus]);
 
   return (
-    <Box
-      ref={headerRef}
-      sx={{ flexGrow: 1, width: '100%', top: 0 }}
-      className="header"
-      component="div"
-    >
+    <Box ref={headerRef} sx={{ flexGrow: 1, width: '100%', top: 0, zIndex: 100 }} className="header" component="div">
       <AppBar position="static" className="header__appBar">
         <Toolbar>
           {showMainPageButton && <MyMenu />}
