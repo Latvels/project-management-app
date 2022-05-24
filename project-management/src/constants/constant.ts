@@ -9,3 +9,4 @@ export const CONFIG = {
 };
 
 export const TIMEOUT_FOR_MODAL = 500;
+export const TIMEOUT_FOR_ALERT = 5000;

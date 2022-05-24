@@ -1,4 +1,4 @@
-import react from 'react';
+import react, { useEffect } from 'react';
 import {Backdrop, Box, Modal, Fade, Typography} from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
@@ -15,12 +15,12 @@ import {
 } from '../../store/action/appStateAction';
 import { AppDispatch } from '../../store/store';
 import { deleteUser, selectUser } from '../../api/userApi';
-import { deleteBoard, selectBoard } from '../../api/boardApi';
+import { boardSlise, deleteBoard, selectBoard } from '../../api/boardApi';
 import { deleteTask } from '../../api/taskApi';
-import { err } from '../../utils/showBasicAlerts';
 import { authSlise } from '../../api/authApi';
-import { Error } from '../../typings/typings';
+import { ACTION_STATUSES, Error } from '../../typings/typings';
 import { useNavigate } from 'react-router-dom';
+import { BasicAlerts } from '../compunents';
 
 const style = {
   position: 'absolute',
@@ -39,14 +39,13 @@ function ConfirmationModal() {
   const navigate = useNavigate();
   const appState = useSelector((state: RootState) => state.appState);
   const getUserId = useSelector((state: RootState) => state.awtUser);
-  const {entities: board} = useSelector(selectBoard);
+  const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
+  const boardRequestError: Error = useSelector((state: RootState) => state.board.error);
+  const {resetBoardRequestStatus} = boardSlise.actions;
   const appDispatch = useDispatch<AppDispatch>();
   const userErrorMessage = useSelector((state: RootState) => state.user.error) as Error;
-  const boardErrorMessage = useSelector((state: RootState) => state.board.error) as Error;
-  const taskErrorMessage = useSelector((state: RootState) => state.task.error) as Error;
-  const signInStatus = useSelector((state: RootState) => state.auth.signInStatus);
   const { resetStatuses } = authSlise.actions;
-  let errorMessage: Error = {};
+  const boards = useSelector((state: RootState) => state.board);
 
   const handleClose = () => appDispatch(setIsConfirmModalOpen(false));
 
@@ -73,30 +72,35 @@ function ConfirmationModal() {
   };
 
   const logOut = () => {
-    console.log('signInStatus', signInStatus);
     appDispatch(resetStatuses())
     navigate('/');
   }
 
   const handleYesClick = async () => {
-    appDispatch(setIsConfirmModalOpen(false));
-    appDispatch(setIsPreloaderOpen(true));
     if (deletedItem === 'user') {
+      appDispatch(setIsPreloaderOpen(true));
       await appDispatch(deleteUser(String(appState.deletedId)));
       appDispatch(setIsPreloaderOpen(false));
       logOut();
-      userErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = userErrorMessage;
+      // if (requestStatus === ACTION_STATUSES.FULFILLED) {
+      //   appDispatch(setIsCreateNewBoardModalOpen(false));
+      //   appDispatch(resetBoardRequestStatus());
+      // }
     } else if (deletedItem === 'board') {
-      await appDispatch(deleteBoard(String(appState.deletedId)));
-      window.location.reload();
+      appDispatch(setIsPreloaderOpen(true));
+      const resp = await appDispatch(deleteBoard(String(appState.deletedId)));
+      console.log(resp);
       appDispatch(setIsPreloaderOpen(false));
-      boardErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = userErrorMessage;
-  // } else if (deletedItem === 'task') {
+      if (resp.meta.requestStatus === 'fulfilled') {
+        appDispatch(resetBoardRequestStatus());
+        appDispatch(setIsConfirmModalOpen(false));
+      }
+// } else if (deletedItem === 'task') {
+  //   appDispatch(setIsPreloaderOpen(true));
   //   await appDispatch(deleteTask());
   //  appDispatch(setIsPreloaderOpen(false));
-  //  taskErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = taskErrorMessage;
     }
-    appDispatch(setDeletedItem(null));
+    // appDispatch(setDeletedItem(null));
   };
 
   const handleNoClick = () => {
@@ -151,7 +155,7 @@ function ConfirmationModal() {
               {buttonNoText}
             </Button>
           </Box>
-          {err(errorMessage)}
+          {boardRequestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={boardRequestError} />}
         </Box>
       </Fade>
     </Modal>

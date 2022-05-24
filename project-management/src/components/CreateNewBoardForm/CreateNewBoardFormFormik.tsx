@@ -82,9 +82,9 @@ function CreateNewBoardFormFormik() {
         onSubmit={async (values: IValues, { setSubmitting }) => {
           setSubmitting(false);
           appDispatch(setIsPreloaderOpen(true));
-          await appDispatch(createBoard(values));
+          const resp = await appDispatch(createBoard(values));
           appDispatch(setIsPreloaderOpen(false));
-          if (requestStatus === ACTION_STATUSES.FULFILLED) {
+          if (resp.meta.requestStatus === 'fulfilled') {
             appDispatch(setIsCreateNewBoardModalOpen(false));
             appDispatch(resetBoardRequestStatus());
           }

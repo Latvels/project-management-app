@@ -27,6 +27,7 @@ function MainPage() {
   const searchInputPlaceholder = t('mainPage:searchInputPlaceholder');
   const resetSearchBtn = t('mainPage:resetSearchBtn');
   const searchInputRef: react.RefObject<HTMLFormElement> | null = useRef(null);
+
   const getAllBoards = async () => {
     await appDispatch(getBoards());
   };

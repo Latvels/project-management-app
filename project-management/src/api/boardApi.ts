@@ -6,7 +6,7 @@ import { CONFIG } from '../constants/constant';
 import { ACTION_STATUSES, Board, reqState } from '../typings/typings';
 import i18n from '../services/i18n';
 
-export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectWithValue }) => {
+export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectWithValue, dispatch }) => {
   try {
     const response = await axios.get<Board[]>(`${CONFIG.basicURL}/boards`, {
       headers: {
@@ -14,7 +14,7 @@ export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectW
         Authorization: `Bearer ${CONFIG.token}`,
       },
     });
-    return response.data;
+    dispatch(boardSlise.actions.setBoards(response.data));
   } catch (e) {
     rejectWithValue(e);
     return rejectWithValue(i18n.t('errors: rejectGetBoards'));
@@ -40,7 +40,7 @@ export const getBoardsById = createAsyncThunk(
 
 export const createBoard = createAsyncThunk(
   'board/createBoard',
-  async (arr: Board, { rejectWithValue }) => {
+  async (arr: Board, { rejectWithValue, dispatch }) => {
     try {
       const config = {
         method: 'POST',
@@ -53,7 +53,7 @@ export const createBoard = createAsyncThunk(
         data: qs.stringify(arr),
       };
       const response = await axios(config);
-      return response.data;
+      dispatch(boardSlise.actions.addBoard(response.data));
     } catch (e) {
       rejectWithValue(e);
       return rejectWithValue(i18n.t('errors: rejectCreateBoard'));
@@ -88,7 +88,7 @@ export const updateBoards = createAsyncThunk(
 
 export const deleteBoard = createAsyncThunk(
   'board/deleteBoard',
-  async (id: string, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue, dispatch }) => {
     try {
       const config = {
         method: 'DELETE',
@@ -99,6 +99,7 @@ export const deleteBoard = createAsyncThunk(
         },
       };
       const response = await axios(config);
+      dispatch(boardSlise.actions.deleteBoard(id));
       return response.data;
     } catch (e) {
       rejectWithValue(e);
@@ -122,9 +123,15 @@ export const boardSlise = createSlice({
     setBoards: (state, action) => {
       state.entities = action.payload;
     },
+    deleteBoard: (state, action) => {
+      state.entities = state.entities.filter((item: Board) => item.id !== action.payload)
+    },
     resetBoardRequestStatus: (state) => {
       state.boardRequestStatus = null;
     },
+    addBoard: (state, action) => {
+      state.entities.push(action.payload);
+    }
   },
   extraReducers: {
     [getBoards.pending.type]: (state, action) => {
@@ -192,7 +199,7 @@ export const boardSlise = createSlice({
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         // state.entities = action.payload;
-        state.entities.push(action.payload);
+        // state.entities.push(action.payload);
         state.currentRequestId = undefined;
       }
     },
@@ -218,7 +225,7 @@ export const boardSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -244,7 +251,7 @@ export const boardSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },

@@ -5,6 +5,8 @@ import { Error } from '../../typings/typings';
 import { useTranslation } from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import { boardSlise } from '../../api/boardApi';
+import { setIsConfirmModalOpen, setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
+import { TIMEOUT_FOR_ALERT } from '../../constants/constant';
 
 type Props = {
   error: Error;
@@ -17,11 +19,17 @@ export default function BasicAlerts(props: Props) {
   const { status, message } = props.error;
   const { t } = useTranslation();
 
+  const closeAlert = () => {
+    setOpen(false);
+    appDispatch(resetBoardRequestStatus());
+  } 
+
   React.useEffect(() => {
     setTimeout(() => {
-      setOpen(false);
-      appDispatch(resetBoardRequestStatus());
-    }, 3000);
+      closeAlert();
+      appDispatch(setIsConfirmModalOpen(false));
+      appDispatch(setIsCreateNewBoardModalOpen(false));
+    }, TIMEOUT_FOR_ALERT );
   }, []);
 
   return (
@@ -34,9 +42,10 @@ export default function BasicAlerts(props: Props) {
               aria-label="close"
               color="inherit"
               size="small"
-              onClick={() => {
-                setOpen(false);
-              }}
+              onClick={closeAlert}
+              // onClick={() => {
+              //   setOpen(false);
+              // }}
             >
               <CloseIcon fontSize="inherit" />
             </IconButton>
