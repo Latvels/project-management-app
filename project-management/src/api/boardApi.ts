@@ -176,7 +176,8 @@ export const boardSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
+        state.entities.push(action.payload);
         state.currentRequestId = undefined;
       }
     },

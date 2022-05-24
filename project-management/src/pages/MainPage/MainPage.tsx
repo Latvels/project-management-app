@@ -22,7 +22,7 @@ function MainPage() {
   const { t } = useTranslation();
   const message = t('mainPage:cardsIsEmpty');
   const appDispatch = useDispatch<AppDispatch>();
-  const allBoards = useSelector((state: RootState) => state.board.entities);
+  const allBoards = useSelector((state: RootState) => state.board.entities) || [];
   const { setBoards } = boardSlise.actions;
   const searchInputPlaceholder = t('mainPage:searchInputPlaceholder');
   const resetSearchBtn = t('mainPage:resetSearchBtn');
@@ -30,9 +30,11 @@ function MainPage() {
   const getAllBoards = async () => {
     await appDispatch(getBoards());
   };
+
   useEffect(() => {
     getAllBoards();
   }, [appDispatch]);
+
   const filterByKey = (searchValue: string) => {
     const res: Board[] = [];
     allBoards.map((el: Board) => {
