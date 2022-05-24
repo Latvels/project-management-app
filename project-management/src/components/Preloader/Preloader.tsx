@@ -18,7 +18,7 @@ function Preloader() {
   const appState = useSelector((state: RootState) => state.appState);
 
   return (
-    <div>
+    <div tabIndex={Number(-1)}>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -28,9 +28,11 @@ function Preloader() {
         BackdropProps={{
           timeout: 700,
         }}
+        tabIndex={Number(-1)}
       >
-        <Fade in={appState.isPreloaderOpen}>
-          <Box sx={style}>
+        <Fade in={appState.isPreloaderOpen} tabIndex={Number(-1)}> 
+          <Box sx={style} tabIndex={Number(-1)}
+>
             <CircularProgress className="preloader" color="secondary" />
             <CircularProgress className="preloader" color="info" />
             <CircularProgress className="preloader" color="secondary" />
