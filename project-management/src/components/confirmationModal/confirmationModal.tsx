@@ -45,6 +45,7 @@ function ConfirmationModal() {
   const boardErrorMessage = useSelector((state: RootState) => state.board.error) as Error;
   const taskErrorMessage = useSelector((state: RootState) => state.task.error) as Error;
   const signInStatus = useSelector((state: RootState) => state.auth.signInStatus);
+  const { resetStatuses } = authSlise.actions;
   let errorMessage: Error = {};
 
   const handleClose = () => appDispatch(setIsConfirmModalOpen(false));
@@ -73,8 +74,7 @@ function ConfirmationModal() {
 
   const logOut = () => {
     console.log('signInStatus', signInStatus);
-    // 
-    // dispatchEvent(resetStatuses());
+    appDispatch(resetStatuses())
     navigate('/');
   }
 
@@ -83,7 +83,6 @@ function ConfirmationModal() {
     appDispatch(setIsPreloaderOpen(true));
     if (deletedItem === 'user') {
       await appDispatch(deleteUser(String(appState.deletedId)));
-      // await appDispatch(deleteUser(getUserId.user.id));
       appDispatch(setIsPreloaderOpen(false));
       logOut();
       userErrorMessage.message === '' ? appDispatch(setIsConfirmModalOpen(false)) : errorMessage = userErrorMessage;
