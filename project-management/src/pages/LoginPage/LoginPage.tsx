@@ -12,6 +12,8 @@ import Preloader from '../../components/Preloader/Preloader';
 import BasicAlerts from '../../components/Alert/alerts';
 
 function Login() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation();
   const {
     initialValues,
     loginLabel,
@@ -21,10 +23,8 @@ function Login() {
     requestError,
     validateForm,
   } = useLoginPage();
-  
-  const dispatch = useDispatch<AppDispatch>();
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+  //! conflict
+/*  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const requestStatus = useAppSelector((state) => state.auth.signInStatus);
@@ -65,8 +65,7 @@ function Login() {
       dispatch(getUsers());
     },
     [password, email]
-  );
-
+  );*/
   return (
     <Container>
       <h2>{t('login:title')}</h2>
