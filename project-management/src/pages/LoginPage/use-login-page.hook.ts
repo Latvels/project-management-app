@@ -38,12 +38,12 @@ export const useLoginPage = (): UseRegistrationReturnValues => {
   const requestError = useAppSelector((state) => state.auth.error);
   const currentUser = useAppSelector((state) => state.user);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-  const loginLabel = t('editProfileForm:login');
-  const passLabel = t('editProfileForm:pass');
+  const loginLabel = t('login:email');
+  const passLabel = t('login:password');
   const { search } = useLocation();
   const [email, setEmail] = useState<string>('');
 
-/* конфликт
+  /* конфликт
 
   useEffect(() => {
     if (requestStatus === ACTION_STATUSES.FULFILLED) {
