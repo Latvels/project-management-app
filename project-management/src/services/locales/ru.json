@@ -17,7 +17,13 @@
     "Error:" : "Ошибка:",
     "pagesNotDefined": "Данная страница не найдена",
     "ThisUserWasNotFound": "Данный пользователь не найден",
-    "AnErrorHasOccurred": "Произошла ошибка, попробуйте ещё раз"
+    "AnErrorHasOccurred": "Произошла ошибка, попробуйте ещё раз",
+    "rejectGetBoards": "Ошибка получения досок",
+    "rejectGetBoard": "Ошибка получения доски",
+    "rejectCreateBoard": "Ошибка создания доски",
+    "rejectUpdateBoard": "Ошибка обновления доски",
+    "rejectDeleteBoard": "Ошибка удаления доски"
+
   },
   "description": {
     "part1": "Чтобы начать работу",

@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { RootState } from '../../store/reducer/reducer';
 import { useSelector } from 'react-redux';
-import { Root } from 'react-dom/client';
 
 function Header() {
   const appState = useSelector((state: RootState) => state.appState);

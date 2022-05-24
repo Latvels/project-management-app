@@ -17,7 +17,12 @@
     "Error:" : "Error:",
     "pagesNotDefined": "This pages is not defined",
     "ThisUserWasNotFound": "This user was not found",
-    "AnErrorHasOccurred": "An error has occurred, please try again"
+    "AnErrorHasOccurred": "An error has occurred, please try again",
+    "rejectGetBoards": "Failed to load boards",
+    "rejectGetBoard": "Failed to load board",
+    "rejectCreateBoard": "Failed to create board",
+    "rejectUpdateBoard": "Failed to update board",
+    "rejectDeleteBoard": "Failed to delete board"
   },
   "description": {
     "part1": "To get started",
