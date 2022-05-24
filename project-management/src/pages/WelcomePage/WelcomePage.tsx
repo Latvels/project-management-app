@@ -15,7 +15,7 @@ import './welcomePage.scss';
 import women from '../../assets/woman.png';
 import man from '../../assets/man.png';
 import girl from '../../assets/girl.png';
-import {useLocation, useNavigate, useSearchParams} from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 
@@ -33,8 +33,9 @@ function WelcomePage() {
     navigate(`/mainPage${search}`);
   }, [search]);
 
-  const adaptive = useMediaQuery('(max-width: 600px');
-
+  const adaptive = useMediaQuery('(max-width: 599px');
+  const adaptiveImgMax = useMediaQuery('(min-width: 600px');
+  const adaptiveImgMin = useMediaQuery('(max-width: 700px');
   return (
     <Container sx={{ mb: 12, mt: 6 }}>
       <div className={'container--link'}>
@@ -56,9 +57,9 @@ function WelcomePage() {
       <h2>{t('welcomePage:team')}</h2>
       <Grid sx={{ mb: 5 }} container direction={matches ? 'column' : 'row'}>
         <Grid item xs={4}>
-          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345 }}>
+          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, height: 600, mx: 2 }}>
             <CardMedia
-              sx={adaptive ? { width: 150 } : { width: 200 }}
+              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 200 }}
               className="card--media"
               component="img"
               alt="Evgeny"
@@ -71,7 +72,10 @@ function WelcomePage() {
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 Frontend Dev | Team Lead
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant={adaptiveImgMax && adaptiveImgMin ? 'body1' : 'body2'}
+                color="text.secondary"
+              >
                 {t('welcomePage:doEvgeny')}
               </Typography>
             </CardContent>
@@ -79,9 +83,9 @@ function WelcomePage() {
           </Card>
         </Grid>
         <Grid item xs={4}>
-          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345 }}>
+          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, height: 600, mx: 2 }}>
             <CardMedia
-              sx={adaptive ? { width: 150 } : { width: 200 }}
+              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 200 }}
               className="card--media"
               component="img"
               alt="Tatiana"
@@ -102,9 +106,9 @@ function WelcomePage() {
           </Card>
         </Grid>
         <Grid item xs={4}>
-          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345 }}>
+          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, height: 600, mx: 2 }}>
             <CardMedia
-              sx={adaptive ? { width: 150 } : { width: 200 }}
+              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 200 }}
               className="card--media"
               component="img"
               alt="Elizaveta"

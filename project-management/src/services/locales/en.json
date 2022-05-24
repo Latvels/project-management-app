@@ -14,7 +14,7 @@
     "En": "En"
   },
   "errors": {
-    "Error:" : "Error:",
+    "Error:": "Error:",
     "pagesNotDefined": "This pages is not defined",
     "ThisUserWasNotFound": "This user was not found",
     "AnErrorHasOccurred": "An error has occurred, please try again"
@@ -62,13 +62,13 @@
     "Tatiana": "Tatiana",
     "Elizaveta": "Elizaveta",
     "FrontendDev": "Frontend Dev",
-    "DiscriptionOne": "\"This project, created as part of training at the RS School, is dedicated to React. This school helps to learn different languages \u200Band frameworks.",
-    "DescriptionTwo": "For example, this React course helped to gain skills and knowledge:\n- creating applications on React + typeScript;\n- work with class and functional components;\n- create a common store for all data;\n- and much more.\n",
+    "DiscriptionOne": "This project, created as part of training at the RS School, is dedicated to React. This school helps to learn different languages and frameworks.",
+    "DescriptionTwo": "For example, this React course helped to gain skills and knowledge:\n- creating applications on React + typeScript work with class and functional components create a common store for all data and much more.",
     "DescriptionThree": "You don't have to watch the application of our team, which was made as part of the final task. This application will help to manage projects, as it allows you to review tasks and see at what stage this or that task is.”",
-    "descriptionSchool": "RS School is free-of-charge and community-based education program conducted by The Rolling Scopes developer community\nsince 2013.\n\nEveryone can study at RS School, regardless of age, professional employment, or place of residence.\n\nThe mentors and trainers of their school are front-end and javascript developers from different companies and countries.",
-    "doEvgeny": "Hello, my name is Zhenya and in this project I have done: Backend (CI/CD), Footer, Boarder route",
-    "doTatiana": "Hello, my name is Tatiana and in this project I have done: Header, Create new board, Main route, Boarder route",
-    "doElizaveta": "Hello, my name is Liza and in this project I have done: Welcome page, Sign In / Sign Up, Boarder route"
+    "descriptionSchool": "RS School is free-of-charge and community-based education program conducted by The Rolling Scopes developer community since 2013. Everyone can study at RS School, regardless of age, professional employment, or place of residence. The mentors and trainers of their school are front-end and javascript developers from different companies and countries.",
+    "doEvgeny": "Hello, my name is Evgeniy and in this project I have done: Backend (CI/CD), Footer, Board route, Main route",
+    "doTatiana": "Hello, my name is Tatiana and in this project I have done: Header, Create new board, Main route (Create new board, Edit profile), Board route",
+    "doElizaveta": "Hello, my name is Liza and in this project I have done: Welcome page, Sign In / Sign Up, Board route"
   },
   "registration": {
     "title": "Please register",
@@ -78,7 +78,10 @@
     "submit": "Register"
   },
   "login": {
-    "title": "Please enter your login and password"
+    "title": "Please enter your login and password",
+    "email": "email",
+    "password": "enter your password",
+    "submit": "enter"
   },
   "mainPage": {
     "cardsIsEmpty": "No boards found",
