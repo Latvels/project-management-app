@@ -27,9 +27,9 @@ interface UseRegistrationReturnValues {
 export const useRegistration = (): UseRegistrationReturnValues => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const nameLabel = t('editProfileForm:name');
-  const loginLabel = t('editProfileForm:login');
-  const passLabel = t('editProfileForm:pass');
+  const nameLabel = t('registration:name');
+  const loginLabel = t('registration:email');
+  const passLabel = t('registration:password');
   const requestStatus = useAppSelector((state) => state.auth.signUpStatus);
   const requestError = useAppSelector((state) => state.auth.error);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);

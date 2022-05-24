@@ -25,7 +25,7 @@ function Login() {
     setEmail,
   } = useLoginPage();
   //! conflict
-/*  const navigate = useNavigate();
+  /*  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const requestStatus = useAppSelector((state) => state.auth.signInStatus);
@@ -108,7 +108,7 @@ function Login() {
                 variant="outlined"
                 color="info"
               >
-                {t('registration:submit')}
+                {t('login:submit')}
               </Button>
               {requestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={requestError} />}
             </Form>
