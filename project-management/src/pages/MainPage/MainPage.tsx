@@ -5,9 +5,9 @@ import { Box, Typography, Paper, IconButton, InputBase, Button } from '@mui/mate
 import store, { AppDispatch } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
-import { Board } from '../../typings/typings';
+import { ACTION_STATUSES, Board } from '../../typings/typings';
 import SearchIcon from '@mui/icons-material/Search';
-import { BoardCard } from '../../components/compunents';
+import { BasicAlerts, BoardCard } from '../../components/compunents';
 import { boardSlise, getBoards } from '../../api/boardApi';
 const CardsIsEmpty = () => {
   const { t } = useTranslation();
@@ -27,6 +27,10 @@ function MainPage() {
   const searchInputPlaceholder = t('mainPage:searchInputPlaceholder');
   const resetSearchBtn = t('mainPage:resetSearchBtn');
   const searchInputRef: react.RefObject<HTMLFormElement> | null = useRef(null);
+  const boardRequestError = useSelector((state: RootState) => state.board.error) as Error;
+  const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
+  const {resetBoardRequestStatus} = boardSlise.actions;
+
 
   const getAllBoards = async () => {
     await appDispatch(getBoards());
@@ -81,6 +85,8 @@ function MainPage() {
   };
   return (
     <>
+    {(boardRequestStatus === ACTION_STATUSES.REJECTED) ? (<BasicAlerts error={boardRequestError} />) : 
+    (<>
       <Box
         component="div"
         sx={{
@@ -130,6 +136,7 @@ function MainPage() {
           <CardsIsEmpty />
         )}
       </Box>
+    </>)}
     </>
   );
 }

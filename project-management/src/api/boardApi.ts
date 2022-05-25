@@ -14,10 +14,10 @@ export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectW
         Authorization: `Bearer ${CONFIG.token}`,
       },
     });
+    console.log(response);
     dispatch(boardSlise.actions.setBoards(response.data));
   } catch (e) {
     rejectWithValue(e);
-    // return rejectWithValue(i18n.t('errors: rejectGetBoards'));
     return rejectWithValue(i18n.t('errors:rejectGetBoards'))
   }
 });
@@ -153,6 +153,7 @@ export const boardSlise = createSlice({
     },
     [getBoards.rejected.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.REJECTED;
+      state.entities = [];
       const { requestId } = action.meta;
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
@@ -181,7 +182,7 @@ export const boardSlise = createSlice({
       }
     },
     [getBoardsById.rejected.type]: (state, action) => {
-      state.boardRequestStatus = ACTION_STATUSES.REJECTED;
+      // state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
@@ -240,7 +241,7 @@ export const boardSlise = createSlice({
       }
     },
     [updateBoards.rejected.type]: (state, action) => {
-      state.boardRequestStatus = ACTION_STATUSES.REJECTED;
+      // state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
