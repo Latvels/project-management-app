@@ -18,8 +18,8 @@
     "pagesNotDefined": "Данная страница не найдена",
     "ThisUserWasNotFound": "Данный пользователь не найден",
     "AnErrorHasOccurred": "Произошла ошибка, попробуйте ещё раз",
-    "rejectGetBoards": "Ошибка получения досок",
-    "rejectGetBoard": "Ошибка получения доски",
+    "rejectGetBoards": "Ошибка получения данных",
+    "rejectGetBoard": "Ошибка получения данных",
     "rejectCreateBoard": "Ошибка создания доски",
     "rejectUpdateBoard": "Ошибка обновления доски",
     "rejectDeleteBoard": "Ошибка удаления доски",
@@ -32,7 +32,6 @@
     "rejectCreateTask": "Ошибка создания пункта",
     "rejectUpdateTask": "Ошибка обновления пункта",
     "rejectDeleteTask": "Ошибка удаления пункта"
-
   },
   "description": {
     "part1": "Чтобы начать работу",

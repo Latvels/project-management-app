@@ -14,6 +14,7 @@ import { EditProfileFormFormik } from '../compunents';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 import './editProfileModal.scss';
 import { AppDispatch } from '../../store/store';
+import { userSlise } from '../../api/userApi';
 
 const style = {
   position: 'absolute',
@@ -31,8 +32,12 @@ function EditProfileModal() {
   const { t } = useTranslation();
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch<AppDispatch>();
+  const {resetUserRequestStatus} = userSlise.actions;
 
-  const handleClose = () => appDispatch(setIsEditProfileModalOpen(false));
+  const handleClose = () => {
+    appDispatch(resetUserRequestStatus());
+    appDispatch(setIsEditProfileModalOpen(false));
+  }
 
   return (
     <Modal

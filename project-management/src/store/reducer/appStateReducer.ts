@@ -5,7 +5,7 @@ interface IAppState {
   isCreateNewBoardModalOpen: boolean;
   isPreloaderOpen: boolean;
   isConfirmModalOpen: boolean;
-  deletedItem?: string | null,
+  deletedItem?: 'board' | 'task' | 'user' | null,
   deletedId?: string | null,
   currentBoardId: string | null,
 }
@@ -52,7 +52,7 @@ function appStateReducer(state = initialState, action: IAction) {
     case SET_DELETED_ITEM: {
       return {
         ...state,
-        deletedItem: action.payload as string,
+        deletedItem: action.payload as 'user' | 'board' | 'task' | null,
       };
     }
     case SET_DELETED_ID: 

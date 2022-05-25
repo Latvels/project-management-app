@@ -17,7 +17,8 @@ export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectW
     dispatch(boardSlise.actions.setBoards(response.data));
   } catch (e) {
     rejectWithValue(e);
-    return rejectWithValue(i18n.t('errors: rejectGetBoards'));
+    // return rejectWithValue(i18n.t('errors: rejectGetBoards'));
+    return rejectWithValue(i18n.t('errors:rejectGetBoards'))
   }
 });
 
@@ -34,7 +35,7 @@ export const getBoardsById = createAsyncThunk(
     return response.data;
     } catch (e) {
       rejectWithValue(e);
-    	return rejectWithValue(i18n.t('errors: rejectGetBoard'));
+    	return rejectWithValue(i18n.t('errors:rejectGetBoard'));
   }
 });
 
@@ -56,7 +57,7 @@ export const createBoard = createAsyncThunk(
       dispatch(boardSlise.actions.addBoard(response.data));
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectCreateBoard'));
+      return rejectWithValue(i18n.t('errors:rejectCreateBoard'));
     }
   }
 );
@@ -81,7 +82,7 @@ export const updateBoards = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectUpdateBoard'));
+      return rejectWithValue(i18n.t('errors:rejectUpdateBoard'));
     }
   }
 );
@@ -103,7 +104,7 @@ export const deleteBoard = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectDeleteBoard'));
+      return rejectWithValue(i18n.t('errors:rejectDeleteBoard'));
     }
   }
 );
@@ -153,6 +154,8 @@ export const boardSlise = createSlice({
     [getBoards.rejected.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         action.error.message = action.payload;
@@ -180,9 +183,11 @@ export const boardSlise = createSlice({
     [getBoardsById.rejected.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        action.error.message = action.payload;
+        state.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
@@ -208,9 +213,11 @@ export const boardSlise = createSlice({
     [createBoard.rejected.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        action.error.message = action.payload;
+        state.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
@@ -235,9 +242,11 @@ export const boardSlise = createSlice({
     [updateBoards.rejected.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        action.error.message = action.payload;
+        state.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
@@ -255,16 +264,17 @@ export const boardSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities = action.payload;
+        state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
     [deleteBoard.rejected.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        action.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }

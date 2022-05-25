@@ -4,7 +4,7 @@ import { TextField } from 'formik-mui';
 import react, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { setDeletedItem, setDeletedId, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import { setDeletedItem, setDeletedId, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen, setUserData } from '../../store/action/appStateAction';
 import { updateUser, userSlise } from '../../api/userApi';
 import './editProfileFormFormik.scss';
 import { AppDispatch } from '../../store/store';
@@ -35,8 +35,7 @@ function EditProfileFormFormik() {
   const minValue = t('formValidation:minValue');
   const maxValue = t('formValidation:maxValue');
   const required = t('formValidation:required');
-
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const initialValues = {
     name: '',
@@ -55,14 +54,14 @@ function EditProfileFormFormik() {
 
   useEffect(() => {
     getUserData();
-  }, []);
+  });
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
     function checkFormField(key: keyof IValues) {
       if (!values[key]) {
         errors[key] = required;
-      } else if (values[key].length < 3) {
+      } else if (values[key].length < 4) {
         errors[key] = minValue;
       } else if (values[key].length > 12) {
         errors[key] = maxValue;
@@ -109,10 +108,12 @@ function EditProfileFormFormik() {
           password: values.password
         };
         const resp = await appDispatch(updateUser(newUserData));
+        console.log(resp);
         appDispatch(setIsPreloaderOpen(false));
         if(resp.meta.requestStatus === 'fulfilled') {
+          appDispatch(setUserData(resp.payload));
           appDispatch(setIsEditProfileModalOpen(false));
-          appDispatch(resetUserRequestStatus())
+          appDispatch(resetUserRequestStatus());
         }
       }}
     >
@@ -144,7 +145,6 @@ function EditProfileFormFormik() {
             color="info"
             disabled={isButtonDisabled}
             onClick={submitForm}
-            // type="submit"
           >
             {submitButtonText}
           </Button>
@@ -165,69 +165,3 @@ function EditProfileFormFormik() {
 }
 
 export default EditProfileFormFormik;
-
-/* конфликт
-<Formik
-      initialValues={initialValues}
-      validate={validateForm}
-      onSubmit={async (values: IValues, {setSubmitting}) => {
-        setSubmitting(false);
-        appDispatch(setIsPreloaderOpen(true));
-        const newUserData: User = {
-          id: getUserId.user.id,
-          name: values.name,
-          login: values.login,
-          password: values.password
-        };
-        await appDispatch(updateUser(newUserData));
-        appDispatch(setIsPreloaderOpen(false));
-        if(errorMessage.message === '' || errorMessage.message === undefined) {
-          appDispatch(setIsEditProfileModalOpen(false));
-        }
-      }}
-    >
-      {({ submitForm }) => (
-        <Form className="form">
-          <Field
-            component={TextField}
-            name="name"
-            type="text"
-            label={nameLabel}
-            color="info"
-          />
-          <Field
-            component={TextField}
-            name="login"
-            type="text"
-            label={loginLabel}
-            color="info"
-          />
-          <Field
-            component={TextField}
-            name="password"
-            type="text"
-            label={passLabel}
-            color="info"
-          />
-          <Button
-            variant="outlined"
-            color="info"
-            disabled={isButtonDisabled}
-            onClick={submitForm}
-            // type="submit"
-          >
-            {submitButtonText}
-          </Button>
-          <Button
-            variant="outlined"
-            color="warning"
-            disabled={false}
-            onClick={handleClickDeleteUserButton}
-          >
-            {deleteButtonText}
-          </Button>
-        </Form>
-      )}
-    </Formik>
-    {err(errorMessage)}
-     */

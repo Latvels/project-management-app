@@ -17,7 +17,7 @@ export const getUsers = createAsyncThunk('user/getUsers', async (_, { rejectWith
     return response.data;
   } catch (e) {
     rejectWithValue(e);
-    return rejectWithValue(i18n.t('errors: rejectGetUsers'));
+    return rejectWithValue(i18n.t('errors:rejectGetUsers'));
   }
 });
 
@@ -34,7 +34,7 @@ export const getUsersById = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e)
-      return rejectWithValue(i18n.t('errors: rejectGetUser'));
+      return rejectWithValue(i18n.t('errors:rejectGetUser'));
     }
   }
 );
@@ -59,7 +59,7 @@ export const updateUser = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectUpdateUser'));
+      return rejectWithValue(i18n.t('errors:rejectUpdateUser'));
     }
   }
 );
@@ -80,7 +80,7 @@ export const deleteUser = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectDeleteUser'));
+      return rejectWithValue(i18n.t('errors:rejectDeleteUser'));
     }
   }
 );
@@ -119,12 +119,14 @@ export const userSlise = createSlice({
       }
     },
     [getUsers.rejected.type]: (state, action) => {
-      state.userRequestStatus = ACTION_STATUSES.REJECTED;
+      // state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         action.error.message = action.payload;
-        state.error = action.error;
+        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
@@ -146,8 +148,10 @@ export const userSlise = createSlice({
       }
     },
     [getUsersById.rejected.type]: (state, action) => {
-      state.userRequestStatus = ACTION_STATUSES.REJECTED;
+      // state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         action.error.message = action.payload;
@@ -175,10 +179,12 @@ export const userSlise = createSlice({
     [updateUser.rejected.type]: (state, action) => {
       state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        action.error.message = action.payload;
-        state.error = action.error;
+        // action.error.message = action.payload;
+        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
@@ -202,10 +208,13 @@ export const userSlise = createSlice({
     [deleteUser.rejected.type]: (state, action) => {
       state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      console.log(action);
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        action.error.message = action.payload;
-        state.error = action.error;
+        // action.error.message = action.payload;
+        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },

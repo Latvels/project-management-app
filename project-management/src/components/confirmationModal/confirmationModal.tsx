@@ -22,7 +22,7 @@ import { authSlise } from '../../api/authApi';
 import { ACTION_STATUSES, Error, Task } from '../../typings/typings';
 import { useNavigate } from 'react-router-dom';
 import { BasicAlerts } from '../compunents';
-import { realpath } from 'fs';
+// import { realpath } from 'fs';
 
 const style = {
   position: 'absolute',
@@ -40,7 +40,6 @@ function ConfirmationModal() {
   const {t} = useTranslation();
   const navigate = useNavigate();
   const appState = useSelector((state: RootState) => state.appState);
-  const getUserId = useSelector((state: RootState) => state.awtUser);
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
   const boardRequestError: Error = useSelector((state: RootState) => state.board.error);
   const {resetBoardRequestStatus} = boardSlise.actions;
@@ -52,9 +51,6 @@ function ConfirmationModal() {
   const {resetUserRequestStatus} = userSlise.actions;
   const appDispatch = useDispatch<AppDispatch>();
   const { resetStatuses } = authSlise.actions;
-
-  const handleClose = () => appDispatch(setIsConfirmModalOpen(false));
-
   const title = t('confirmationModal:title');
   const commonText = t('confirmationModal:commonText');
   const deleteUserText = t('confirmationModal:deleteUserText');
@@ -63,6 +59,21 @@ function ConfirmationModal() {
   const buttonYesText = t('confirmationModal:buttonYes');
   const buttonNoText = t('confirmationModal:buttonNo');
   const deletedItem = appState.deletedItem as 'user' | 'board' | 'task';
+
+
+  const handleClose = () => {
+      switch (deletedItem) {
+        case 'board':
+          appDispatch(resetBoardRequestStatus());
+          break;
+        case 'task':
+          appDispatch(resetTaskRequestStatus());
+          break;
+        case 'user':
+          appDispatch(resetUserRequestStatus());
+      };
+      appDispatch(setIsConfirmModalOpen(false));
+  }
 
   const getConfirmationText = (): string => {
     switch (deletedItem) {
@@ -95,6 +106,7 @@ function ConfirmationModal() {
     } else if (deletedItem === 'board') {
       appDispatch(setIsPreloaderOpen(true));
       const resp = await appDispatch(deleteBoard(String(appState.deletedId)));
+      console.log(resp)
       appDispatch(setIsPreloaderOpen(false));
       if (resp.meta.requestStatus === 'fulfilled') {
         appDispatch(resetBoardRequestStatus());
@@ -111,7 +123,6 @@ function ConfirmationModal() {
           appDispatch(setIsConfirmModalOpen(false));
         }
     }
-    appDispatch(setDeletedItem(null));
   };
 
   const handleNoClick = () => {

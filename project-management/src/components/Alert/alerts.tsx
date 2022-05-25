@@ -23,12 +23,11 @@ export default function BasicAlerts(props: Props) {
   const deletedItem = useSelector((state: RootState) => state.appState.deletedItem);
   const appDispatch = useDispatch();
   const { status, message } = props.error;
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   const closeAlert = () => {
     setOpen(false);
     if (deletedItem) {
-      console.log('deletedItem exist')
       switch (deletedItem) {
         case 'board':
           appDispatch(resetBoardRequestStatus());
@@ -38,18 +37,20 @@ export default function BasicAlerts(props: Props) {
           break;
         case 'user':
           appDispatch(resetUserRequestStatus());
-      }
-      appDispatch(setIsConfirmModalOpen(false));
+      };
     }
-    appDispatch(resetUserRequestStatus());
   } 
 
   React.useEffect(() => {
-    setTimeout(() => {
+    const callBack = () => {
       closeAlert();
+      appDispatch(setIsConfirmModalOpen(false));
       appDispatch(setIsCreateNewBoardModalOpen(false));
       appDispatch(setIsEditProfileModalOpen(false));
-    }, TIMEOUT_FOR_ALERT );
+      appDispatch(resetUserRequestStatus());
+    }
+    const timer = setTimeout(callBack, TIMEOUT_FOR_ALERT );
+    return () => {clearTimeout(timer)};
   }, []);
 
   return (
@@ -63,17 +64,16 @@ export default function BasicAlerts(props: Props) {
               color="inherit"
               size="small"
               onClick={closeAlert}
-              // onClick={() => {
-              //   setOpen(false);
-              // }}
             >
               <CloseIcon fontSize="inherit" />
             </IconButton>
           }
           sx={{ mb: 2 }}
         >
-          <AlertTitle>{status}</AlertTitle>
-          {t('errors:Error:')} <strong>{message}</strong>
+          <AlertTitle sx={{textTransform: 'uppercase'}}>{status}</AlertTitle>
+          <strong>{message}</strong>
+          {/* <AlertTitle>{status}</AlertTitle>
+          {t('errors:Error:')} <strong>{message}</strong> */}
         </Alert>
       </Collapse>
     </Box>
