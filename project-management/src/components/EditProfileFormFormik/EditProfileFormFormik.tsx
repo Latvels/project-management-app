@@ -5,14 +5,13 @@ import react, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { setDeletedItem, setDeletedId, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
-import { getUsersById, updateUser, selectUser } from '../../api/userApi';
+import { updateUser, userSlise } from '../../api/userApi';
 import './editProfileFormFormik.scss';
 import { AppDispatch } from '../../store/store';
 import { useSelector } from 'react-redux';
-import { User, Error } from '../../typings/typings';
+import { User, Error, ACTION_STATUSES } from '../../typings/typings';
 import { RootState } from '../../store/reducer/reducer';
 import { BasicAlerts } from '../compunents';
-// import { err } from '../../utils/showBasicAlerts';
 
 interface IValues {
   name: string;
@@ -22,17 +21,11 @@ interface IValues {
 
 function EditProfileFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
-  const getUserId: { user: { id: string } } = useSelector((state: RootState) => state.awtUser);
-  const errorMessage = useSelector((state: RootState) => state.user.error) as Error;
-  const err = (errorMessage: Error) => {
-    const { message } = errorMessage;
-    if (message !== '') {
-      console.log('error');
-      return <BasicAlerts error={errorMessage} />;
-      //здесь надо обнулить error в стейте, иначе при следующем открытии окна - сразу висит alert с ошибкой, а если окно не закрыл и корректируешь данные - повторно сообщение о ошибке не показывается
-    }
-  };
-  
+  const userData = useSelector((state: RootState) => state.awtUser);
+  const userRequestError = useSelector((state: RootState) => state.user.error) as Error;
+  const userRequestStatus = useSelector((state: RootState) => state.user.userRequestStatus);
+  const {resetUserRequestStatus} = userSlise.actions;
+
   const { t } = useTranslation();
   const nameLabel = t('editProfileForm:name');
   const loginLabel = t('editProfileForm:login');
@@ -44,7 +37,6 @@ function EditProfileFormFormik() {
   const required = t('formValidation:required');
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [userData, setUserData] = useState<User | Record<string, null>>({});
 
   const initialValues = {
     name: '',
@@ -53,15 +45,12 @@ function EditProfileFormFormik() {
   }
 
   const getUserData = async () => {
-    appDispatch(setIsPreloaderOpen(true));
-    const data = await appDispatch(getUsersById(getUserId.user.id));
-    // console.log('2131231', data);
-    const userdata = data.payload as User;
-    console.log('userdata', userdata)
-    initialValues.login = String(userdata.login);
-    initialValues.name = String(userdata.name);
+    const login = userData.user?.login as string;
+    const name = userData.user?.name as string;
+
+    initialValues.login = login;
+    initialValues.name = name;
     initialValues.password = '';
-    appDispatch(setIsPreloaderOpen(false));
   };
 
   useEffect(() => {
@@ -97,8 +86,9 @@ function EditProfileFormFormik() {
   };
 
   const handleClickDeleteUserButton = () => {
+    const id = userData.user?.id as string;
     appDispatch(setDeletedItem('user'));
-    appDispatch(setDeletedId(getUserId.user.id));
+    appDispatch(setDeletedId(id));
     appDispatch(setIsEditProfileModalOpen(false));
     appDispatch(setIsConfirmModalOpen(true));
   };
@@ -111,16 +101,18 @@ function EditProfileFormFormik() {
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
         appDispatch(setIsPreloaderOpen(true));
+        const id = userData.user?.id as string;
         const newUserData: User = {
-          id: getUserId.user.id,
+          id: id,
           name: values.name,
           login: values.login,
           password: values.password
         };
-        await appDispatch(updateUser(newUserData));
+        const resp = await appDispatch(updateUser(newUserData));
         appDispatch(setIsPreloaderOpen(false));
-        if(errorMessage.message === '' || errorMessage.message === undefined) {
+        if(resp.meta.requestStatus === 'fulfilled') {
           appDispatch(setIsEditProfileModalOpen(false));
+          appDispatch(resetUserRequestStatus())
         }
       }}
     >
@@ -164,10 +156,10 @@ function EditProfileFormFormik() {
           >
             {deleteButtonText}
           </Button>
+          {userRequestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={userRequestError} />}
         </Form>
       )}
     </Formik>
-    {err(errorMessage)}
     </>
   );
 }

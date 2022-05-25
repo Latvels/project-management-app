@@ -22,8 +22,11 @@
     "rejectGetBoard": "Ошибка получения доски",
     "rejectCreateBoard": "Ошибка создания доски",
     "rejectUpdateBoard": "Ошибка обновления доски",
-    "rejectDeleteBoard": "Ошибка удаления доски"
-
+    "rejectDeleteBoard": "Ошибка удаления доски",
+    "rejectGetUsers": "Ошибка получения данных пользователей",
+    "rejectGetUser": "Ошибка получения данных пользовтеля",
+    "rejectUpdateUser": "Ошибка обновления данных пользователя",
+    "rejectDeleteUser": "Ошибка удаления пользователя"
   },
   "description": {
     "part1": "Чтобы начать работу",

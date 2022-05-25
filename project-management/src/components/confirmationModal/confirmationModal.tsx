@@ -11,16 +11,18 @@ import './confirmationModal.scss';
 import {
   setDeletedItem,
   setIsConfirmModalOpen,
+  setIsCreateNewBoardModalOpen,
   setIsPreloaderOpen,
 } from '../../store/action/appStateAction';
 import { AppDispatch } from '../../store/store';
-import { deleteUser, selectUser } from '../../api/userApi';
+import { deleteUser, selectUser, userSlise } from '../../api/userApi';
 import { boardSlise, deleteBoard, selectBoard } from '../../api/boardApi';
-import { deleteTask } from '../../api/taskApi';
+import { deleteTask, taskSlise } from '../../api/taskApi';
 import { authSlise } from '../../api/authApi';
-import { ACTION_STATUSES, Error } from '../../typings/typings';
+import { ACTION_STATUSES, Error, Task } from '../../typings/typings';
 import { useNavigate } from 'react-router-dom';
 import { BasicAlerts } from '../compunents';
+import { realpath } from 'fs';
 
 const style = {
   position: 'absolute',
@@ -42,10 +44,14 @@ function ConfirmationModal() {
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
   const boardRequestError: Error = useSelector((state: RootState) => state.board.error);
   const {resetBoardRequestStatus} = boardSlise.actions;
+  const taskRequestStatus = useSelector((state: RootState) => state.task.taskRequestStatus);
+  const taskRequestError: Error = useSelector((state: RootState) => state.task.error);
+  const {resetTaskRequestStatus} = taskSlise.actions;
+  const userRequestStatus = useSelector((state: RootState) => state.user.userRequestStatus);
+  const userRequestError: Error = useSelector((state: RootState) => state.user.error);
+  const {resetUserRequestStatus} = userSlise.actions;
   const appDispatch = useDispatch<AppDispatch>();
-  const userErrorMessage = useSelector((state: RootState) => state.user.error) as Error;
   const { resetStatuses } = authSlise.actions;
-  const boards = useSelector((state: RootState) => state.board);
 
   const handleClose = () => appDispatch(setIsConfirmModalOpen(false));
 
@@ -79,28 +85,33 @@ function ConfirmationModal() {
   const handleYesClick = async () => {
     if (deletedItem === 'user') {
       appDispatch(setIsPreloaderOpen(true));
-      await appDispatch(deleteUser(String(appState.deletedId)));
+      const resp = await appDispatch(deleteUser(String(appState.deletedId)));
       appDispatch(setIsPreloaderOpen(false));
-      logOut();
-      // if (requestStatus === ACTION_STATUSES.FULFILLED) {
-      //   appDispatch(setIsCreateNewBoardModalOpen(false));
-      //   appDispatch(resetBoardRequestStatus());
-      // }
+      if (resp.meta.requestStatus === 'fulfilled') {
+        appDispatch(setIsConfirmModalOpen(false));
+        appDispatch(resetUserRequestStatus());
+        logOut();
+      }
     } else if (deletedItem === 'board') {
       appDispatch(setIsPreloaderOpen(true));
       const resp = await appDispatch(deleteBoard(String(appState.deletedId)));
-      console.log(resp);
       appDispatch(setIsPreloaderOpen(false));
       if (resp.meta.requestStatus === 'fulfilled') {
         appDispatch(resetBoardRequestStatus());
         appDispatch(setIsConfirmModalOpen(false));
       }
-// } else if (deletedItem === 'task') {
-  //   appDispatch(setIsPreloaderOpen(true));
-  //   await appDispatch(deleteTask());
-  //  appDispatch(setIsPreloaderOpen(false));
+    } else if (deletedItem === 'task') {
+        appDispatch(setIsPreloaderOpen(true));
+        //todo adjust work with taskDelete
+        const testData: Task = {boardId: 'boardId', columnId: 'columnId', id: 'id'};
+        const resp = await appDispatch(deleteTask(testData));
+        appDispatch(setIsPreloaderOpen(false));
+        if (resp.meta.requestStatus === 'fulfilled') {
+          appDispatch(resetTaskRequestStatus());
+          appDispatch(setIsConfirmModalOpen(false));
+        }
     }
-    // appDispatch(setDeletedItem(null));
+    appDispatch(setDeletedItem(null));
   };
 
   const handleNoClick = () => {
@@ -156,6 +167,8 @@ function ConfirmationModal() {
             </Button>
           </Box>
           {boardRequestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={boardRequestError} />}
+          {userRequestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={userRequestError} />}
+          {taskRequestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={taskRequestError} />}
         </Box>
       </Fade>
     </Modal>
