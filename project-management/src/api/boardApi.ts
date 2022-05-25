@@ -6,7 +6,7 @@ import { CONFIG } from '../constants/constant';
 import { ACTION_STATUSES, Board, reqState } from '../typings/typings';
 import i18n from '../services/i18n';
 
-export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectWithValue, dispatch }) => {
+export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get<Board[]>(`${CONFIG.basicURL}/boards`, {
       headers: {
@@ -14,7 +14,7 @@ export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectW
         Authorization: `Bearer ${CONFIG.token}`,
       },
     });
-    dispatch(boardSlise.actions.setBoards(response.data));
+    return response.data;
   } catch (e) {
     rejectWithValue(e);
     return rejectWithValue(i18n.t('errors:rejectGetBoards'))
@@ -40,7 +40,7 @@ export const getBoardsById = createAsyncThunk(
 
 export const createBoard = createAsyncThunk(
   'board/createBoard',
-  async (arr: Board, { rejectWithValue, dispatch }) => {
+  async (arr: Board, { rejectWithValue }) => {
     try {
       const config = {
         method: 'POST',
@@ -53,7 +53,7 @@ export const createBoard = createAsyncThunk(
         data: qs.stringify(arr),
       };
       const response = await axios(config);
-      dispatch(boardSlise.actions.addBoard(response.data));
+      return response.data;
     } catch (e) {
       rejectWithValue(e);
       return rejectWithValue(i18n.t('errors:rejectCreateBoard'));
@@ -98,9 +98,8 @@ export const deleteBoard = createAsyncThunk(
           Authorization: `Bearer ${CONFIG.token}`,
         },
       };
-      const response = await axios(config);
+      await axios(config);
       dispatch(boardSlise.actions.deleteBoard(id));
-      return response.data;
     } catch (e) {
       rejectWithValue(e);
       return rejectWithValue(i18n.t('errors:rejectDeleteBoard'));
@@ -128,9 +127,6 @@ export const boardSlise = createSlice({
     },
     resetBoardRequestStatus: (state) => {
       state.boardRequestStatus = null;
-    },
-    addBoard: (state, action) => {
-      state.entities.push(action.payload);
     }
   },
   extraReducers: {
@@ -144,9 +140,10 @@ export const boardSlise = createSlice({
     [getBoards.fulfilled.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
+      state.entities = action.payload;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -203,9 +200,9 @@ export const boardSlise = createSlice({
     [createBoard.fulfilled.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
+      state.entities.push(action.payload);
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities = action.payload;
         // state.entities.push(action.payload);
         state.currentRequestId = undefined;
       }
@@ -218,7 +215,6 @@ export const boardSlise = createSlice({
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         state.error.message = action.payload;
-        state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
@@ -235,7 +231,7 @@ export const boardSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities = action.payload;
+        state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -247,7 +243,6 @@ export const boardSlise = createSlice({
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         state.error.message = action.payload;
-        state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
@@ -264,7 +259,7 @@ export const boardSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -275,7 +270,6 @@ export const boardSlise = createSlice({
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error = action.error;
         state.currentRequestId = undefined;
       }
     },

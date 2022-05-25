@@ -9,6 +9,7 @@ import { ACTION_STATUSES, Board } from '../../typings/typings';
 import SearchIcon from '@mui/icons-material/Search';
 import { BasicAlerts, BoardCard } from '../../components/compunents';
 import { boardSlise, getBoards } from '../../api/boardApi';
+import { setIsPreloaderOpen } from '../../store/action/appStateAction';
 
 const CardsIsEmpty = () => {
   const { t } = useTranslation();
@@ -33,7 +34,9 @@ function MainPage() {
   const resetSearchBtn = t('mainPage:resetSearchBtn');
   
   const getAllBoards = async () => {
-    await appDispatch(getBoards());
+    appDispatch(setIsPreloaderOpen(true));
+    const res = await appDispatch(getBoards());
+    appDispatch(setIsPreloaderOpen(false));
   };
 
   useEffect(() => {
@@ -127,7 +130,7 @@ function MainPage() {
           columnGap: '1rem',
         }}
       >
-        {allBoards && allBoards.length !== 0 ? (
+        {allBoards.length !== 0 ? (
           allBoards.map((el: Board) => {
             return (
               <BoardCard key={el.id} id={el.id} title={el.title} description={el.description} />
