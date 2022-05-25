@@ -14,7 +14,6 @@ export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectW
         Authorization: `Bearer ${CONFIG.token}`,
       },
     });
-    console.log(response);
     dispatch(boardSlise.actions.setBoards(response.data));
   } catch (e) {
     rejectWithValue(e);
