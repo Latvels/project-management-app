@@ -11,4 +11,6 @@ export { default as EditProfileFormFormik } from './EditProfileFormFormik/EditPr
 export { default as Preloader } from './Preloader/Preloader';
 export { default as BoardCard } from './BoardCard/BoardCard';
 export { default as BasicAlerts } from './Alert/alerts';
+export { default as BoardColumn } from './Board/BoardColumn';
+export { default as BoardItem } from './Board/BoardItem';
 export { default as BoardBox } from './Board/BoardBox';
