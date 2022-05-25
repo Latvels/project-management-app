@@ -1,17 +1,16 @@
+import react, { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
-import react, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setDeletedItem, setDeletedId, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen, setUserData } from '../../store/action/appStateAction';
 import { updateUser, userSlise } from '../../api/userApi';
-import './editProfileFormFormik.scss';
 import { AppDispatch } from '../../store/store';
-import { useSelector } from 'react-redux';
 import { User, Error, ACTION_STATUSES } from '../../typings/typings';
 import { RootState } from '../../store/reducer/reducer';
 import { BasicAlerts } from '../compunents';
+import './editProfileFormFormik.scss';
 
 interface IValues {
   name: string;
@@ -25,6 +24,7 @@ function EditProfileFormFormik() {
   const userRequestError = useSelector((state: RootState) => state.user.error) as Error;
   const userRequestStatus = useSelector((state: RootState) => state.user.userRequestStatus);
   const {resetUserRequestStatus} = userSlise.actions;
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const { t } = useTranslation();
   const nameLabel = t('editProfileForm:name');
@@ -35,7 +35,6 @@ function EditProfileFormFormik() {
   const minValue = t('formValidation:minValue');
   const maxValue = t('formValidation:maxValue');
   const required = t('formValidation:required');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const initialValues = {
     name: '',
@@ -108,7 +107,6 @@ function EditProfileFormFormik() {
           password: values.password
         };
         const resp = await appDispatch(updateUser(newUserData));
-        console.log(resp);
         appDispatch(setIsPreloaderOpen(false));
         if(resp.meta.requestStatus === 'fulfilled') {
           appDispatch(setUserData(resp.payload));

@@ -1,28 +1,20 @@
-import react, { useEffect } from 'react';
-import {Backdrop, Box, Modal, Fade, Typography} from '@mui/material';
+import react from 'react';
+import {Backdrop, Box, Modal, Fade, Typography, Button} from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import { useTranslation } from 'react-i18next';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
-import { Button } from '@mui/material';
-import React from 'react';
-import './confirmationModal.scss';
-import {
-  setDeletedItem,
-  setIsConfirmModalOpen,
-  setIsCreateNewBoardModalOpen,
-  setIsPreloaderOpen,
-} from '../../store/action/appStateAction';
+import { setDeletedItem, setIsConfirmModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { AppDispatch } from '../../store/store';
-import { deleteUser, selectUser, userSlise } from '../../api/userApi';
-import { boardSlise, deleteBoard, selectBoard } from '../../api/boardApi';
+import { deleteUser, userSlise } from '../../api/userApi';
+import { boardSlise, deleteBoard } from '../../api/boardApi';
 import { deleteTask, taskSlise } from '../../api/taskApi';
 import { authSlise } from '../../api/authApi';
 import { ACTION_STATUSES, Error, Task } from '../../typings/typings';
 import { useNavigate } from 'react-router-dom';
 import { BasicAlerts } from '../compunents';
-// import { realpath } from 'fs';
+import './confirmationModal.scss';
 
 const style = {
   position: 'absolute',
@@ -37,7 +29,6 @@ const style = {
 };
 
 function ConfirmationModal() {
-  const {t} = useTranslation();
   const navigate = useNavigate();
   const appState = useSelector((state: RootState) => state.appState);
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
@@ -51,6 +42,9 @@ function ConfirmationModal() {
   const {resetUserRequestStatus} = userSlise.actions;
   const appDispatch = useDispatch<AppDispatch>();
   const { resetStatuses } = authSlise.actions;
+  const deletedItem = appState.deletedItem as 'user' | 'board' | 'task';
+  
+  const {t} = useTranslation();
   const title = t('confirmationModal:title');
   const commonText = t('confirmationModal:commonText');
   const deleteUserText = t('confirmationModal:deleteUserText');
@@ -58,7 +52,6 @@ function ConfirmationModal() {
   const deleteBoardText = t('confirmationModal:deleteBoardText');
   const buttonYesText = t('confirmationModal:buttonYes');
   const buttonNoText = t('confirmationModal:buttonNo');
-  const deletedItem = appState.deletedItem as 'user' | 'board' | 'task';
 
 
   const handleClose = () => {
@@ -106,7 +99,6 @@ function ConfirmationModal() {
     } else if (deletedItem === 'board') {
       appDispatch(setIsPreloaderOpen(true));
       const resp = await appDispatch(deleteBoard(String(appState.deletedId)));
-      console.log(resp)
       appDispatch(setIsPreloaderOpen(false));
       if (resp.meta.requestStatus === 'fulfilled') {
         appDispatch(resetBoardRequestStatus());

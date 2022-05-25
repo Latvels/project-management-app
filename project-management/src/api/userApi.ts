@@ -208,7 +208,6 @@ export const userSlise = createSlice({
     [deleteUser.rejected.type]: (state, action) => {
       state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
-      console.log(action);
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {

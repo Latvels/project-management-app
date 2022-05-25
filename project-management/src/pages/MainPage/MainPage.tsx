@@ -1,14 +1,15 @@
 import React from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import react, { useEffect, useRef } from 'react';
 import { Box, Typography, Paper, IconButton, InputBase, Button } from '@mui/material';
-import store, { AppDispatch } from '../../store/store';
+import { AppDispatch } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
 import { ACTION_STATUSES, Board } from '../../typings/typings';
 import SearchIcon from '@mui/icons-material/Search';
 import { BasicAlerts, BoardCard } from '../../components/compunents';
 import { boardSlise, getBoards } from '../../api/boardApi';
+
 const CardsIsEmpty = () => {
   const { t } = useTranslation();
   const message = t('mainPage:cardsIsEmpty');
@@ -18,20 +19,19 @@ const CardsIsEmpty = () => {
     </Typography>
   );
 };
+
 function MainPage() {
-  const { t } = useTranslation();
-  const message = t('mainPage:cardsIsEmpty');
+  const searchInputRef: react.RefObject<HTMLFormElement> | null = useRef(null);
   const appDispatch = useDispatch<AppDispatch>();
   const allBoards = useSelector((state: RootState) => state.board.entities) || [];
   const { setBoards } = boardSlise.actions;
-  const searchInputPlaceholder = t('mainPage:searchInputPlaceholder');
-  const resetSearchBtn = t('mainPage:resetSearchBtn');
-  const searchInputRef: react.RefObject<HTMLFormElement> | null = useRef(null);
   const boardRequestError = useSelector((state: RootState) => state.board.error) as Error;
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
-  const {resetBoardRequestStatus} = boardSlise.actions;
-
-
+  
+  const { t } = useTranslation();
+  const searchInputPlaceholder = t('mainPage:searchInputPlaceholder');
+  const resetSearchBtn = t('mainPage:resetSearchBtn');
+  
   const getAllBoards = async () => {
     await appDispatch(getBoards());
   };
@@ -83,6 +83,7 @@ function MainPage() {
     input.value = '';
     await getAllBoards();
   };
+
   return (
     <>
     {(boardRequestStatus === ACTION_STATUSES.REJECTED) ? (<BasicAlerts error={boardRequestError} />) : 

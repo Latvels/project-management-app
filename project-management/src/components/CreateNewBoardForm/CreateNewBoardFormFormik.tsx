@@ -1,20 +1,16 @@
+import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
-import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setIsCreateNewBoardModalOpen,
-  setIsPreloaderOpen,
-} from '../../store/action/appStateAction';
-import './createNewBoardFormFormik.scss';
-// import { getBoardsById } from '../../api/boardApi';
+import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { boardSlise, createBoard } from '../../api/boardApi';
 import { AppDispatch } from '../../store/store';
 import { BasicAlerts } from '../compunents';
 import { RootState } from '../../store/reducer/reducer';
 import { ACTION_STATUSES, Error } from '../../typings/typings';
+import './createNewBoardFormFormik.scss';
 
 interface IValues {
   title: string;
@@ -26,6 +22,7 @@ function CreateNewBoardFormFormik() {
   const requestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
   const requestError: Error = useSelector((state: RootState) => state.board.error);
   const {resetBoardRequestStatus} = boardSlise.actions;
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const { t } = useTranslation();
   const titleLabel = t('createNewBoardForm:boardTitle');
@@ -36,7 +33,6 @@ function CreateNewBoardFormFormik() {
   const maxValue = t('formValidation:maxValue');
   const maxValueDescription = t('formValidation:maxValueDescription');
 
-  const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
@@ -57,7 +53,6 @@ function CreateNewBoardFormFormik() {
         errors.description = maxValueDescription;
       }
     }
-
     setIsButtonDisabled(true);
     checkFormField('title');
     checkFormField('description');
@@ -67,7 +62,7 @@ function CreateNewBoardFormFormik() {
       setIsButtonDisabled(false);
     }
     return errors;
-}
+  }
 
   const initialValues = {
     title: '',
@@ -117,48 +112,3 @@ function CreateNewBoardFormFormik() {
 }
 
 export default CreateNewBoardFormFormik;
-
-/* конфликт
-appDispatch(setIsPreloaderOpen(true));
-        await appDispatch(createBoard(values));
-        window.location.reload();
-        appDispatch(setIsPreloaderOpen(false));
-        if(errorMessage.message === '') {
-          appDispatch(setIsCreateNewBoardModalOpen(false));
-        }
-
-        // Как тут вызывать функции к апи
-        // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491f'))
-        // console.log('createBoards', (await createBoardCard).payload);
-      }}
-    >
-      {({ submitForm }) => (
-        <Form className="form">
-          <Field
-            component={TextField}
-            name="title"
-            type="text"
-            label={titleLabel}
-            color="info"
-          />
-          <Field
-            component={TextField}
-            name="description"
-            type="text"
-            label={descriptionLabel}
-            color="info"
-          />
-          <Button
-            variant="outlined"
-            color="info"
-            disabled={isButtonDisabled}
-            onClick={submitForm}
-          >
-            {buttonText}
-          </Button>
-        </Form>
-      )}
-    </Formik>
-    {err(errorMessage)}
-  </div>
-   */

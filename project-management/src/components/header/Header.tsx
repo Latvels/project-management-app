@@ -1,20 +1,18 @@
-import React, { useEffect, useRef, useLayoutEffect, useCallback } from 'react';
+import React, { useRef, useLayoutEffect, useCallback } from 'react';
 import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 import { SelectLanguage, MyMenu } from '../compunents';
-import './header.scss';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from '../../store/store';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { authSlise } from '../../api/authApi';
 import { ACTION_STATUSES } from '../../typings/typings';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store/store';
+import { AppDispatch, useAppSelector } from '../../store/store';
 import { RootState } from '../../store/reducer/reducer';
 import { useSelector } from 'react-redux';
+import './header.scss';
 
 function Header() {
   const appState = useSelector((state: RootState) => state.appState);
-  const { t } = useTranslation();
   const appDispatch = useDispatch<AppDispatch>();
   const [params] = useSearchParams();
   const headerRef: React.RefObject<HTMLElement> | null = useRef(null);
@@ -22,7 +20,9 @@ function Header() {
   const requestStatus = useAppSelector((state) => state.auth.signInStatus);
   const { resetStatuses } = authSlise.actions;
   const showMainPageButton =
-    params.get('isUserActivated') && params.get('isUserActivated') === 'true';
+  params.get('isUserActivated') && params.get('isUserActivated') === 'true';
+
+  const { t } = useTranslation();
 
   const checkScroll = (): boolean => {
     return document.body.offsetHeight > window.innerHeight;

@@ -1,14 +1,12 @@
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import React, {useCallback, useState} from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import {NavLink, useLocation, useNavigate} from 'react-router-dom';
-import './myMenu.scss';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {
-  setIsCreateNewBoardModalOpen,
-  setIsEditProfileModalOpen,
-} from '../../store/action/appStateAction';
-import { useTranslation } from 'react-i18next';
+import { setIsCreateNewBoardModalOpen,
+  setIsEditProfileModalOpen } from '../../store/action/appStateAction';
+  import { useTranslation } from 'react-i18next';
+  import './myMenu.scss';
 
 function MyMenu() {
   const { t } = useTranslation();

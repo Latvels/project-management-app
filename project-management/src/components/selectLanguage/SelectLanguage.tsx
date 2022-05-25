@@ -1,8 +1,6 @@
 import React from 'react';
-import LanguageIcon from '@mui/icons-material/Language';
 import { useWindowDimensions } from '../../services/service';
-import { Box, InputLabel, MenuItem, FormControl, Button } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Box, FormControl, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import './selectLanguage.scss';
 

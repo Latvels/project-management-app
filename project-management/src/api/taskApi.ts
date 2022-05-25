@@ -157,7 +157,7 @@ export const taskSlise = createSlice({
       }
     },
     [getTasks.rejected.type]: (state, action) => {
-      state.taskRequestStatus = ACTION_STATUSES.REJECTED;
+      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -184,7 +184,7 @@ export const taskSlise = createSlice({
       }
     },
     [getTaskById.rejected.type]: (state, action) => {
-      state.taskRequestStatus = ACTION_STATUSES.REJECTED;
+      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -211,7 +211,7 @@ export const taskSlise = createSlice({
       }
     },
     [createTask.rejected.type]: (state, action) => {
-      state.taskRequestStatus = ACTION_STATUSES.REJECTED;
+      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -238,7 +238,7 @@ export const taskSlise = createSlice({
       }
     },
     [updateTask.rejected.type]: (state, action) => {
-      state.taskRequestStatus = ACTION_STATUSES.REJECTED;
+      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';

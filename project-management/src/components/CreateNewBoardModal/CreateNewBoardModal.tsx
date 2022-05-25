@@ -1,18 +1,13 @@
 import * as React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { Backdrop, Box, Modal, Fade, Typography } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
 import { setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
-import './createNewBoardModal.scss';
 import { useTranslation } from 'react-i18next';
 import { CreateNewBoardFormFormik } from '../compunents';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
+import './createNewBoardModal.scss';
 
 const style = {
   position: 'absolute',
@@ -27,10 +22,11 @@ const style = {
 };
 
 function CreateNewBoardModal() {
-  const { t } = useTranslation();
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch();
   const handleClose = () => appDispatch(setIsCreateNewBoardModalOpen(false));
+
+  const { t } = useTranslation();
 
   return (
     <Modal
