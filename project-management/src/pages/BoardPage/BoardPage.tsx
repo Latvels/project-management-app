@@ -9,10 +9,17 @@ import React, { useState } from 'react'
 import { BoardColumn } from '../../components/compunents'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import { Box, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 function BoardPage () {
-  const onClick = () => {
+  const { t } = useTranslation();
+  
+  const onAddColumn = () => {
     console.log('Колонка добавлена')
+  };
+
+  const onAddRow = () => {
+    console.log('Строчка добавлена')
   };
 
   const initialColumns = {
@@ -105,9 +112,12 @@ function BoardPage () {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Box sx={{maxHeight: '100wh'}}>
-        <Box sx={{ margin: '0.5rem 0 0 0.5rem' }} >
-          <Button sx={{ mr: 1 }} variant="outlined" disabled={false} onClick={onClick}>
-            Добавить колонку
+        <Box sx={{ display: 'flex', margin: '0.5rem 0 0 0.5rem' }} >
+          <Button sx={{ mr: 1 }} variant="outlined" disabled={false} onClick={onAddColumn}>
+            {t('boardPage:addColumn')}
+          </Button>
+          <Button sx={{ mr: 1 }} variant="outlined" disabled={false} onClick={onAddRow}>
+            {t('boardPage:addRow')}
           </Button>
         </Box>
         <Box

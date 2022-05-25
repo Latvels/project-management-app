@@ -1,7 +1,8 @@
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import { Box, Button, IconButton } from '@mui/material';
+import { Box, Button, IconButton, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { useTranslation } from 'react-i18next';
 
 interface ItemProps {
   text: string
@@ -9,6 +10,7 @@ interface ItemProps {
 }
 
 const Item: React.FC<ItemProps> = ({ text, index }) => {
+  const { t } = useTranslation();
   const deleteRow = () => {
     console.log('ROW delete');
   };
@@ -33,19 +35,21 @@ const Item: React.FC<ItemProps> = ({ text, index }) => {
           justifyContent: 'flex-end',
           display: 'flex',
         }}>
-          <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                deleteRow();
-              }}
-            >
-              <CloseIcon fontSize="inherit" />
-          </IconButton>
-        </Box>
-          {text}
-        </Box>
+          <Tooltip title={t('boardPage:delRow')}>
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    deleteRow();
+                  }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+          </Box>
+            {text}
+          </Box>
         </Box>
       )}
     </Draggable>
