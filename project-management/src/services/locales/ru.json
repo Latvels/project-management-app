@@ -26,7 +26,13 @@
     "rejectGetUsers": "Ошибка получения данных пользователей",
     "rejectGetUser": "Ошибка получения данных пользовтеля",
     "rejectUpdateUser": "Ошибка обновления данных пользователя",
-    "rejectDeleteUser": "Ошибка удаления пользователя"
+    "rejectDeleteUser": "Ошибка удаления пользователя",
+    "rejectGetTasks": "Ошибка получения данных",
+    "rejectGetTask": "Ошибка получения данных",
+    "rejectCreateTask": "Ошибка создания пункта",
+    "rejectUpdateTask": "Ошибка обновления пункта",
+    "rejectDeleteTask": "Ошибка удаления пункта"
+
   },
   "description": {
     "part1": "Чтобы начать работу",

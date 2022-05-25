@@ -26,7 +26,12 @@
     "rejectGetUsers": "Failed to get users",
     "rejectGetUser": "Failed to get user",
     "rejectUpdateUser": "Failed to update user data",
-    "rejectDeleteUser": "Failed to delete user"
+    "rejectDeleteUser": "Failed to delete user",
+    "rejectGetTasks": "Failed to get tasks",
+    "rejectGetTask": "Failed to get task",
+    "rejectCreateTask": "Failed create task",
+    "rejectUpdateTask": "Failed to update task",
+    "rejectDeleteTask": "Failed to delete task"
   },
   "description": {
     "part1": "To get started",
