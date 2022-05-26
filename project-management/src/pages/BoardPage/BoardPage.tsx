@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { Box, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import Board from '../../components/ForBoards/Board';
-import { authorQuoteMap } from '../../constants/testData';
 
 function BoardPage() {
   const { t } = useTranslation();
@@ -18,7 +15,7 @@ function BoardPage() {
   const onAddRow = () => {
     console.log('Строчка добавлена');
   };
-  console.log('authorQuoteMap', authorQuoteMap);
+
   return (
     <Box sx={{ maxHeight: '100wh' }}>
       <Box sx={{ display: 'flex', margin: '0.5rem 0 0 0.5rem' }}>
@@ -39,7 +36,7 @@ function BoardPage() {
         }}
       >
         {/* ТУТ ПЕРЕДАЮ КОМПОНЕНТ С БОРДАМИ */}
-        <Board initial={authorQuoteMap} isCombineEnabled />
+        {/* <Board /> */}
       </Box>
     </Box>
   );
