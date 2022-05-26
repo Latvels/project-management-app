@@ -5,9 +5,10 @@ import { RootState } from '../../store/reducer/reducer';
 import { setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import { useTranslation } from 'react-i18next';
-import { CreateNewBoardFormFormik } from '../compunents';
+import { CreateElemFormFormik } from '../compunents';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 import './createNewBoardModal.scss';
+import { boardSlise } from '../../api/boardApi';
 
 const style = {
   position: 'absolute',
@@ -24,7 +25,12 @@ const style = {
 function CreateNewBoardModal() {
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch();
-  const handleClose = () => appDispatch(setIsCreateNewBoardModalOpen(false));
+  const { resetBoardRequestStatus } = boardSlise.actions;
+
+  const handleClose = () => {
+    appDispatch(setIsCreateNewBoardModalOpen(false));
+    appDispatch(resetBoardRequestStatus());
+  }
 
   const { t } = useTranslation();
 
@@ -48,7 +54,7 @@ function CreateNewBoardModal() {
               {t('createNewBoardForm:formTitle')}
             </Typography>
           </Box>
-          <CreateNewBoardFormFormik />
+          <CreateElemFormFormik elemType='board' />
         </Box>
       </Fade>
     </Modal>

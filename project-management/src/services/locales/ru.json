@@ -27,11 +27,11 @@
     "rejectGetUser": "Ошибка получения данных пользовтеля",
     "rejectUpdateUser": "Ошибка обновления данных пользователя",
     "rejectDeleteUser": "Ошибка удаления пользователя",
-    "rejectGetTasks": "Ошибка получения данных",
-    "rejectGetTask": "Ошибка получения данных",
-    "rejectCreateTask": "Ошибка создания пункта",
-    "rejectUpdateTask": "Ошибка обновления пункта",
-    "rejectDeleteTask": "Ошибка удаления пункта"
+    "rejectGetTasks": "Ошибка получения карточек",
+    "rejectGetTask": "Ошибка получения карточки",
+    "rejectCreateTask": "Ошибка создания карточки",
+    "rejectUpdateTask": "Ошибка обновления карточки",
+    "rejectDeleteTask": "Ошибка удаления карточки"
   },
   "description": {
     "part1": "Чтобы начать работу",
@@ -41,6 +41,12 @@
     "formTitle": "создать доску",
     "boardTitle": "введите имя доски",
     "boardDescription": "введите описание доски",
+    "submit": "создать"
+  },
+  "createTaskForm": {
+    "formTitle": "создать карточку",
+    "boardTitle": "введите имя карточки",
+    "boardDescription": "введите описание карточки",
     "submit": "создать"
   },
   "editProfileForm": {

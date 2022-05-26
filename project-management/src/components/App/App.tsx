@@ -8,6 +8,7 @@ import {
   Header,
   Preloader,
   ConfirmationModal,
+  CreateTaskModal,
 } from '../compunents';
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
       <EditProfileModal />
       <Preloader />
       <ConfirmationModal />
+      <CreateTaskModal />
     </div>
   );
 }

@@ -43,6 +43,12 @@
     "boardDescription": "input board description",
     "submit": "create"
   },
+  "createTaskForm": {
+    "formTitle": "create task",
+    "boardTitle": "input task title",
+    "boardDescription": "input task description",
+    "submit": "create"
+  },
   "editProfileForm": {
     "formTitle": "edit profile",
     "email": "email",

@@ -23,7 +23,7 @@ const getLang = () => {
 const initialState: IAppState = {
   isCreateNewBoardModalOpen: false,
   isCreateColumnModalOpen: false,
-  isCreateTaskModalOpen: false,
+  isCreateTaskModalOpen: true,
   isEditTaskModalOpen: false,
   isPreloaderOpen: false,
   isEditProfileModalOpen: false,
