@@ -17,7 +17,7 @@ const initialState: IAppState = {
   isEditProfileModalOpen: false,
   isConfirmModalOpen: false,
   currentBoardId: null,
-  lang: 'ru',
+  lang: 'en',
 }
 
 interface IAction {
