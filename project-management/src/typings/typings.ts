@@ -50,6 +50,7 @@ export type reqState = {
   userRequestStatus?: ACTION_STATUSES | null;
   taskRequestStatus?: ACTION_STATUSES | null;
   boardRequestStatus?: ACTION_STATUSES | null;
+  columnRequestStatus?: ACTION_STATUSES | null;
   currentRequestId: string | undefined;
   error: Error;
 };
@@ -78,5 +79,9 @@ export interface All {
   token?: string;
   idBoard?: string;
   user?: string | unknown | object | never;
+}
+
+export interface ICreateElemFormProps {
+  elemType: 'board' | 'column' | 'task';
 }
 // типы для борда

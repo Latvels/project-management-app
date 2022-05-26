@@ -83,6 +83,7 @@ function MyMenu() {
         placement="bottom-start"
         transition
         disablePortal
+        sx={{zIndex:101}}
       >
         {({ TransitionProps, placement }) => (
           <Grow

@@ -9,19 +9,26 @@ import { boardSlise, createBoard } from '../../api/boardApi';
 import { AppDispatch } from '../../store/store';
 import { BasicAlerts } from '../compunents';
 import { RootState } from '../../store/reducer/reducer';
-import { ACTION_STATUSES, Error } from '../../typings/typings';
-import './createNewBoardFormFormik.scss';
+import { ACTION_STATUSES, Error, ICreateElemFormProps } from '../../typings/typings';
+import { createTask, taskSlise } from '../../api/taskApi';
+import { createColumn, columnSlise } from '../../api/columnApi';
+import './createElemFormFormik.scss';
 
 interface IValues {
   title: string;
   description: string;
 }
 
-function CreateNewBoardFormFormik() {
+function CreateElemFormFormik(props: ICreateElemFormProps) {
   const appDispatch = useDispatch<AppDispatch>();
-  const requestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
-  const requestError: Error = useSelector((state: RootState) => state.board.error);
+  const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
+  const taskRequestStatus = useSelector((state: RootState) => state.task.taskRequestStatus);
+  const columnRequestStatus = useSelector((state: RootState) => state.column.columnRequestStatus);
+  const boardRequestError: Error = useSelector((state: RootState) => state.board.error);
+  const taskRequestError: Error = useSelector((state: RootState) => state.task.error);
+  const columnRequestError: Error = useSelector((state: RootState) => state.column.error);
   const {resetBoardRequestStatus} = boardSlise.actions;
+  const {resetTaskRequestStatus} = taskSlise.actions;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const { t } = useTranslation();
@@ -69,15 +76,65 @@ function CreateNewBoardFormFormik() {
     description: '',
   };
 
+  const getCreateElemResponse = async (values: IValues) => {
+    let resp;
+    switch (props.elemType) {
+      case 'board':
+        resp = await appDispatch(createBoard(values));
+        break;
+      case 'task':
+        resp = await appDispatch(createTask(values));
+        break;
+      case 'column':
+        resp = await appDispatch(createColumn(values))
+    }
+    return resp;
+  }
+
+  const getRequestStatus = () => {
+    let status;
+    switch (props.elemType) {
+      case 'board':
+        status = boardRequestStatus;
+        break;
+      case 'task':
+        status = taskRequestStatus;
+        break;
+      case 'column':
+        status = columnRequestStatus;
+        break;
+    }
+    return status;
+  }
+
+  const getRequestError = () => {
+    let error;
+    switch (props.elemType) {
+      case 'board':
+        error = boardRequestError;
+        break;
+      case 'task':
+        error = taskRequestError;
+        break;
+      case 'column':
+        error = columnRequestError;
+        break;
+    }
+    return error;
+  }
+
   return (
-    <div>
+    <>
+      {getRequestStatus() === ACTION_STATUSES.REJECTED ? (
+        <BasicAlerts error={getRequestError()} errorType={props.elemType} />
+      ) : (
       <Formik
         initialValues={initialValues}
         validate={validateForm}
         onSubmit={async (values: IValues, { setSubmitting }) => {
           setSubmitting(false);
           appDispatch(setIsPreloaderOpen(true));
-          const resp = await appDispatch(createBoard(values));
+          const resp = await getCreateElemResponse(values);
           appDispatch(setIsPreloaderOpen(false));
           if (resp.meta.requestStatus === 'fulfilled') {
             appDispatch(setIsCreateNewBoardModalOpen(false));
@@ -103,12 +160,12 @@ function CreateNewBoardFormFormik() {
             >
               {buttonText}
             </Button>
-            {requestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={requestError} />}
           </Form>
         )}
       </Formik>
-    </div>
+      )}
+    </>
   );
 }
 
-export default CreateNewBoardFormFormik;
+export default CreateElemFormFormik;
