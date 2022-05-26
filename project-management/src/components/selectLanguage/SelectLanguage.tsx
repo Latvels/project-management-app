@@ -16,10 +16,8 @@ function SelectLanguage() {
   const { i18n } = useTranslation();
   const lang = i18n.language;
   const { width } = useWindowDimensions();
-  console.log('lang', lang);
 
   const getLang = () => {
-    const lang = i18n.language;
     return (lang === 'ru-RU' || lang === 'ru') ? 'ru' : 'en';
   }
 
