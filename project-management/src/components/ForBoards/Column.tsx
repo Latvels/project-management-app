@@ -6,7 +6,8 @@ import type { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import QuoteList from './primatives/QuoteList';
 import { grid, borderRadius } from './testConst';
 import type { Quote } from './testTypes';
-import './allCss.css'
+import Title from './primatives/Title';
+import { divTypes } from '../../typings/typings';
 
 type Props = {
   title: string;
@@ -14,43 +15,57 @@ type Props = {
   index: number;
   isScrollable?: boolean;
   isCombineEnabled?: boolean;
-  useClone?: boolean;
 };
-interface StyledDivProps {
-    isDragging: boolean;
-  }
-const DraggableContainer = styled.div<StyledDivProps>``;
 
-export default class Column extends Component<Props> {
-  render() {
-    const title: string = this.props.title;
-    const quotes: Quote[] = this.props.quotes;
-    const index: number = this.props.index;
+const Container = styled.div<divTypes>`
+  margin: ${grid}px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Header = styled.div<divTypes>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: ${borderRadius}px;
+  border-top-right-radius: ${borderRadius}px;
+  background-color: #f4f4f4;
+  transition: background-color 0.2s ease;
+  &:hover {
+    background-color: #d4d4d4;
+  }
+`;
+
+function Column(props:Props) {
+  
+    const title: string = props.title;
+    const quotes: Quote[] = props.quotes;
+    const index: number = props.index;
+
     return (
       <Draggable draggableId={title} index={index}>
         {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
-          <div className='container' ref={provided.innerRef} {...provided.draggableProps}>
-            <DraggableContainer className='header' isDragging={snapshot.isDragging}>
-              <DraggableContainer
-                className='title'
+          <Container ref={provided.innerRef} {...provided.draggableProps}>
+            <Header isDragging={snapshot.isDragging}>
+              <Title
                 isDragging={snapshot.isDragging}
                 {...provided.dragHandleProps}
                 aria-label={`${title} quote list`}
               >
                 {title}
-              </DraggableContainer>
-            </DraggableContainer>
+              </Title>
+            </Header>
             <QuoteList
               listId={title}
               listType="QUOTE"
               quotes={quotes}
-              internalScroll={this.props.isScrollable}
-              isCombineEnabled={Boolean(this.props.isCombineEnabled)}
-              useClone={Boolean(this.props.useClone)}
+              internalScroll={props.isScrollable}
+              isCombineEnabled={Boolean(props.isCombineEnabled)}
             />
-          </div>
+          </Container>
         )}
       </Draggable>
     );
   }
-}
+
+export default Column;

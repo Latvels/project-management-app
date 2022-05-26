@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { Box, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Board from '../../components/ForBoards/Board';
-import { authorQuoteMap } from '../../constants/testData';
+import { authorQuoteMap } from '../../components/ForBoards/testData';
 
 function BoardPage() {
   const { t } = useTranslation();
@@ -20,7 +18,7 @@ function BoardPage() {
   };
   console.log('authorQuoteMap', authorQuoteMap);
   return (
-    <Box sx={{ maxHeight: '100wh' }}>
+    <Box sx={{  }}>
       <Box sx={{ display: 'flex', margin: '0.5rem 0 0 0.5rem' }}>
         <Button sx={{ mr: 1 }} variant="outlined" disabled={false} onClick={onAddColumn}>
           {t('boardPage:addColumn')}
@@ -33,9 +31,6 @@ function BoardPage() {
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
-          padding: '1rem 1rem 5rem 1rem',
-          rowGap: '1rem',
-          columnGap: '1rem',
         }}
       >
         {/* ТУТ ПЕРЕДАЮ КОМПОНЕНТ С БОРДАМИ */}

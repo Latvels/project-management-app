@@ -1,19 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { memo } from 'react';
 import styled from '@emotion/styled';
 import { borderRadius, grid } from '../testConst';
-import type { Quote, AuthorColors } from '../testTypes';
+import type { Quote } from '../testTypes';
 import type { DraggableProvided } from 'react-beautiful-dnd';
-
-import '../allCss.css'
-
-interface StyledDivProps {
-    isDragging?: boolean;
-    isDraggingOver?: boolean | undefined;
-    isGroupedOver?: boolean | undefined;
-    isClone?: boolean | undefined;
-  }
-const DraggableContainer = styled.div<StyledDivProps>``;
+import { divTypes } from '../../../typings/typings';
 
 type Props = {
   quote: Quote;
@@ -24,31 +14,50 @@ type Props = {
   index?: number;
 };
 
-const imageSize = 40;
+const CloneBadge = styled.div<divTypes>`
+  background: #dedede;
+  bottom: ${grid / 2}px;
+  border: 2px solid #6e6c69;
+  border-radius: 50%;
+  box-sizing: border-box;
+  font-size: 10px;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  transform: rotate(40deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-const Container = styled.a`
+const Container = styled.a<divTypes>`
   border-radius: ${borderRadius}px;
   border: 2px solid transparent;
+  border-color: #6e6c69;
+  background-color: #f4f4f4;
+  box-shadow: ${({ isDragging }) =>
+    isDragging ? `2px 2px 1px #6a6a6a` : 'none'};
   box-sizing: border-box;
   padding: ${grid}px;
-  min-height: ${imageSize}px;
   margin-bottom: ${grid}px;
   user-select: none;
   /* anchor overrides */
+  color: #6a6a6a;
   &:hover,
   &:active {
+    color: #000000;
     text-decoration: none;
   }
   &:focus {
     outline: none;
+    border-color: #000000;
     box-shadow: none;
   }
   /* flexbox */
   display: flex;
 `;
 
-
-const Content = styled.div`
+const Content = styled.div<divTypes>`
   /* flex child */
   flex-grow: 1;
   /*
@@ -61,7 +70,7 @@ const Content = styled.div`
   flex-direction: column;
 `;
 
-const BlockQuote = styled.div`
+const BlockQuote = styled.div<divTypes>`
   &::before {
     content: open-quote;
   }
@@ -70,42 +79,18 @@ const BlockQuote = styled.div`
   }
 `;
 
-const Footer = styled.div`
-  display: flex;
-  margin-top: ${grid}px;
-  align-items: center;
-`;
-
-const Author = styled.small`
-  flex-grow: 0;
-  margin: 0;
-  border-radius: ${borderRadius}px;
-  font-weight: normal;
-  padding: ${grid / 2}px;
-`;
-
-const QuoteId = styled.small`
-  flex-grow: 1;
-  flex-shrink: 1;
-  margin: 0;
-  font-weight: normal;
-  text-overflow: ellipsis;
-  text-align: right;
-`;
-
-// Previously this extended React.Component
-// That was a good thing, because using React.PureComponent can hide
-// issues with the selectors. However, moving it over does can considerable
-// performance improvements when reordering big lists (400ms => 200ms)
-// Need to be super sure we are not relying on PureComponent here for
-// things we should be doing in the selector as we do not know if consumers
-// will be using PureComponent
 function QuoteItem(props: Props) {
-  const { quote, isDragging, isGroupedOver, provided, isClone, index } = props;
+  const {
+    quote,
+    isDragging,
+    isGroupedOver,
+    provided,
+    isClone,
+    index,
+  } = props;
 
   return (
-    <DraggableContainer
-      className='Container2'
+    <Container
       isDragging={isDragging}
       isGroupedOver={isGroupedOver}
       isClone={isClone}
@@ -115,17 +100,13 @@ function QuoteItem(props: Props) {
       data-is-dragging={isDragging}
       data-testid={quote.id}
       data-index={index}
-      aria-label={`${quote.author.name} quote ${quote.content}`}
+      aria-label={`quote ${quote.content}`}
     >
-      {isClone ? <div className='CloneBadge'>Clone</div> : null}
+      {isClone ? <CloneBadge>Clone</CloneBadge> : null}
       <Content>
         <BlockQuote>{quote.content}</BlockQuote>
-        <Footer>
-          <Author>{quote.author.name}</Author>
-          <QuoteId>id:{quote.id}</QuoteId>
-        </Footer>
       </Content>
-    </DraggableContainer>
+    </Container>
   );
 }
 

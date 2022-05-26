@@ -1,21 +1,21 @@
 import { Component } from 'react';
 import styled from '@emotion/styled';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import type { DropResult, DraggableLocation, DroppableProvided } from 'react-beautiful-dnd';
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import Column from './Column';
+import { DragDropContext, Droppable, DropResult, DraggableLocation, DroppableProvided } from 'react-beautiful-dnd';
 
+import { divTypes } from '../../typings/typings';
+import Column from './Column';
 import reorder, { reorderQuoteMap } from './reorder';
 import { QuoteMap, Quote } from './testTypes';
 
-const ParentContainer = styled.div`
+
+const ParentContainer = styled.div<divTypes>`
+  height: ${({ height }) => height};
   overflow-x: hidden;
   overflow-y: auto;
 `;
 
 const Container = styled.div`
-  min-height: 100vh;
-  /* like display:flex but will allow bleeding over the window width */
+  min-height: 90vh;
   min-width: 100vw;
   display: inline-flex;
 `;
@@ -25,7 +25,6 @@ type Props = {
   withScrollableColumns?: boolean;
   isCombineEnabled?: boolean;
   containerHeight?: string;
-  useClone?: boolean;
 };
 
 type State = {
@@ -34,7 +33,7 @@ type State = {
 };
 
 export default class Board extends Component<Props, State> {
-  /* eslint-disable react/sort-comp */
+  
   static defaultProps = {
     isCombineEnabled: false,
   };
@@ -66,7 +65,6 @@ export default class Board extends Component<Props, State> {
       return;
     }
 
-    // dropped nowhere
     if (!result.destination) {
       return;
     }
@@ -104,7 +102,7 @@ export default class Board extends Component<Props, State> {
   render() {
     const columns: QuoteMap = this.state.columns;
     const ordered: string[] = this.state.ordered;
-    const { containerHeight, useClone, isCombineEnabled, withScrollableColumns } = this.props;
+    const { containerHeight, isCombineEnabled, withScrollableColumns } = this.props;
 
     const board = (
       <Droppable
@@ -124,7 +122,6 @@ export default class Board extends Component<Props, State> {
                 quotes={columns[key]}
                 isScrollable={withScrollableColumns}
                 isCombineEnabled={isCombineEnabled}
-                useClone={useClone}
               />
             ))}
             {provided.placeholder}
@@ -134,11 +131,13 @@ export default class Board extends Component<Props, State> {
     );
 
     return (
-      <>
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          {containerHeight ? <ParentContainer>{board}</ParentContainer> : board}
-        </DragDropContext>
-      </>
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        {containerHeight ? (
+          <ParentContainer height={containerHeight}>{board}</ParentContainer>
+        ) : (
+          board
+        )}
+      </DragDropContext>
     );
   }
 }

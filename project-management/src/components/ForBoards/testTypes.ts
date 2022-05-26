@@ -2,23 +2,15 @@ import { DraggableId, DraggableLocation } from 'react-beautiful-dnd';
 
 export type Id = string;
 
-export type AuthorColors = {
-  soft: string;
-  hard: string;
-};
-
-export type Author = {
+export type Column = {
   id: Id;
   name: string;
-  avatarUrl?: string;
-  url?: string;
-  colors: AuthorColors;
 };
 
 export type Quote = {
   id: Id;
   content: string;
-  author: Author;
+  author: Column;
 };
 
 export type Dragging = {

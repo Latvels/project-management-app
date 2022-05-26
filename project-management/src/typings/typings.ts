@@ -79,4 +79,14 @@ export interface All {
   idBoard?: string;
   user?: string | unknown | object | never;
 }
+
 // типы для борда
+export interface divTypes {
+  height?: string;
+  isDragging?: boolean;
+  isDraggingOver?: boolean | undefined;
+  isDropDisabled?: boolean | undefined;
+  isDraggingFrom?: boolean;
+  isGroupedOver?: boolean | undefined;
+  isClone?: boolean | undefined;
+};

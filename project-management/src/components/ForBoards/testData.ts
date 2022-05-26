@@ -1,104 +1,88 @@
-import type { Author, Quote, QuoteMap } from './testTypes';
+import type { Column, Quote, QuoteMap } from './testTypes';
 
-const jake: Author = {
+const Column1: Column = {
   id: '1',
-  name: 'Jake',
-  colors: {
-    soft: '#9ac3f5',
-    hard: '#e38ddf',
-  },
+  name: 'Column1',
 };
 
-const BMO: Author = {
+const Column2: Column = {
   id: '2',
-  name: 'BMO',
-  colors: {
-    soft: '#9ac3f5',
-    hard: '#e38ddf',
-  },
+  name: 'Column2',
 };
 
-const finn: Author = {
+const Column3: Column = {
   id: '3',
-  name: 'Finn',
-  colors: {
-    soft: '#9ac3f5',
-    hard: '#e38ddf',
-  },
+  name: 'Column3',
 };
 
-const princess: Author = {
+const Column4: Column = {
   id: '4',
-  name: 'Princess bubblegum',
-  colors: {
-    soft: '#9ac3f5',
-    hard: '#e38ddf',
-  },
+  name: 'Column4',
 };
 
-export const authors: Author[] = [jake, BMO, finn, princess];
+export const columns: Column[] = [Column1, Column2, Column3, Column4];
 
 export const quotes: Quote[] = [
   {
     id: '1',
-    content: 'Sometimes life is scary and dark',
-    author: BMO,
+    content: 'column2 task1',
+    author: Column2,
   },
   {
     id: '2',
-    content: 'Sucking at something is the first step towards being sorta good at something.',
-    author: jake,
+    content: 'column1 task 1',
+    author: Column1,
   },
   {
     id: '3',
-    content: "You got to focus on what's real, man",
-    author: jake,
+    content: 'column1 task 2',
+    author: Column1,
   },
   {
     id: '4',
-    content: 'Is that where creativity comes from? From sad biz?',
-    author: finn,
+    content: 'column3 task 1',
+    author: Column3,
   },
   {
     id: '5',
-    content: 'Homies help homies. Always',
-    author: finn,
+    content: 'column3 task 2',
+    author: Column3,
   },
   {
     id: '6',
-    content: 'Responsibility demands sacrifice',
-    author: princess,
+    content: 'column4 task 1',
+    author: Column4,
   },
   {
     id: '7',
-    content: "That's it! The answer was so simple, I was too smart to see it!",
-    author: princess,
+    content: 'column4 task 2',
+    author: Column4,
   },
   {
     id: '8',
     content:
-      "People make mistakes. It's all a part of growing up and you never really stop growing",
-    author: finn,
+      'column3 task 3',
+    author: Column3,
   },
   {
     id: '9',
-    content: "Don't you always call sweatpants 'give up on life pants,' Jake?",
-    author: finn,
+    content: 'column3 task 4',
+    author: Column3,
   },
   {
     id: '10',
-    content: 'I should not have drunk that much tea!',
-    author: princess,
+    content: 'column4 task 3',
+    author: Column4,
   },
   {
     id: '11',
-    content: 'Please! I need the real you!',
-    author: princess,
+    content: 'column4 task 4',
+    author: Column4,
   },
   {
     id: '12',
-    content: "Haven't slept for a solid 83 hours, but, yeah, I'm good.",
-    author: princess,
+    content: 'column4 task 5',
+    author: Column4,
   },
 ];
 
@@ -117,11 +101,11 @@ export const getQuotes = (count: number): Quote[] =>
     return custom;
   });
 
-export const getAuthors = (count: number): Author[] =>
+export const getAuthors = (count: number): Column[] =>
   Array.from({ length: count }, (v, k) => k).map(() => {
-    const random: Author = authors[Math.floor(Math.random() * authors.length)];
+    const random: Column = columns[Math.floor(Math.random() * columns.length)];
 
-    const custom: Author = {
+    const custom: Column = {
       ...random,
       id: `author-${idCount++}`,
     };
@@ -129,11 +113,11 @@ export const getAuthors = (count: number): Author[] =>
     return custom;
   });
 
-const getByAuthor = (author: Author, items: Quote[]): Quote[] =>
+const getByAuthor = (author: Column, items: Quote[]): Quote[] =>
   items.filter((quote: Quote) => quote.author === author);
 
-export const authorQuoteMap: QuoteMap = authors.reduce(
-  (previous: QuoteMap, author: Author) => ({
+export const authorQuoteMap: QuoteMap = columns.reduce(
+  (previous: QuoteMap, author: Column) => ({
     ...previous,
     [author.name]: getByAuthor(author, quotes),
   }),
@@ -141,10 +125,10 @@ export const authorQuoteMap: QuoteMap = authors.reduce(
 );
 
 export const generateQuoteMap = (quoteCount: number): QuoteMap =>
-  authors.reduce(
-    (previous: QuoteMap, author: Author) => ({
+  columns.reduce(
+    (previous: QuoteMap, author: Column) => ({
       ...previous,
-      [author.name]: getQuotes(quoteCount / authors.length),
+      [author.name]: getQuotes(quoteCount / columns.length),
     }),
     {}
   );
