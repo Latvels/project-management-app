@@ -1,11 +1,11 @@
-import type { Author, Quote, QuoteMap } from './types';
+import type { Author, Quote, QuoteMap } from './testTypes';
 
 const jake: Author = {
   id: '1',
   name: 'Jake',
   colors: {
-    soft: '#99c993',
-    hard: '#d19980',
+    soft: '#9ac3f5',
+    hard: '#e38ddf',
   },
 };
 
@@ -13,8 +13,8 @@ const BMO: Author = {
   id: '2',
   name: 'BMO',
   colors: {
-    soft: '#99c993',
-    hard: '#d19980',
+    soft: '#9ac3f5',
+    hard: '#e38ddf',
   },
 };
 
@@ -22,8 +22,8 @@ const finn: Author = {
   id: '3',
   name: 'Finn',
   colors: {
-    soft: '#99c993',
-    hard: '#d19980',
+    soft: '#9ac3f5',
+    hard: '#e38ddf',
   },
 };
 
@@ -31,8 +31,8 @@ const princess: Author = {
   id: '4',
   name: 'Princess bubblegum',
   colors: {
-    soft: '#99c993',
-    hard: '#d19980',
+    soft: '#9ac3f5',
+    hard: '#e38ddf',
   },
 };
 
