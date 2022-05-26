@@ -45,9 +45,20 @@
   },
   "createTaskForm": {
     "formTitle": "create task",
-    "boardTitle": "input task title",
-    "boardDescription": "input task description",
+    "taskTitle": "input task title",
+    "taskDescription": "input task description",
     "submit": "create"
+  },
+  "createColumnForm": {
+    "formTitle": "create column",
+    "columnTitle": "input column title",
+    "submit": "create"
+  },
+  "editTaskForm": {
+    "formTitle": "edit task",
+    "title": "task title",
+    "description": "task description",
+    "submit": "edit task"
   },
   "editProfileForm": {
     "formTitle": "edit profile",

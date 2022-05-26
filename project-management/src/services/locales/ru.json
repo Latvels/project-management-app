@@ -45,10 +45,22 @@
   },
   "createTaskForm": {
     "formTitle": "создать карточку",
-    "boardTitle": "введите имя карточки",
-    "boardDescription": "введите описание карточки",
+    "taskTitle": "введите имя карточки",
+    "taskDescription": "введите описание карточки",
     "submit": "создать"
   },
+  "createColumnForm": {
+    "formTitle": "создать колонку",
+    "columnTitle": "введите имя колонки",
+    "submit": "создать"
+  },
+  "editTaskForm": {
+    "formTitle": "редактировать карточку",
+    "title": "имя",
+    "description": "описание",
+    "submit": "редактировать данные"
+  },
+
   "editProfileForm": {
     "formTitle": "редактировать профиль",
     "email": "email",
