@@ -79,3 +79,4 @@ export interface All {
   idBoard?: string;
   user?: string | unknown | object | never;
 }
+// типы для борда

@@ -101,5 +101,13 @@
     "cardsIsEmpty": "No boards found",
     "searchInputPlaceholder": "search",
     "resetSearchBtn": "reset search"
+  },
+  "boardPage": {
+    "addColumn": "Add column",
+    "delColumn": "Delete column",
+    "addRow": "Add row",
+    "delRow": "Delete row",
+    "submit": "Submit",
+    "cancel": "Cancel"
   }
 }
