@@ -55,6 +55,7 @@ function ConfirmationModal() {
 
 
   const handleClose = () => {
+    appDispatch(setIsConfirmModalOpen(false));
       switch (deletedItem) {
         case 'board':
           appDispatch(resetBoardRequestStatus());
@@ -65,7 +66,6 @@ function ConfirmationModal() {
         case 'user':
           appDispatch(resetUserRequestStatus());
       };
-      appDispatch(setIsConfirmModalOpen(false));
   }
 
   const getConfirmationText = (): string => {
@@ -122,6 +122,38 @@ function ConfirmationModal() {
     appDispatch(setIsConfirmModalOpen(false));
   };
 
+  const getRequestStatus = () => {
+    let status;
+    switch (deletedItem) {
+      case 'board':
+        status = boardRequestStatus;
+        break;
+      case 'task':
+        status = taskRequestStatus;
+        break;
+      case 'user':
+        status = userRequestStatus;
+        break;
+    }
+    return status;
+  }
+
+  const getRequestError = () => {
+    let error;
+    switch (deletedItem) {
+      case 'board':
+        error = boardRequestError;
+        break;
+      case 'task':
+        error = taskRequestError;
+        break;
+      case 'user':
+        error = userRequestError;
+        break;
+    }
+    return error;
+  }
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -142,36 +174,38 @@ function ConfirmationModal() {
               {title}
             </Typography>
           </Box>
-          <Box component="div" className="modal__text-wrapper" sx={{ mb: 2 }}>
-            <Typography id="transition-modal-title" variant="h6" component="h6">
-              <p>{getConfirmationText()}</p>
-            </Typography>
+          <Box>
+            {getRequestStatus() === ACTION_STATUSES.REJECTED ? <BasicAlerts error={getRequestError()} errorType={deletedItem} /> :
+            (<Box>
+            <Box component="div" className="modal__text-wrapper" sx={{ mb: 2 }}>
+              <Typography id="transition-modal-title" variant="h6" component="h6">
+                <p>{getConfirmationText()}</p>
+              </Typography>
+            </Box>
+            <Box component="div" className="modal__buttons" sx={{ mb: 2 }}>
+              <Button
+                variant="outlined"
+                color="warning"
+                disabled={false}
+                onClick={handleYesClick}
+                type="button"
+                className="modal__button"
+              >
+                {buttonYesText}
+              </Button>
+              <Button
+                variant="outlined"
+                color="warning"
+                disabled={false}
+                onClick={handleNoClick}
+                type="button"
+                className="modal__button"
+              >
+                {buttonNoText}
+              </Button>
+            </Box>
+            </Box>)}
           </Box>
-          <Box component="div" className="modal__buttons" sx={{ mb: 2 }}>
-            <Button
-              variant="outlined"
-              color="warning"
-              disabled={false}
-              onClick={handleYesClick}
-              type="button"
-              className="modal__button"
-            >
-              {buttonYesText}
-            </Button>
-            <Button
-              variant="outlined"
-              color="warning"
-              disabled={false}
-              onClick={handleNoClick}
-              type="button"
-              className="modal__button"
-            >
-              {buttonNoText}
-            </Button>
-          </Box>
-          {boardRequestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={boardRequestError} />}
-          {userRequestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={userRequestError} />}
-          {taskRequestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={taskRequestError} />}
         </Box>
       </Fade>
     </Modal>

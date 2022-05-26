@@ -21,6 +21,7 @@ interface IValues {
 function EditProfileFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
   const userData = useSelector((state: RootState) => state.awtUser);
+  const appState = useSelector((state: RootState) => state.appState);
   const userRequestError = useSelector((state: RootState) => state.user.error) as Error;
   const userRequestStatus = useSelector((state: RootState) => state.user.userRequestStatus);
   const {resetUserRequestStatus} = userSlise.actions;
@@ -49,7 +50,6 @@ function EditProfileFormFormik() {
     appDispatch(setIsPreloaderOpen(false));
     if(resp.meta.requestStatus === 'fulfilled') {
       appDispatch(resetUserRequestStatus());
-      console.log(resp);
       const respData = resp.payload as User;
       const login = respData.login!;
       const name = respData.name!;
@@ -60,8 +60,8 @@ function EditProfileFormFormik() {
   };
 
   useEffect(() => {
-    getUserData();
-  },[]);
+      getUserData();
+  }, []);
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
@@ -95,12 +95,14 @@ function EditProfileFormFormik() {
     appDispatch(setDeletedItem('user'));
     appDispatch(setDeletedId(id));
     appDispatch(setIsEditProfileModalOpen(false));
+    appDispatch(resetUserRequestStatus());
     appDispatch(setIsConfirmModalOpen(true));
   };
 
   return (
     <>
-      <Formik
+      {userRequestStatus === ACTION_STATUSES.REJECTED ? <BasicAlerts error={userRequestError} errorType='user' /> :
+      (<Formik
       initialValues={initialValues}
       validate={validateForm}
       onSubmit={async (values: IValues, {setSubmitting}) => {
@@ -161,10 +163,9 @@ function EditProfileFormFormik() {
           >
             {deleteButtonText}
           </Button>
-          {userRequestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={userRequestError} />}
         </Form>
       )}
-    </Formik>
+      </Formik>)}
     </>
   );
 }
