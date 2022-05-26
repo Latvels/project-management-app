@@ -2,7 +2,7 @@ import React, { useRef, useLayoutEffect, useCallback } from 'react';
 import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 import { SelectLanguage, MyMenu } from '../compunents';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { authSlise } from '../../api/authApi';
 import { ACTION_STATUSES } from '../../typings/typings';
 import { useDispatch } from 'react-redux';
@@ -19,9 +19,10 @@ function Header() {
   const navigate = useNavigate();
   const requestStatus = useAppSelector((state) => state.auth.signInStatus);
   const { resetStatuses } = authSlise.actions;
+  const { pathname } = useLocation();
   const showMainPageButton =
-  params.get('isUserActivated') && params.get('isUserActivated') === 'true';
-
+    params.get('isUserActivated') && params.get('isUserActivated') === 'true';
+  const showGoBackBtn = pathname !== '/';
   const { t } = useTranslation();
 
   const checkScroll = (): boolean => {
@@ -44,17 +45,17 @@ function Header() {
       navigate('/');
     }
   }, [requestStatus]);
-  
+
   const onResize = () => {
     checkScroll() ? addSticky() : delSticky();
-  }
+  };
 
   useLayoutEffect(() => {
     delSticky();
     window.addEventListener('scroll', onResize);
     return () => {
       window.removeEventListener('scroll', onResize);
-    }
+    };
   });
 
   useLayoutEffect(() => {
@@ -71,6 +72,11 @@ function Header() {
       <AppBar position="static" className="header__appBar">
         <Toolbar>
           {showMainPageButton && <MyMenu />}
+          {showGoBackBtn && (
+            <Button variant="contained" onClick={() => navigate(-1)}>
+              {t('header:goBackBtn')}
+            </Button>
+          )}
           <Typography
             variant="h6"
             component="span"
