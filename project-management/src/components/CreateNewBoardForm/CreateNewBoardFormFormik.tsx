@@ -1,21 +1,16 @@
+import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
-import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setIsCreateNewBoardModalOpen,
-  setIsPreloaderOpen,
-} from '../../store/action/appStateAction';
-import './createNewBoardFormFormik.scss';
-// import { getBoardsById } from '../../api/boardApi';
-import { createBoard } from '../../api/boardApi';
+import { setIsCreateNewBoardModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import { boardSlise, createBoard } from '../../api/boardApi';
 import { AppDispatch } from '../../store/store';
-// import { BasicAlerts } from '../compunents';
+import { BasicAlerts } from '../compunents';
 import { RootState } from '../../store/reducer/reducer';
-import { Error } from '../../typings/typings';
-import { err } from '../../utils/showBasicAlerts';
+import { ACTION_STATUSES, Error } from '../../typings/typings';
+import './createNewBoardFormFormik.scss';
 
 interface IValues {
   title: string;
@@ -24,6 +19,11 @@ interface IValues {
 
 function CreateNewBoardFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
+  const requestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
+  const requestError: Error = useSelector((state: RootState) => state.board.error);
+  const {resetBoardRequestStatus} = boardSlise.actions;
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
   const { t } = useTranslation();
   const titleLabel = t('createNewBoardForm:boardTitle');
   const descriptionLabel = t('createNewBoardForm:boardDescription');
@@ -33,8 +33,6 @@ function CreateNewBoardFormFormik() {
   const maxValue = t('formValidation:maxValue');
   const maxValueDescription = t('formValidation:maxValueDescription');
 
-  const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
-  const errorMessage = useSelector((state: RootState) => state.board.error) as Error;
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
@@ -55,7 +53,6 @@ function CreateNewBoardFormFormik() {
         errors.description = maxValueDescription;
       }
     }
-
     setIsButtonDisabled(true);
     checkFormField('title');
     checkFormField('description');
@@ -65,7 +62,7 @@ function CreateNewBoardFormFormik() {
       setIsButtonDisabled(false);
     }
     return errors;
-}
+  }
 
   const initialValues = {
     title: '',
@@ -79,17 +76,13 @@ function CreateNewBoardFormFormik() {
         validate={validateForm}
         onSubmit={async (values: IValues, { setSubmitting }) => {
           setSubmitting(false);
-          // appDispatch(setIsCreateNewBoardModalOpen(false));
           appDispatch(setIsPreloaderOpen(true));
-          await appDispatch(createBoard(values));
+          const resp = await appDispatch(createBoard(values));
           appDispatch(setIsPreloaderOpen(false));
-          if (errorMessage.message === '') {
+          if (resp.meta.requestStatus === 'fulfilled') {
             appDispatch(setIsCreateNewBoardModalOpen(false));
+            appDispatch(resetBoardRequestStatus());
           }
-
-          // Как тут вызывать функции к апи
-          // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491f'))
-          // console.log('createBoards', (await createBoardCard).payload);
         }}
       >
         {({ submitForm }) => (
@@ -107,60 +100,15 @@ function CreateNewBoardFormFormik() {
               color="info"
               disabled={isButtonDisabled}
               onClick={submitForm}
-              type="submit"
             >
               {buttonText}
             </Button>
+            {requestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={requestError} />}
           </Form>
         )}
       </Formik>
-      {err(errorMessage)}
     </div>
   );
 }
 
 export default CreateNewBoardFormFormik;
-/* конфликт
-appDispatch(setIsPreloaderOpen(true));
-        await appDispatch(createBoard(values));
-        window.location.reload();
-        appDispatch(setIsPreloaderOpen(false));
-        if(errorMessage.message === '') {
-          appDispatch(setIsCreateNewBoardModalOpen(false));
-        }
-
-        // Как тут вызывать функции к апи
-        // const createBoardCard = appDispatch(getBoardsById('72f5c1a6-60dd-4e30-af83-009acada491f'))
-        // console.log('createBoards', (await createBoardCard).payload);
-      }}
-    >
-      {({ submitForm }) => (
-        <Form className="form">
-          <Field
-            component={TextField}
-            name="title"
-            type="text"
-            label={titleLabel}
-            color="info"
-          />
-          <Field
-            component={TextField}
-            name="description"
-            type="text"
-            label={descriptionLabel}
-            color="info"
-          />
-          <Button
-            variant="outlined"
-            color="info"
-            disabled={isButtonDisabled}
-            onClick={submitForm}
-          >
-            {buttonText}
-          </Button>
-        </Form>
-      )}
-    </Formik>
-    {err(errorMessage)}
-  </div>
-   */

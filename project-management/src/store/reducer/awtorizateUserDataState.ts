@@ -1,7 +1,8 @@
 import { ActionKindAppState, SET_USER_DATA } from '../actionTypes';
-import { All } from '../../typings/typings';
+import { All, User } from '../../typings/typings';
+
 interface RootUser {
-  user?: string | null;
+  user?: User | null;
   id?: string | null;
   email?: string | null;
   password?: string | null;
@@ -12,7 +13,7 @@ const initialState: RootUser = {};
 
 interface IAction {
   type: ActionKindAppState;
-  payload?: boolean;
+  payload?: boolean | User;
 }
 
 function stateReducer(state = initialState, action: IAction) {
@@ -20,7 +21,7 @@ function stateReducer(state = initialState, action: IAction) {
     case SET_USER_DATA: {
       return {
         ...state,
-        user: action.payload,
+        user: action.payload as User,
       };
     }
     default: {

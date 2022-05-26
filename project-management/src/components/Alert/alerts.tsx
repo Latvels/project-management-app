@@ -2,7 +2,13 @@ import * as React from 'react';
 import { Box, Alert, IconButton, Collapse, AlertTitle } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Error } from '../../typings/typings';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
+import {useDispatch} from 'react-redux';
+import { boardSlise } from '../../api/boardApi';
+import { setIsConfirmModalOpen, setIsCreateNewBoardModalOpen, setIsEditProfileModalOpen } from '../../store/action/appStateAction';
+import { TIMEOUT_FOR_ALERT } from '../../constants/constant';
+import { userSlise } from '../../api/userApi';
+import { taskSlise } from '../../api/taskApi';
 
 type Props = {
   error: Error;
@@ -10,13 +16,29 @@ type Props = {
 
 export default function BasicAlerts(props: Props) {
   const [open, setOpen] = React.useState(true);
+  const { resetBoardRequestStatus } = boardSlise.actions;
+  const { resetTaskRequestStatus } = taskSlise.actions;
+  const { resetUserRequestStatus } = userSlise.actions;
+  const appDispatch = useDispatch();
   const { status, message } = props.error;
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
+
+  const closeAlert = () => {
+    setOpen(false);
+    appDispatch(resetUserRequestStatus());
+    appDispatch(resetBoardRequestStatus());
+    appDispatch(resetTaskRequestStatus());
+  } 
 
   React.useEffect(() => {
-    setTimeout(() => {
-      setOpen(false);
-    }, 3000);
+    const callBack = () => {
+      closeAlert();
+      appDispatch(setIsConfirmModalOpen(false));
+      appDispatch(setIsCreateNewBoardModalOpen(false));
+      appDispatch(setIsEditProfileModalOpen(false));
+    }
+    const timer = setTimeout(callBack, TIMEOUT_FOR_ALERT );
+    return () => {clearTimeout(timer)};
   }, []);
 
   return (
@@ -29,17 +51,17 @@ export default function BasicAlerts(props: Props) {
               aria-label="close"
               color="inherit"
               size="small"
-              onClick={() => {
-                setOpen(false);
-              }}
+              onClick={closeAlert}
             >
               <CloseIcon fontSize="inherit" />
             </IconButton>
           }
           sx={{ mb: 2 }}
         >
-          <AlertTitle>{status}</AlertTitle>
-          {t('errors:Error:')} <strong>{message}</strong>
+          <AlertTitle sx={{textTransform: 'uppercase'}}>{status}</AlertTitle>
+          <strong>{message}</strong>
+          {/* <AlertTitle>{status}</AlertTitle>
+          {t('errors:Error:')} <strong>{message}</strong> */}
         </Alert>
       </Collapse>
     </Box>

@@ -3,7 +3,8 @@ import axios from 'axios';
 import qs from 'qs';
 import { RootState } from '../store/reducer/reducer';
 import { CONFIG } from '../constants/constant';
-import { Task, reqState } from '../typings/typings';
+import { Task, reqState, ACTION_STATUSES } from '../typings/typings';
+import i18n from '../services/i18n';
 
 export const getTasks = createAsyncThunk(
   'task/getTasks',
@@ -21,7 +22,8 @@ export const getTasks = createAsyncThunk(
       );
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to load tasks');
+      rejectWithValue(e);
+      return rejectWithValue(i18n.t('errors: rejectGetTasks'));
     }
   }
 );
@@ -42,7 +44,7 @@ export const getTaskById = createAsyncThunk(
       );
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to load tasks by id');
+      return rejectWithValue(i18n.t('errors: rejectGetTask'));
     }
   }
 );
@@ -67,7 +69,7 @@ export const createTask = createAsyncThunk(
       const response = await axios(config);
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to create task');
+      return rejectWithValue(i18n.t('errors: rejectCreateTask'));
     }
   }
 );
@@ -94,7 +96,7 @@ export const updateTask = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue('Failed to change task');
+      return rejectWithValue(i18n.t('errors: rejectUpdateTask'));
     }
   }
 );
@@ -116,7 +118,7 @@ export const deleteTask = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue('Failed to delete task');
+      return rejectWithValue(i18n.t('errors: rejectDeleteTask'));
     }
   }
 );
@@ -126,20 +128,27 @@ const initialState: reqState = {
   loading: 'idle',
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true },
+  taskRequestStatus: null,
 };
 
 export const taskSlise = createSlice({
   name: 'task',
   initialState,
-  reducers: {},
+  reducers: {
+    resetTaskRequestStatus: (state) => {
+      state.taskRequestStatus = null;
+    }
+  },
   extraReducers: {
     [getTasks.pending.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [getTasks.fulfilled.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -148,21 +157,25 @@ export const taskSlise = createSlice({
       }
     },
     [getTasks.rejected.type]: (state, action) => {
+      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
+        state.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
 
     [getTaskById.pending.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [getTaskById.fulfilled.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -171,21 +184,25 @@ export const taskSlise = createSlice({
       }
     },
     [getTaskById.rejected.type]: (state, action) => {
+      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
+        state.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
 
     [createTask.pending.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [createTask.fulfilled.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -194,21 +211,25 @@ export const taskSlise = createSlice({
       }
     },
     [createTask.rejected.type]: (state, action) => {
+      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
+        state.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
 
     [updateTask.pending.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [updateTask.fulfilled.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -217,21 +238,25 @@ export const taskSlise = createSlice({
       }
     },
     [updateTask.rejected.type]: (state, action) => {
+      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
+        state.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
 
     [deleteTask.pending.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [deleteTask.fulfilled.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -240,9 +265,11 @@ export const taskSlise = createSlice({
       }
     },
     [deleteTask.rejected.type]: (state, action) => {
+      state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
+        state.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }

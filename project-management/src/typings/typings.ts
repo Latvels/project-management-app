@@ -47,6 +47,9 @@ export type reqState = {
   loading: 'idle' | 'pending';
   signInStatus?: ACTION_STATUSES | null;
   signUpStatus?: ACTION_STATUSES | null;
+  userRequestStatus?: ACTION_STATUSES | null;
+  taskRequestStatus?: ACTION_STATUSES | null;
+  boardRequestStatus?: ACTION_STATUSES | null;
   currentRequestId: string | undefined;
   error: Error;
 };

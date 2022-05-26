@@ -3,7 +3,8 @@ import axios from 'axios';
 import qs from 'qs';
 import { RootState } from '../store/reducer/reducer';
 import { CONFIG } from '../constants/constant';
-import { Board, reqState } from '../typings/typings';
+import { ACTION_STATUSES, Board, reqState } from '../typings/typings';
+import i18n from '../services/i18n';
 
 export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectWithValue }) => {
   try {
@@ -15,14 +16,15 @@ export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectW
     });
     return response.data;
   } catch (e) {
-    return rejectWithValue('Failed to load board');
+    rejectWithValue(e);
+    return rejectWithValue(i18n.t('errors:rejectGetBoards'))
   }
 });
 
 export const getBoardsById = createAsyncThunk(
   'board/getBoardsById',
   async (id: string, { rejectWithValue }) => {
-    // try {
+    try {
     const response = await axios.get<Board[]>(`${CONFIG.basicURL}/boards/${id}`, {
       headers: {
         Accept: 'application/json',
@@ -30,11 +32,11 @@ export const getBoardsById = createAsyncThunk(
       },
     });
     return response.data;
-    // } catch (e) {
-    // 	return rejectWithValue('Failed to load boards by id')
-    // }
+    } catch (e) {
+      rejectWithValue(e);
+    	return rejectWithValue(i18n.t('errors:rejectGetBoard'));
   }
-);
+});
 
 export const createBoard = createAsyncThunk(
   'board/createBoard',
@@ -53,7 +55,8 @@ export const createBoard = createAsyncThunk(
       const response = await axios(config);
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to create board');
+      rejectWithValue(e);
+      return rejectWithValue(i18n.t('errors:rejectCreateBoard'));
     }
   }
 );
@@ -78,14 +81,14 @@ export const updateBoards = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue('Failed to change board');
+      return rejectWithValue(i18n.t('errors:rejectUpdateBoard'));
     }
   }
 );
 
 export const deleteBoard = createAsyncThunk(
   'board/deleteBoard',
-  async (id: string, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue, dispatch }) => {
     try {
       const config = {
         method: 'DELETE',
@@ -95,11 +98,11 @@ export const deleteBoard = createAsyncThunk(
           Authorization: `Bearer ${CONFIG.token}`,
         },
       };
-      const response = await axios(config);
-      return response.data;
+      await axios(config);
+      dispatch(boardSlise.actions.deleteBoard(id));
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue('Failed to delete board');
+      return rejectWithValue(i18n.t('errors:rejectDeleteBoard'));
     }
   }
 );
@@ -107,6 +110,7 @@ export const deleteBoard = createAsyncThunk(
 const initialState: reqState = {
   entities: [],
   loading: 'idle',
+  boardRequestStatus: null,
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true },
 };
@@ -118,38 +122,54 @@ export const boardSlise = createSlice({
     setBoards: (state, action) => {
       state.entities = action.payload;
     },
+    deleteBoard: (state, action) => {
+      state.entities = state.entities.filter((item: Board) => item.id !== action.payload)
+    },
+    resetBoardRequestStatus: (state) => {
+      state.boardRequestStatus = null;
+    }
   },
   extraReducers: {
     [getBoards.pending.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [getBoards.fulfilled.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
+      state.entities = action.payload;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
     [getBoards.rejected.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.REJECTED;
+      state.entities = [];
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
+        action.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
 
     [getBoardsById.pending.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [getBoardsById.fulfilled.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -158,45 +178,56 @@ export const boardSlise = createSlice({
       }
     },
     [getBoardsById.rejected.type]: (state, action) => {
+      // state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
+        state.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
 
     [createBoard.pending.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [createBoard.fulfilled.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
+      state.entities.push(action.payload);
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities = action.payload;
-        state.entities.push(action.payload);
+        // state.entities.push(action.payload);
         state.currentRequestId = undefined;
       }
     },
     [createBoard.rejected.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error = action.error;
+        state.error.message = action.payload;
         state.currentRequestId = undefined;
       }
     },
 
     [updateBoards.pending.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [updateBoards.fulfilled.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -205,33 +236,40 @@ export const boardSlise = createSlice({
       }
     },
     [updateBoards.rejected.type]: (state, action) => {
+      // state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error = action.error;
+        state.error.message = action.payload;
         state.currentRequestId = undefined;
       }
     },
 
     [deleteBoard.pending.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [deleteBoard.fulfilled.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
     [deleteBoard.rejected.type]: (state, action) => {
+      state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error = action.error;
         state.currentRequestId = undefined;
       }
     },

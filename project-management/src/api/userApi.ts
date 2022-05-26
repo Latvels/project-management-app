@@ -3,7 +3,8 @@ import axios from 'axios';
 import qs from 'qs';
 import { RootState } from '../store/reducer/reducer';
 import { CONFIG } from '../constants/constant';
-import { User, reqState } from '../typings/typings';
+import { User, reqState, ACTION_STATUSES } from '../typings/typings';
+import i18n from '../services/i18n';
 
 export const getUsers = createAsyncThunk('user/getUsers', async (_, { rejectWithValue }) => {
   try {
@@ -15,7 +16,8 @@ export const getUsers = createAsyncThunk('user/getUsers', async (_, { rejectWith
     });
     return response.data;
   } catch (e) {
-    return rejectWithValue('Failed to load user');
+    rejectWithValue(e);
+    return rejectWithValue(i18n.t('errors:rejectGetUsers'));
   }
 });
 
@@ -31,7 +33,8 @@ export const getUsersById = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to load user by id');
+      rejectWithValue(e)
+      return rejectWithValue(i18n.t('errors:rejectGetUser'));
     }
   }
 );
@@ -56,7 +59,7 @@ export const updateUser = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue('Failed to change user');
+      return rejectWithValue(i18n.t('errors:rejectUpdateUser'));
     }
   }
 );
@@ -77,7 +80,7 @@ export const deleteUser = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue('Failed to delete user');
+      return rejectWithValue(i18n.t('errors:rejectDeleteUser'));
     }
   }
 );
@@ -87,20 +90,27 @@ const initialState: reqState = {
   loading: 'idle',
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true },
+  userRequestStatus: null,
 };
 
 export const userSlise = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    resetUserRequestStatus: (state) => {
+      state.userRequestStatus = null;
+    }
+  },
   extraReducers: {
     [getUsers.pending.type]: (state, action) => {
+      state.userRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [getUsers.fulfilled.type]: (state, action) => {
+      state.userRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -109,21 +119,27 @@ export const userSlise = createSlice({
       }
     },
     [getUsers.rejected.type]: (state, action) => {
+      // state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error = action.error;
+        action.error.message = action.payload;
+        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
 
     [getUsersById.pending.type]: (state, action) => {
+      state.userRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [getUsersById.fulfilled.type]: (state, action) => {
+      state.userRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -132,21 +148,27 @@ export const userSlise = createSlice({
       }
     },
     [getUsersById.rejected.type]: (state, action) => {
+      // state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
+        action.error.message = action.payload;
         state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
 
     [updateUser.pending.type]: (state, action) => {
+      state.userRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [updateUser.fulfilled.type]: (state, action) => {
+      state.userRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -155,21 +177,27 @@ export const userSlise = createSlice({
       }
     },
     [updateUser.rejected.type]: (state, action) => {
+      state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error = action.error;
+        // action.error.message = action.payload;
+        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
 
     [deleteUser.pending.type]: (state, action) => {
+      state.userRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [deleteUser.fulfilled.type]: (state, action) => {
+      state.userRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -178,10 +206,14 @@ export const userSlise = createSlice({
       }
     },
     [deleteUser.rejected.type]: (state, action) => {
+      state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error = action.error;
+        // action.error.message = action.payload;
+        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },

@@ -6,6 +6,7 @@ export const SET_DELETED_ITEM = 'SET_DELETED_ITEM';
 export const SET_DELETED_ID = 'SET_DELETED_ID';
 export const SET_USER_DATA = 'SET_USER_DATA';
 export const SET_CURRENT_BOARD_ID = 'SET_CURRENT_BOARD_ID';
+export const SET_LANG = 'SET_LANG';
 
 export enum ActionKindAppState {
   SET_IS_CREATE_NEW_BOARD_MODAL_OPEN = 'SET_IS_CREATE_NEW_BOARD_MODAL_OPEN',
@@ -16,4 +17,5 @@ export enum ActionKindAppState {
   SET_DELETED_ID = 'SET_DELETED_ID',
   SET_USER_DATA = 'SET_USER_DATA',
   SET_CURRENT_BOARD_ID = 'SET_CURRENT_BOARD_ID',
+  SET_LANG = 'SET_LANG',
 }

@@ -17,7 +17,21 @@
     "Error:": "Ошибка:",
     "pagesNotDefined": "Данная страница не найдена",
     "ThisUserWasNotFound": "Данный пользователь не найден",
-    "AnErrorHasOccurred": "Произошла ошибка, попробуйте ещё раз"
+    "AnErrorHasOccurred": "Произошла ошибка, попробуйте ещё раз",
+    "rejectGetBoards": "Ошибка получения данных",
+    "rejectGetBoard": "Ошибка получения данных",
+    "rejectCreateBoard": "Ошибка создания доски",
+    "rejectUpdateBoard": "Ошибка обновления доски",
+    "rejectDeleteBoard": "Ошибка удаления доски",
+    "rejectGetUsers": "Ошибка получения данных пользователей",
+    "rejectGetUser": "Ошибка получения данных пользовтеля",
+    "rejectUpdateUser": "Ошибка обновления данных пользователя",
+    "rejectDeleteUser": "Ошибка удаления пользователя",
+    "rejectGetTasks": "Ошибка получения данных",
+    "rejectGetTask": "Ошибка получения данных",
+    "rejectCreateTask": "Ошибка создания пункта",
+    "rejectUpdateTask": "Ошибка обновления пункта",
+    "rejectDeleteTask": "Ошибка удаления пункта"
   },
   "description": {
     "part1": "Чтобы начать работу",

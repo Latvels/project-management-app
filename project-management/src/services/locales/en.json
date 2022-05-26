@@ -17,7 +17,21 @@
     "Error:": "Error:",
     "pagesNotDefined": "This pages is not defined",
     "ThisUserWasNotFound": "This user was not found",
-    "AnErrorHasOccurred": "An error has occurred, please try again"
+    "AnErrorHasOccurred": "An error has occurred, please try again",
+    "rejectGetBoards": "Failed to load boards",
+    "rejectGetBoard": "Failed to load board",
+    "rejectCreateBoard": "Failed to create board",
+    "rejectUpdateBoard": "Failed to update board",
+    "rejectDeleteBoard": "Failed to delete board",
+    "rejectGetUsers": "Failed to get users",
+    "rejectGetUser": "Failed to get user",
+    "rejectUpdateUser": "Failed to update user data",
+    "rejectDeleteUser": "Failed to delete user",
+    "rejectGetTasks": "Failed to get tasks",
+    "rejectGetTask": "Failed to get task",
+    "rejectCreateTask": "Failed create task",
+    "rejectUpdateTask": "Failed to update task",
+    "rejectDeleteTask": "Failed to delete task"
   },
   "description": {
     "part1": "To get started",

@@ -1,14 +1,16 @@
 import React from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import react, { useEffect, useRef } from 'react';
 import { Box, Typography, Paper, IconButton, InputBase, Button } from '@mui/material';
-import store, { AppDispatch } from '../../store/store';
+import { AppDispatch } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
-import { Board } from '../../typings/typings';
+import { ACTION_STATUSES, Board } from '../../typings/typings';
 import SearchIcon from '@mui/icons-material/Search';
-import { BoardCard } from '../../components/compunents';
+import { BasicAlerts, BoardCard } from '../../components/compunents';
 import { boardSlise, getBoards } from '../../api/boardApi';
+import { setIsPreloaderOpen } from '../../store/action/appStateAction';
+
 const CardsIsEmpty = () => {
   const { t } = useTranslation();
   const message = t('mainPage:cardsIsEmpty');
@@ -18,17 +20,23 @@ const CardsIsEmpty = () => {
     </Typography>
   );
 };
+
 function MainPage() {
-  const { t } = useTranslation();
-  const message = t('mainPage:cardsIsEmpty');
+  const searchInputRef: react.RefObject<HTMLFormElement> | null = useRef(null);
   const appDispatch = useDispatch<AppDispatch>();
   const allBoards = useSelector((state: RootState) => state.board.entities) || [];
   const { setBoards } = boardSlise.actions;
+  const boardRequestError = useSelector((state: RootState) => state.board.error) as Error;
+  const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
+  
+  const { t } = useTranslation();
   const searchInputPlaceholder = t('mainPage:searchInputPlaceholder');
   const resetSearchBtn = t('mainPage:resetSearchBtn');
-  const searchInputRef: react.RefObject<HTMLFormElement> | null = useRef(null);
+  
   const getAllBoards = async () => {
-    await appDispatch(getBoards());
+    appDispatch(setIsPreloaderOpen(true));
+    const res = await appDispatch(getBoards());
+    appDispatch(setIsPreloaderOpen(false));
   };
 
   useEffect(() => {
@@ -78,8 +86,11 @@ function MainPage() {
     input.value = '';
     await getAllBoards();
   };
+
   return (
     <>
+    {(boardRequestStatus === ACTION_STATUSES.REJECTED) ? (<BasicAlerts error={boardRequestError} />) : 
+    (<>
       <Box
         component="div"
         sx={{
@@ -119,7 +130,7 @@ function MainPage() {
           columnGap: '1rem',
         }}
       >
-        {allBoards && allBoards.length !== 0 ? (
+        {allBoards.length !== 0 ? (
           allBoards.map((el: Board) => {
             return (
               <BoardCard key={el.id} id={el.id} title={el.title} description={el.description} />
@@ -129,6 +140,7 @@ function MainPage() {
           <CardsIsEmpty />
         )}
       </Box>
+    </>)}
     </>
   );
 }
