@@ -1,3 +1,4 @@
+import i18n from '../../services/i18n';
 import { ActionKindAppState, SET_CURRENT_BOARD_ID, SET_DELETED_ID, SET_DELETED_ITEM, SET_IS_CONFIRM_MODAL_OPEN, SET_IS_CREATE_NEW_BOARD_MODAL_OPEN, SET_IS_EDIT_PROFILE_MODAL_OPEN, SET_IS_PRELOADER_OPEN, SET_LANG } from '../actionTypes';
 
 interface IAppState {
@@ -11,13 +12,18 @@ interface IAppState {
   lang: 'en' | 'ru'
 }
 
+const getLang = () => {
+  const lang = i18n.language;
+  return (lang === 'ru-RU' || lang === 'ru') ? 'ru' : 'en';
+}
+
 const initialState: IAppState = {
   isCreateNewBoardModalOpen: false,
   isPreloaderOpen: false,
   isEditProfileModalOpen: false,
   isConfirmModalOpen: false,
   currentBoardId: null,
-  lang: 'en',
+  lang: getLang(),
 }
 
 interface IAction {
