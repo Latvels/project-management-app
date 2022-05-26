@@ -1,8 +1,11 @@
 import i18n from '../../services/i18n';
-import { ActionKindAppState, SET_CURRENT_BOARD_ID, SET_DELETED_ID, SET_DELETED_ITEM, SET_IS_CONFIRM_MODAL_OPEN, SET_IS_CREATE_NEW_BOARD_MODAL_OPEN, SET_IS_EDIT_PROFILE_MODAL_OPEN, SET_IS_PRELOADER_OPEN, SET_LANG } from '../actionTypes';
+import { ActionKindAppState, SET_CURRENT_BOARD_ID, SET_DELETED_ID, SET_DELETED_ITEM, SET_IS_CONFIRM_MODAL_OPEN, SET_IS_CREATE_COLUMN_MODAL_OPEN, SET_IS_CREATE_NEW_BOARD_MODAL_OPEN, SET_IS_CREATE_TASK_MODAL_OPEN, SET_IS_EDIT_PROFILE_MODAL_OPEN, SET_IS_EDIT_TASK_MODAL_OPEN, SET_IS_PRELOADER_OPEN, SET_LANG } from '../actionTypes';
 
 interface IAppState {
   isEditProfileModalOpen: boolean;
+  isEditTaskModalOpen: boolean;
+  isCreateTaskModalOpen: boolean;
+  isCreateColumnModalOpen: boolean;
   isCreateNewBoardModalOpen: boolean;
   isPreloaderOpen: boolean;
   isConfirmModalOpen: boolean;
@@ -19,6 +22,9 @@ const getLang = () => {
 
 const initialState: IAppState = {
   isCreateNewBoardModalOpen: false,
+  isCreateColumnModalOpen: false,
+  isCreateTaskModalOpen: false,
+  isEditTaskModalOpen: false,
   isPreloaderOpen: false,
   isEditProfileModalOpen: false,
   isConfirmModalOpen: false,
@@ -37,6 +43,24 @@ function appStateReducer(state = initialState, action: IAction) {
       return {
         ...state,
         isCreateNewBoardModalOpen: action.payload as boolean,
+      };
+    }
+    case SET_IS_CREATE_TASK_MODAL_OPEN: {
+      return {
+        ...state,
+        isCreateTaskModalOpen: action.payload as boolean,
+      };
+    }
+    case SET_IS_CREATE_COLUMN_MODAL_OPEN: {
+      return {
+        ...state,
+        isCreateColumnModalOpen: action.payload as boolean,
+      };
+    }
+    case SET_IS_EDIT_TASK_MODAL_OPEN: {
+      return {
+        ...state,
+        isEditTaskModalOpen: action.payload as boolean,
       };
     }
     case SET_IS_PRELOADER_OPEN: {
