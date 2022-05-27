@@ -73,7 +73,13 @@ export default function BasicAlerts(props: Props) {
   return (
     <Box sx={{ width: '100%' }}>
       <Collapse in={open}>
-        <Alert
+        { props.errorType !== undefined ? (
+          <Alert severity="error">
+            <AlertTitle sx={{textTransform: 'uppercase'}}>{status}</AlertTitle>
+            <strong>{message}</strong>
+          </Alert>
+        ) :
+        (<Alert
           severity="error"
           action={
             <IconButton
@@ -89,9 +95,8 @@ export default function BasicAlerts(props: Props) {
         >
           <AlertTitle sx={{textTransform: 'uppercase'}}>{status}</AlertTitle>
           <strong>{message}</strong>
-          {/* <AlertTitle>{status}</AlertTitle>
-          {t('errors:Error:')} <strong>{message}</strong> */}
-        </Alert>
+        </Alert>)
+        }
       </Collapse>
     </Box>
   );
