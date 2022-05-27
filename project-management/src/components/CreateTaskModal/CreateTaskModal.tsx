@@ -45,7 +45,7 @@ function CreateTaskModal() {
           <Box component="div" className="modal__title" sx={{ mb: 2 }}>
             <NoteAddOutlinedIcon color="primary" sx={{ mr: 2 }}></NoteAddOutlinedIcon>
             <Typography id="transition-modal-title" variant="h6" component="h4" color="primary">
-              {t('createNewBoardForm:formTitle')}
+              {t('createTaskForm:formTitle')}
             </Typography>
           </Box>
           <CreateElemFormFormik elemType='task' />

@@ -69,6 +69,7 @@ export const createTask = createAsyncThunk(
       const response = await axios(config);
       return response.data;
     } catch (e) {
+      rejectWithValue(e);
       return rejectWithValue(i18n.t('errors: rejectCreateTask'));
     }
   }
@@ -211,7 +212,7 @@ export const taskSlise = createSlice({
       }
     },
     [createTask.rejected.type]: (state, action) => {
-      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
+      state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -238,7 +239,7 @@ export const taskSlise = createSlice({
       }
     },
     [updateTask.rejected.type]: (state, action) => {
-      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
+      state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';

@@ -9,6 +9,7 @@ import {
   Preloader,
   ConfirmationModal,
   CreateTaskModal,
+  CreateColumnModal
 } from '../compunents';
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
       <Preloader />
       <ConfirmationModal />
       <CreateTaskModal />
+      <CreateColumnModal />
     </div>
   );
 }
