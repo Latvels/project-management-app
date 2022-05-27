@@ -31,7 +31,12 @@
     "rejectGetTask": "Failed to get task",
     "rejectCreateTask": "Failed create task",
     "rejectUpdateTask": "Failed to update task",
-    "rejectDeleteTask": "Failed to delete task"
+    "rejectDeleteTask": "Failed to delete task",
+    "rejectGetColumns": "Failed to get column",
+    "rejectGetColumn": "Failed to get column",
+    "rejectCreateColumn": "Failed create column",
+    "rejectUpdateColumn": "Failed to update column",
+    "rejectDeleteColumn": "Failed to delete column"
   },
   "description": {
     "part1": "To get started",

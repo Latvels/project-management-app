@@ -31,7 +31,12 @@
     "rejectGetTask": "Ошибка получения карточки",
     "rejectCreateTask": "Ошибка создания карточки",
     "rejectUpdateTask": "Ошибка обновления карточки",
-    "rejectDeleteTask": "Ошибка удаления карточки"
+    "rejectDeleteTask": "Ошибка удаления карточки",
+    "rejectGetColumns": "Ошибка получения колонок",
+    "rejectGetColumn": "Ошибка получения колонки",
+    "rejectCreateColumn": "Ошибка создания колонки",
+    "rejectUpdateColumn": "Ошибка обновления колонки",
+    "rejectDeleteColumn": "Ошибка удаления колонки"
   },
   "description": {
     "part1": "Чтобы начать работу",

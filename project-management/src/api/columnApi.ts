@@ -3,7 +3,8 @@ import axios from 'axios';
 import qs from 'qs';
 import { RootState } from '../store/reducer/reducer';
 import { CONFIG } from '../constants/constant';
-import { Column, reqState } from '../typings/typings';
+import { ACTION_STATUSES, Column, reqState } from '../typings/typings';
+import i18n from '../services/i18n';
 
 export const getColumns = createAsyncThunk(
   'column/getColumns',
@@ -17,7 +18,8 @@ export const getColumns = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to load columns');
+      rejectWithValue(e);
+      return rejectWithValue(i18n.t('errors:rejectGetColumns'));
     }
   }
 );
@@ -38,7 +40,8 @@ export const getColumnById = createAsyncThunk(
       );
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to load columns by id');
+      rejectWithValue(e);
+      return rejectWithValue(i18n.t('errors:rejectGetColumn'));
     }
   }
 );
@@ -62,7 +65,8 @@ export const createColumn = createAsyncThunk(
       const response = await axios(config);
       return response.data;
     } catch (e) {
-      return rejectWithValue('Failed to create column');
+      rejectWithValue(e);
+      return rejectWithValue(i18n.t('errors:rejectCreateColumn'));
     }
   }
 );
@@ -88,7 +92,7 @@ export const updateColumn = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue('Failed to change column');
+      return rejectWithValue(i18n.t('errors:rejectUpdateColumn'));
     }
   }
 );
@@ -110,7 +114,7 @@ export const deleteColumn = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue('Failed to delete column');
+      return rejectWithValue(i18n.t('errors:rejectDeleteColumn'));
     }
   }
 );
@@ -120,12 +124,17 @@ const initialState: reqState = {
   loading: 'idle',
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true },
+  columnRequestStatus: null,
 };
 
 export const columnSlise = createSlice({
   name: 'column',
   initialState,
-  reducers: {},
+  reducers: {
+    resetColumnRequestStatus: (state) => {
+      state.columnRequestStatus = null;
+    }
+  },
   extraReducers: {
     [getColumns.pending.type]: (state, action) => {
       if (state.loading === 'idle') {
@@ -142,6 +151,7 @@ export const columnSlise = createSlice({
       }
     },
     [getColumns.rejected.type]: (state, action) => {
+      // state.columnRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -165,6 +175,7 @@ export const columnSlise = createSlice({
       }
     },
     [getColumnById.rejected.type]: (state, action) => {
+      // state.columnRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -188,7 +199,10 @@ export const columnSlise = createSlice({
       }
     },
     [createColumn.rejected.type]: (state, action) => {
+      state.columnRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         state.error = action.error;
@@ -211,6 +225,7 @@ export const columnSlise = createSlice({
       }
     },
     [updateColumn.rejected.type]: (state, action) => {
+      // state.columnRequestStatus = ACTION_STATUSES.REJECTED
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -234,6 +249,7 @@ export const columnSlise = createSlice({
       }
     },
     [deleteColumn.rejected.type]: (state, action) => {
+      // state.columnRequestStatus = ACTION_STATUSES.REJECTED
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
