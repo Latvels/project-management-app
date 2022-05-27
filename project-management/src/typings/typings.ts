@@ -53,6 +53,7 @@ export type reqState = {
   columnRequestStatus?: ACTION_STATUSES | null;
   currentRequestId: string | undefined;
   error: Error;
+  currentBoard?: Board;
 };
 //! Убрал error: Error | null; Если у вас не заработает, проверьте тут
 export interface Error {

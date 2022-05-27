@@ -32,6 +32,12 @@ export const getBoardsById = createAsyncThunk(
       },
     });
     return response.data;
+  //   {
+  //     "id": "60d6a65b-3591-4d42-9af2-eefff9fd3427",
+  //     "title": "my test board",
+  //     "description": "don't delete this board please",
+  //     "columns": []
+  // }
     } catch (e) {
       rejectWithValue(e);
     	return rejectWithValue(i18n.t('errors:rejectGetBoard'));
@@ -113,6 +119,7 @@ const initialState: reqState = {
   boardRequestStatus: null,
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true },
+  currentBoard: {},
 };
 
 export const boardSlise = createSlice({
@@ -121,6 +128,9 @@ export const boardSlise = createSlice({
   reducers: {
     setBoards: (state, action) => {
       state.entities = action.payload;
+    },
+    setBoard: (state, action) => {
+      state.currentBoard = action.payload;
     },
     deleteBoard: (state, action) => {
       state.entities = state.entities.filter((item: Board) => item.id !== action.payload)
@@ -170,19 +180,22 @@ export const boardSlise = createSlice({
     },
     [getBoardsById.fulfilled.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.FULFILLED;
+      state.currentBoard = action.payload;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
     [getBoardsById.rejected.type]: (state, action) => {
-      // state.boardRequestStatus = ACTION_STATUSES.REJECTED;
+      state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.currentBoard = {};
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
+        state.currentBoard = {};
         state.loading = 'idle';
         state.error.message = action.payload;
         state.error = action.error;

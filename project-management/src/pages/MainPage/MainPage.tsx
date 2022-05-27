@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import react, { useEffect, useRef } from 'react';
+import react, { useEffect } from 'react';
 import { Box, Typography, Paper, IconButton, InputBase, Button } from '@mui/material';
 import { AppDispatch } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
