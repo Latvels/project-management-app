@@ -148,7 +148,7 @@ export const userSlise = createSlice({
       }
     },
     [getUsersById.rejected.type]: (state, action) => {
-      // state.userRequestStatus = ACTION_STATUSES.REJECTED;
+      state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
