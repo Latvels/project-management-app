@@ -4,9 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidName, isValidPassword } from '../../utils/validation';
 import { useTranslation } from 'react-i18next';
 import { ACTION_STATUSES, Error } from '../../typings/typings';
-import Preloader from '../../components/Preloader/Preloader';
-import { BasicAlerts } from '../../components/compunents';
-import { err } from '../../utils/showBasicAlerts';
 
 export interface IRegistrationValues {
   name: string;
