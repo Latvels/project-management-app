@@ -12,3 +12,4 @@ export { default as Preloader } from './Preloader/Preloader';
 export { default as BoardCard } from './BoardCard/BoardCard';
 export { default as BasicAlerts } from './Alert/alerts';
 export { default as CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
+export { default as CreateColumnModal } from './CreateColumnModal/CreateColumnModal';

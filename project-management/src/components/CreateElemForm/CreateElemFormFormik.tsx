@@ -16,7 +16,7 @@ import './createElemFormFormik.scss';
 
 interface IValues {
   title: string;
-  description: string;
+  description?: string;
 }
 
 function CreateElemFormFormik(props: ICreateElemFormProps) {
@@ -32,13 +32,31 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const { t } = useTranslation();
-  const titleLabel = t('createNewBoardForm:boardTitle');
-  const descriptionLabel = t('createNewBoardForm:boardDescription');
   const buttonText = t('createNewBoardForm:submit');
   const required = t('formValidation:required');
   const minValue = t('formValidation:minValue');
   const maxValue = t('formValidation:maxValue');
   const maxValueDescription = t('formValidation:maxValueDescription');
+
+  const getLabels = () => {
+    const labels = {
+      title: '',
+      description: '',
+    };
+    switch (props.elemType) {
+      case 'board':
+        labels.title = t('createNewBoardForm:boardTitle');
+        labels.description = t('createNewBoardForm:boardDescription');
+        break;
+      case 'task':
+        labels.title = t('createTaskForm:taskTitle');
+        labels.description = t('createTaskForm:taskDescription');
+        break;
+      case 'column':
+        labels.title = t('createColumnForm:columnTitle');
+    }
+    return labels;
+  }
 
 
   const validateForm = (values: IValues): Partial<IValues> => {
@@ -47,7 +65,7 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
     function checkFormField(key: keyof IValues) {
       if (!values[key]) {
         errors[key] = required;
-      } else if (values[key].length < 3) {
+      } else if (values[key]!.length < 4) {
         errors[key] = minValue;
       }
     };
@@ -56,18 +74,29 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
       if (key === 'title' && values[key].length > 15) {
         errors.title = maxValue;
       }
-      if (key === 'description' && values[key].length > 30) {
+      if (key === 'description' && values[key]!.length > 30) {
         errors.description = maxValueDescription;
       }
     }
     setIsButtonDisabled(true);
     checkFormField('title');
-    checkFormField('description');
     checkMaxLength('title');
-    checkMaxLength('description');
-    if (!errors.title && !errors.description) {
-      setIsButtonDisabled(false);
+
+    if (props.elemType !== 'column') {
+      checkFormField('description');
+      checkMaxLength('description');
     }
+
+    if(props.elemType !== 'column') {
+      if (!errors.title && !errors.description) {
+        setIsButtonDisabled(false);
+      } 
+    } else {
+      if (!errors.title) {
+        setIsButtonDisabled(false);
+      }
+    }
+
     return errors;
   }
 
@@ -144,14 +173,14 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
       >
         {({ submitForm }) => (
           <Form className="form">
-            <Field component={TextField} name="title" type="text" label={titleLabel} color="info" />
-            <Field
+            <Field component={TextField} name="title" type="text" label={getLabels().title} color="info" />
+            {props.elemType !== 'column' && (<Field
               component={TextField}
               name="description"
               type="text"
-              label={descriptionLabel}
+              label={getLabels().description}
               color="info"
-            />
+            />)}
             <Button
               variant="outlined"
               color="info"
