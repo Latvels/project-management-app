@@ -57,9 +57,9 @@ function WelcomePage() {
       <h2>{t('welcomePage:team')}</h2>
       <Grid sx={{ mb: 5 }} container direction={matches ? 'column' : 'row'}>
         <Grid item xs={4}>
-          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, height: 600, mx: 2 }}>
+          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, mx: 2 }}>
             <CardMedia
-              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 200 }}
+              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 250 }}
               className="card--media"
               component="img"
               alt="Evgeny"
@@ -83,9 +83,9 @@ function WelcomePage() {
           </Card>
         </Grid>
         <Grid item xs={4}>
-          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, height: 600, mx: 2 }}>
+          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, mx: 2 }}>
             <CardMedia
-              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 200 }}
+              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 250 }}
               className="card--media"
               component="img"
               alt="Tatiana"
@@ -106,9 +106,9 @@ function WelcomePage() {
           </Card>
         </Grid>
         <Grid item xs={4}>
-          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, height: 600, mx: 2 }}>
+          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, mx: 2 }}>
             <CardMedia
-              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 200 }}
+              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 250 }}
               className="card--media"
               component="img"
               alt="Elizaveta"
