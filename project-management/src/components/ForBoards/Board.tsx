@@ -15,8 +15,8 @@ const ParentContainer = styled.div<divTypes>`
 `;
 
 const Container = styled.div`
-  min-height: 90vh;
-  min-width: 100vw;
+  min-height: 80vh;
+  min-width: 80vw;
   display: inline-flex;
 `;
 

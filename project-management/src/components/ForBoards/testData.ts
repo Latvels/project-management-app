@@ -26,63 +26,63 @@ export const quotes: Quote[] = [
   {
     id: '1',
     content: 'column2 task1',
-    author: Column2,
+    order: Column2,
   },
   {
     id: '2',
     content: 'column1 task 1',
-    author: Column1,
+    order: Column1,
   },
   {
     id: '3',
     content: 'column1 task 2',
-    author: Column1,
+    order: Column1,
   },
   {
     id: '4',
     content: 'column3 task 1',
-    author: Column3,
+    order: Column3,
   },
   {
     id: '5',
     content: 'column3 task 2',
-    author: Column3,
+    order: Column3,
   },
   {
     id: '6',
     content: 'column4 task 1',
-    author: Column4,
+    order: Column4,
   },
   {
     id: '7',
     content: 'column4 task 2',
-    author: Column4,
+    order: Column4,
   },
   {
     id: '8',
     content:
       'column3 task 3',
-    author: Column3,
+    order: Column3,
   },
   {
     id: '9',
     content: 'column3 task 4',
-    author: Column3,
+    order: Column3,
   },
   {
     id: '10',
     content: 'column4 task 3',
-    author: Column4,
+    order: Column4,
   },
   {
     id: '11',
     content: 'column4 task 4',
-    author: Column4,
+    order: Column4,
   },
   {
     id: '12',
     content: 'column4 task 5',
-    author: Column4,
+    order: Column4,
   },
 ];
 
@@ -107,28 +107,28 @@ export const getAuthors = (count: number): Column[] =>
 
     const custom: Column = {
       ...random,
-      id: `author-${idCount++}`,
+      id: `order-${idCount++}`,
     };
 
     return custom;
   });
 
-const getByAuthor = (author: Column, items: Quote[]): Quote[] =>
-  items.filter((quote: Quote) => quote.author === author);
+const getByAuthor = (order: Column, items: Quote[]): Quote[] =>
+  items.filter((quote: Quote) => quote.order === order);
 
 export const authorQuoteMap: QuoteMap = columns.reduce(
-  (previous: QuoteMap, author: Column) => ({
+  (previous: QuoteMap, order: Column) => ({
     ...previous,
-    [author.name]: getByAuthor(author, quotes),
+    [order.name]: getByAuthor(order, quotes),
   }),
   {}
 );
 
 export const generateQuoteMap = (quoteCount: number): QuoteMap =>
   columns.reduce(
-    (previous: QuoteMap, author: Column) => ({
+    (previous: QuoteMap, order: Column) => ({
       ...previous,
-      [author.name]: getQuotes(quoteCount / columns.length),
+      [order.name]: getQuotes(quoteCount / columns.length),
     }),
     {}
   );

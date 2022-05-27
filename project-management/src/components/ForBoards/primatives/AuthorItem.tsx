@@ -6,13 +6,13 @@ import { divTypes } from '../../../typings/typings';
 
 const DraggableContainer = styled.div<divTypes>``;
 type Props = {
-  author: Column;
+  order: Column;
   provided: DraggableProvided;
   snapshot: DraggableStateSnapshot;
 };
 
 export default function AuthorItem(props: Props) {
-  const author = props.author;
+  const order = props.order;
   const provided = props.provided;
   const snapshot = props.snapshot;
 

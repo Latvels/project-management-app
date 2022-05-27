@@ -10,7 +10,7 @@ export type Column = {
 export type Quote = {
   id: Id;
   content: string;
-  author: Column;
+  order: Column;
 };
 
 export type Dragging = {
