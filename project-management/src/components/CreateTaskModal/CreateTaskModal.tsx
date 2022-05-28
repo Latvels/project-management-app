@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { CreateElemFormFormik } from '../compunents';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 import './createNewTaskModal.scss';
+import { taskSlise } from '../../api/taskApi';
 
 const style = {
   position: 'absolute',
@@ -24,7 +25,12 @@ const style = {
 function CreateTaskModal() {
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch();
-  const handleClose = () => appDispatch(setIsCreateTaskModalOpen(false));
+  const {resetTaskRequestStatus} = taskSlise.actions;
+
+  const handleClose = () => {
+    appDispatch(setIsCreateTaskModalOpen(false));
+    appDispatch(resetTaskRequestStatus());
+  }
 
   const { t } = useTranslation();
 
