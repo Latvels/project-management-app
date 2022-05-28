@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { CreateElemFormFormik } from '../compunents';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 import './createColumnModal.scss';
+import { columnSlise } from '../../api/columnApi';
 
 const style = {
   position: 'absolute',
@@ -24,8 +25,12 @@ const style = {
 function CreateColumnModal() {
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch();
+  const {resetColumnRequestStatus} = columnSlise.actions;
 
-  const handleClose = () => appDispatch(setIsCreateColumnModalOpen(false));
+  const handleClose = () => {
+    appDispatch(setIsCreateColumnModalOpen(false));
+    appDispatch(resetColumnRequestStatus());
+  }
 
   const { t } = useTranslation();
 

@@ -19,6 +19,7 @@ export const singIn = createAsyncThunk('auth/singIn', async (arr: User, { reject
       data: qs.stringify(arr),
     };
     const response = await axios(config);
+    // console.log(response.data);
     return response.data;
   } catch (e) {
     rejectWithValue(e);
@@ -39,6 +40,7 @@ export const singUp = createAsyncThunk('auth/singUp', async (arr: User, { reject
       data: qs.stringify(arr),
     };
     const response = await axios(config);
+    console.log(response.data);
     return response.data;
   } catch (e) {
     rejectWithValue(e);

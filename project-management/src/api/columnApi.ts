@@ -17,6 +17,13 @@ export const getColumns = createAsyncThunk(
         },
       });
       return response.data;
+    //   [
+    //     {
+    //         "id": "ff447795-3193-433e-a08e-2fb0cc6f2beb",
+    //         "title": "test column",
+    //         "order": 1
+    //     }
+    // ]
     } catch (e) {
       rejectWithValue(e);
       return rejectWithValue(i18n.t('errors:rejectGetColumns'));
@@ -137,13 +144,16 @@ export const columnSlise = createSlice({
   },
   extraReducers: {
     [getColumns.pending.type]: (state, action) => {
+      state.columnRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [getColumns.fulfilled.type]: (state, action) => {
+      state.columnRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
+      state.entities = action.payload;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         state.entities = action.payload;
@@ -153,9 +163,11 @@ export const columnSlise = createSlice({
     [getColumns.rejected.type]: (state, action) => {
       // state.columnRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error = action.error;
+        state.error.message = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -202,10 +214,10 @@ export const columnSlise = createSlice({
       state.columnRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       state.error.message = action.payload;
-      state.error.status = action.meta.requestStatus;
+      state.error.status = action.payload.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error = action.error;
+        // state.error = action.payload;
         state.currentRequestId = undefined;
       }
     },

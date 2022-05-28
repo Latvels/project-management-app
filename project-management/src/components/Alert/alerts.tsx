@@ -75,7 +75,7 @@ export default function BasicAlerts(props: Props) {
       <Collapse in={open}>
         { props.errorType !== undefined ? (
           <Alert severity="error">
-            <AlertTitle sx={{textTransform: 'uppercase'}}>{status}</AlertTitle>
+            <AlertTitle sx={{textTransform: 'uppercase'}}>{status ? status : 'rejected'}</AlertTitle>
             <strong>{message}</strong>
           </Alert>
         ) :
@@ -93,7 +93,7 @@ export default function BasicAlerts(props: Props) {
           }
           sx={{ mb: 2 }}
         >
-          <AlertTitle sx={{textTransform: 'uppercase'}}>{status}</AlertTitle>
+          <AlertTitle sx={{textTransform: 'uppercase'}}>{status ? status : 'rejected'}</AlertTitle>
           <strong>{message}</strong>
         </Alert>)
         }
