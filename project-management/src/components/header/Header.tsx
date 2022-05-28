@@ -40,7 +40,7 @@ function Header() {
   };
 
   const logOut = useCallback(() => {
-    if (requestStatus === ACTION_STATUSES.FULFILLED) {
+    if (requestStatus === ACTION_STATUSES.FULFILLED || requestStatus === null) {
       appDispatch(resetStatuses());
       navigate('/');
     }
