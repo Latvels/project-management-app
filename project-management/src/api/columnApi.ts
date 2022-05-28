@@ -16,7 +16,7 @@ export const getColumns = createAsyncThunk(
           Authorization: `Bearer ${CONFIG.token}`,
         },
       });
-      return response.data;
+      return {...response.data, idBoard: idBoard};
     //   [
     //     {
     //         "id": "ff447795-3193-433e-a08e-2fb0cc6f2beb",
@@ -204,9 +204,11 @@ export const columnSlise = createSlice({
     },
     [createColumn.fulfilled.type]: (state, action) => {
       const { requestId } = action.meta;
+      // state.entities.push(action.payload);
+      // console.log(state);
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },

@@ -6,6 +6,7 @@ import { CONFIG } from '../constants/constant';
 import { ACTION_STATUSES, Board, reqState } from '../typings/typings';
 import i18n from '../services/i18n';
 import stateReducer from '../store/reducer/awtorizateUserDataState';
+import { ConstructionOutlined } from '@mui/icons-material';
 
 export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectWithValue }) => {
   try {
@@ -136,11 +137,10 @@ export const boardSlise = createSlice({
       state.currentBoard = action.payload;
     },
     setColumn: (state, action) => {
-      state.currentBoard?.columns?.push(action.payload);
+      state.currentBoard!.columns!.push(action.payload);
     },
     setTask: (state, action) => {
-      const index = state.currentBoard?.columns?.findIndex(item => item.id === action.payload.columnId) as number;
-      state.currentBoard!.columns![index].tasks!.push(action.payload);
+      state.currentBoard!.columns![0].tasks!.push(action.payload);
     },
     deleteBoard: (state, action) => {
       state.entities = state.entities.filter((item: Board) => item.id !== action.payload)
@@ -154,11 +154,15 @@ export const boardSlise = createSlice({
     setCurrentTask: (state, action) => {
       state.currentTask = action.payload;
     },
-    deleteTask: (state, action) => {
-      state.currentBoard!.columns!.find(item => item.id === action.payload.columnId)!.tasks!.filter(item => item.id !== action.payload.id)
+    removeTask: (state, action) => {
+      const columnIndex = state.currentBoard!.columns!.findIndex(item => item.id === action.payload.columnId);
+      const newTasks = state.currentBoard!.columns![columnIndex]!.tasks!.filter(item => item.id !== action.payload.id);
+      state.currentBoard!.columns![columnIndex]!.tasks! = newTasks;
     },
-    updateTask: (state, action) => {
-      // state.currentBoard!.columns!.find(item => item.id === action.payload.columnId)!.tasks!.find(item => item.id !== action.payload.id) = action.payload;
+    changeTask: (state, action) => {
+      const columnIndex = state.currentBoard!.columns!.findIndex(item => item.id === action.payload.columnId);
+      const taskIndex = state.currentBoard!.columns![columnIndex]!.tasks!.findIndex(item => item.id === action.payload.id);
+      state.currentBoard!.columns![columnIndex]!.tasks![taskIndex]! = action.payload;
     }
   },
   extraReducers: {

@@ -34,7 +34,7 @@ function ConfirmationModal() {
   const boardState = useSelector((state: RootState) => state.board);
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
   const boardRequestError: Error = useSelector((state: RootState) => state.board.error);
-  const {resetBoardRequestStatus, deleteTask} = boardSlise.actions;
+  const {resetBoardRequestStatus, removeTask} = boardSlise.actions;
   const taskRequestStatus = useSelector((state: RootState) => state.task.taskRequestStatus);
   const taskRequestError: Error = useSelector((state: RootState) => state.task.error);
   const {resetTaskRequestStatus} = taskSlise.actions;
@@ -117,7 +117,7 @@ function ConfirmationModal() {
         appDispatch(setIsPreloaderOpen(false));
         if (resp.payload.meta.requestStatus === 'fulfilled') {
           appDispatch(resetTaskRequestStatus());
-          appDispatch(deleteTask(taskData));
+          appDispatch(removeTask(taskData));
           appDispatch(setIsConfirmModalOpen(false));
         }
     }

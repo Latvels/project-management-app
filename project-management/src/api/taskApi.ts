@@ -55,9 +55,7 @@ export const createTask = createAsyncThunk(
   // data: {
   //     "title": "test task",
   //     "description": "test task description",
-  //     "done": false,
   //     "userId": "f9730773-8e68-4516-84ce-3ae3d90950d1",
-  //     "order": 1,
   //     "boardId": ,
   //      columnId: ,
   // }
@@ -78,7 +76,6 @@ export const createTask = createAsyncThunk(
       const response = await axios(config);
         // resp  {
         //     "title": "test task",
-        //     "done": false,
         //     "order": 1,
         //     "description": "test task description",
         //     "userId": "f9730773-8e68-4516-84ce-3ae3d90950d1",
@@ -103,16 +100,16 @@ export const updateTask = createAsyncThunk(
   async (data: Task, { rejectWithValue }) => {
   //data {
   //     "title": "test updated task",
-  //     "done": true,
   //     "description": "test task description",
   //     "userId": "f9730773-8e68-4516-84ce-3ae3d90950d1",
   //     "order": 2,
-  //     "boardId": "60d6a65b-3591-4d42-9af2-eefff9fd3427"
+  //     "boardId": "60d6a65b-3591-4d42-9af2-eefff9fd3427",
+  //     "columnId": 
   // }
     const { boardId, columnId, id } = data;
     delete data.boardId;
     delete data.columnId;
-    delete data.id;
+    // delete data.id;
     try {
       const config = {
         method: 'PUT',
@@ -128,7 +125,6 @@ export const updateTask = createAsyncThunk(
     //resp {
     //     "id": "94e3c906-e38a-499f-86a5-499ffcb7eadb",
     //     "title": "test updated task",
-    //     "done": true,
     //     "order": 2,
     //     "description": "test task description",
     //     "userId": "f9730773-8e68-4516-84ce-3ae3d90950d1",
@@ -278,17 +274,19 @@ export const taskSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
     [updateTask.rejected.type]: (state, action) => {
       state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload.text;
+      state.error.status = action.payload.status;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error.message = action.payload;
-        state.error = action.error;
+        // state.error.message = action.payload;
+        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
