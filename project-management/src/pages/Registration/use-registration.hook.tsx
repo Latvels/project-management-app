@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidName, isValidPassword } from '../../utils/validation';
 import { useTranslation } from 'react-i18next';
 import { ACTION_STATUSES, Error } from '../../typings/typings';
-import Preloader from '../../components/Preloader/Preloader';
-import { BasicAlerts } from '../../components/compunents';
 
 export interface IRegistrationValues {
   name: string;
@@ -76,8 +74,17 @@ export const useRegistration = (): UseRegistrationReturnValues => {
     checkFormField('name');
     checkFormField('login');
     checkFormField('password');
-    if (!errors.name && !errors.login && !errors.password) {
+    if (
+      values?.name &&
+      !errors.name &&
+      values?.login &&
+      !errors.login &&
+      values?.password &&
+      !errors.password
+    ) {
       setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
     }
     return errors;
   };
