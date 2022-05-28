@@ -10,6 +10,7 @@ export interface Board {
   id?: string;
   title?: string;
   description?: string;
+  columns?: Array<Column>;
 }
 
 export interface Column {
@@ -17,6 +18,7 @@ export interface Column {
   order?: number;
   id?: string;
   idBoard?: string;
+  tasks?: Array<Task>
 }
 
 export interface Task {
@@ -54,6 +56,8 @@ export type reqState = {
   currentRequestId: string | undefined;
   error: Error;
   currentBoard?: Board;
+  currentTask?: Task,
+  currentColumn?: Column,
 };
 //! Убрал error: Error | null; Если у вас не заработает, проверьте тут
 export interface Error {

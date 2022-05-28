@@ -24,7 +24,7 @@ const CardsIsEmpty = () => {
 function MainPage() {
   const appDispatch = useDispatch<AppDispatch>();
   const allBoards = useSelector((state: RootState) => state.board.entities) || [];
-  const { setBoards } = boardSlise.actions;
+  const { setBoards, resetBoardRequestStatus } = boardSlise.actions;
   const boardRequestError = useSelector((state: RootState) => state.board.error) as Error;
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
   const [searchValue, setSearchValue] = useState('');
@@ -35,8 +35,11 @@ function MainPage() {
   
   const getAllBoards = async () => {
     appDispatch(setIsPreloaderOpen(true));
-    await appDispatch(getBoards());
+    const resp = await appDispatch(getBoards());
     appDispatch(setIsPreloaderOpen(false));
+    if (resp.meta.requestStatus === 'fulfilled') {
+      appDispatch(resetBoardRequestStatus());
+    }
   };
 
   useEffect(() => {

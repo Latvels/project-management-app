@@ -86,7 +86,7 @@
     "commonText": "удалить",
     "deleteUserText": "пользователя",
     "deleteBoardText": "доску",
-    "deleteTaskText": "задание",
+    "deleteTaskText": "карточку",
     "buttonYes": "да",
     "buttonNo": "нет"
   },
@@ -128,8 +128,8 @@
   "boardPage": {
     "addColumn": "Добавить колонку",
     "delColumn": "Удалить колонку",
-    "addRow": "Добавить строчку",
-    "delRow": "Удалить строчку",
+    "addRow": "Добавить карточку",
+    "delRow": "Удалить карточку",
     "submit": "Изменить",
     "cancel": "Отмена"
   }
