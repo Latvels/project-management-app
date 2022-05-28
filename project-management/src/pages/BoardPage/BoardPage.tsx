@@ -9,7 +9,7 @@ import { BasicAlerts } from '../../components/compunents';
 import { ACTION_STATUSES } from '../../typings/typings';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { setIsPreloaderOpen } from '../../store/action/appStateAction';
+import { setIsCreateColumnModalOpen, setIsCreateTaskModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { boardSlise, getBoardsById } from '../../api/boardApi';
 
 function BoardPage() {
@@ -20,11 +20,13 @@ function BoardPage() {
   const { t } = useTranslation();
 
   const onAddColumn = () => {
-    console.log('Колонка добавлена');
+    appDispatch(setIsCreateColumnModalOpen(true));
+    // console.log('Колонка добавлена');
   };
 
   const onAddRow = () => {
-    console.log('Строчка добавлена');
+    appDispatch(setIsCreateTaskModalOpen(true));
+    // console.log('Строчка добавлена');
   };
 
   const getBoard = async () => {
