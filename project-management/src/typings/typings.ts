@@ -89,4 +89,14 @@ export interface All {
 export interface ICreateElemFormProps {
   elemType: 'board' | 'column' | 'task';
 }
+
 // типы для борда
+export interface divTypes {
+  height?: string;
+  isDragging?: boolean;
+  isDraggingOver?: boolean | undefined;
+  isDropDisabled?: boolean | undefined;
+  isDraggingFrom?: boolean;
+  isGroupedOver?: boolean | undefined;
+  isClone?: boolean | undefined;
+};

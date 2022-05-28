@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { setIsCreateColumnModalOpen, setIsCreateTaskModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
 import { boardSlise, getBoardsById } from '../../api/boardApi';
+import Board from '../../components/ForBoards/Board';
+import { authorQuoteMap } from '../../components/ForBoards/testData';
 
 function BoardPage() {
   const appDispatch = useDispatch<AppDispatch>();
@@ -55,16 +57,32 @@ function BoardPage() {
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
-            padding: '1rem 1rem 5rem 1rem',
-            rowGap: '1rem',
-            columnGap: '1rem',
           }}
         >
-          {/* ТУТ ПЕРЕДАЮ КОМПОНЕНТ С БОРДАМИ */}
-          {/* <Board /> */}
+          <Board initial={authorQuoteMap} isCombineEnabled />
         </Box>
       </Box>)}
     </>
+    // тут был конфликт
+    // <Box sx={{  }}>
+    //   <Box sx={{ display: 'flex', margin: '0.5rem 0 0 0.5rem' }}>
+    //     <Button sx={{ mr: 1 }} variant="outlined" disabled={false} onClick={onAddColumn}>
+    //       {t('boardPage:addColumn')}
+    //     </Button>
+    //     <Button sx={{ mr: 1 }} variant="outlined" disabled={false} onClick={onAddRow}>
+    //       {t('boardPage:addRow')}
+    //     </Button>
+    //   </Box>
+    //   <Box
+    //     sx={{
+    //       display: 'flex',
+    //       flexWrap: 'wrap',
+    //     }}
+    //   >
+    //     {/* ТУТ ПЕРЕДАЮ КОМПОНЕНТ С БОРДАМИ */}
+    //     <Board initial={authorQuoteMap} isCombineEnabled />
+    //   </Box>
+    // </Box>
   );
 }
 

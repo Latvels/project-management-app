@@ -1,7 +1,7 @@
-import { Quote, QuoteMap } from './types';
-import { DraggableLocation } from 'react-beautiful-dnd';
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Quote, QuoteMap } from './testTypes';
+import { DraggableLocation } from 'react-beautiful-dnd';
+
 // function to help us with reordering the result
 export default function reorder(list: any[], startIndex: number, endIndex: number): any[] {
   const result = Array.from(list);
