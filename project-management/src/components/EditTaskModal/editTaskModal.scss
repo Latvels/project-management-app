@@ -1,0 +1,9 @@
+@import '../../index.scss';
+
+.modal__title {
+  @include modalTitle();
+}
+
+.modal__window {
+  @include modalWindow();
+}

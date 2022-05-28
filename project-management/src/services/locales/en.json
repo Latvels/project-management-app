@@ -32,7 +32,12 @@
     "rejectGetTask": "Failed to get task",
     "rejectCreateTask": "Failed create task",
     "rejectUpdateTask": "Failed to update task",
-    "rejectDeleteTask": "Failed to delete task"
+    "rejectDeleteTask": "Failed to delete task",
+    "rejectGetColumns": "Failed to get column",
+    "rejectGetColumn": "Failed to get column",
+    "rejectCreateColumn": "Failed create column",
+    "rejectUpdateColumn": "Failed to update column",
+    "rejectDeleteColumn": "Failed to delete column"
   },
   "description": {
     "part1": "To get started",
@@ -43,6 +48,23 @@
     "boardTitle": "input board title",
     "boardDescription": "input board description",
     "submit": "create"
+  },
+  "createTaskForm": {
+    "formTitle": "create task",
+    "taskTitle": "input task title",
+    "taskDescription": "input task description",
+    "submit": "create"
+  },
+  "createColumnForm": {
+    "formTitle": "create column",
+    "columnTitle": "input column title",
+    "submit": "create"
+  },
+  "editTaskForm": {
+    "formTitle": "edit task",
+    "title": "task title",
+    "description": "task description",
+    "submit": "edit task"
   },
   "editProfileForm": {
     "formTitle": "edit profile",
@@ -102,5 +124,13 @@
     "cardsIsEmpty": "No boards found",
     "searchInputPlaceholder": "search",
     "resetSearchBtn": "reset search"
+  },
+  "boardPage": {
+    "addColumn": "Add column",
+    "delColumn": "Delete column",
+    "addRow": "Add row",
+    "delRow": "Delete row",
+    "submit": "Submit",
+    "cancel": "Cancel"
   }
 }

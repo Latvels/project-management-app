@@ -5,6 +5,7 @@ import { RootState } from '../store/reducer/reducer';
 import { CONFIG } from '../constants/constant';
 import { ACTION_STATUSES, Board, reqState } from '../typings/typings';
 import i18n from '../services/i18n';
+import stateReducer from '../store/reducer/awtorizateUserDataState';
 
 export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectWithValue }) => {
   try {
@@ -32,6 +33,12 @@ export const getBoardsById = createAsyncThunk(
       },
     });
     return response.data;
+  //   {
+  //     "id": "60d6a65b-3591-4d42-9af2-eefff9fd3427",
+  //     "title": "my test board",
+  //     "description": "don't delete this board please",
+  //     "columns": []
+  // }
     } catch (e) {
       rejectWithValue(e);
     	return rejectWithValue(i18n.t('errors:rejectGetBoard'));
@@ -113,6 +120,9 @@ const initialState: reqState = {
   boardRequestStatus: null,
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true },
+  currentBoard: {},
+  currentTask: {},
+  currentColumn: {},
 };
 
 export const boardSlise = createSlice({
@@ -122,11 +132,33 @@ export const boardSlise = createSlice({
     setBoards: (state, action) => {
       state.entities = action.payload;
     },
+    setBoard: (state, action) => {
+      state.currentBoard = action.payload;
+    },
+    setColumn: (state, action) => {
+      state.currentBoard?.columns?.push(action.payload);
+    },
+    setTask: (state, action) => {
+      const index = state.currentBoard?.columns?.findIndex(item => item.id === action.payload.columnId) as number;
+      state.currentBoard!.columns![index].tasks!.push(action.payload);
+    },
     deleteBoard: (state, action) => {
       state.entities = state.entities.filter((item: Board) => item.id !== action.payload)
     },
     resetBoardRequestStatus: (state) => {
       state.boardRequestStatus = null;
+    },
+    setCurrentColumn: (state, action) => {
+      state.currentColumn = action.payload;
+    },
+    setCurrentTask: (state, action) => {
+      state.currentTask = action.payload;
+    },
+    deleteTask: (state, action) => {
+      state.currentBoard!.columns!.find(item => item.id === action.payload.columnId)!.tasks!.filter(item => item.id !== action.payload.id)
+    },
+    updateTask: (state, action) => {
+      // state.currentBoard!.columns!.find(item => item.id === action.payload.columnId)!.tasks!.find(item => item.id !== action.payload.id) = action.payload;
     }
   },
   extraReducers: {
@@ -170,19 +202,22 @@ export const boardSlise = createSlice({
     },
     [getBoardsById.fulfilled.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.FULFILLED;
+      state.currentBoard = action.payload;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
+        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
     [getBoardsById.rejected.type]: (state, action) => {
-      // state.boardRequestStatus = ACTION_STATUSES.REJECTED;
+      state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.currentBoard = {};
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
+        state.currentBoard = {};
         state.loading = 'idle';
         state.error.message = action.payload;
         state.error = action.error;
@@ -214,7 +249,7 @@ export const boardSlise = createSlice({
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error.message = action.payload;
+        // state.error.message = action.payload;
         state.currentRequestId = undefined;
       }
     },

@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Backdrop, Box, Modal, Fade, Typography } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
-import { setIsCreateNewBoardModalOpen } from '../../store/action/appStateAction';
+import { setIsCreateColumnModalOpen } from '../../store/action/appStateAction';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import { useTranslation } from 'react-i18next';
 import { CreateElemFormFormik } from '../compunents';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
-import './createNewBoardModal.scss';
-import { boardSlise } from '../../api/boardApi';
+import './createColumnModal.scss';
+import { columnSlise } from '../../api/columnApi';
 
 const style = {
   position: 'absolute',
@@ -22,14 +22,14 @@ const style = {
   p: 4,
 };
 
-function CreateNewBoardModal() {
+function CreateColumnModal() {
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch();
-  const { resetBoardRequestStatus } = boardSlise.actions;
+  const {resetColumnRequestStatus} = columnSlise.actions;
 
   const handleClose = () => {
-    appDispatch(setIsCreateNewBoardModalOpen(false));
-    appDispatch(resetBoardRequestStatus());
+    appDispatch(setIsCreateColumnModalOpen(false));
+    appDispatch(resetColumnRequestStatus());
   }
 
   const { t } = useTranslation();
@@ -38,7 +38,7 @@ function CreateNewBoardModal() {
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
-      open={appState.isCreateNewBoardModalOpen}
+      open={appState.isCreateColumnModalOpen}
       onClose={handleClose}
       closeAfterTransition
       BackdropComponent={Backdrop}
@@ -46,19 +46,19 @@ function CreateNewBoardModal() {
         timeout: TIMEOUT_FOR_MODAL,
       }}
     >
-      <Fade in={appState.isCreateNewBoardModalOpen}>
+      <Fade in={appState.isCreateColumnModalOpen}>
         <Box sx={style}>
           <Box component="div" className="modal__title" sx={{ mb: 2 }}>
             <NoteAddOutlinedIcon color="primary" sx={{ mr: 2 }}></NoteAddOutlinedIcon>
             <Typography id="transition-modal-title" variant="h6" component="h4" color="primary">
-              {t('createNewBoardForm:formTitle')}
+              {t('createColumnForm:formTitle')}
             </Typography>
           </Box>
-          <CreateElemFormFormik elemType='board' />
+          <CreateElemFormFormik elemType='column' />
         </Box>
       </Fade>
     </Modal>
   );
 }
 
-export default CreateNewBoardModal;
+export default CreateColumnModal;

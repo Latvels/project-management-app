@@ -95,7 +95,7 @@ export const useRegistration = (): UseRegistrationReturnValues => {
     }
   }, [requestStatus]);
 
-  console.log(requestError);
+  // console.log(requestError);
 
   return {
     initialValues,

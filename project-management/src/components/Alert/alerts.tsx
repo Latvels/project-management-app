@@ -5,13 +5,15 @@ import { Error } from '../../typings/typings';
 // import { useTranslation } from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import { boardSlise } from '../../api/boardApi';
-import { setIsConfirmModalOpen, setIsCreateNewBoardModalOpen, setIsEditProfileModalOpen } from '../../store/action/appStateAction';
+import { setIsConfirmModalOpen, setIsCreateColumnModalOpen, setIsCreateNewBoardModalOpen, setIsCreateTaskModalOpen, setIsEditProfileModalOpen, setIsEditTaskModalOpen } from '../../store/action/appStateAction';
 import { TIMEOUT_FOR_ALERT } from '../../constants/constant';
 import { userSlise } from '../../api/userApi';
 import { taskSlise } from '../../api/taskApi';
+import { columnSlise } from '../../api/columnApi';
 
 type Props = {
   error: Error;
+  errorType?: 'board' | 'task' | 'column' | 'user';
 };
 
 export default function BasicAlerts(props: Props) {
@@ -19,32 +21,65 @@ export default function BasicAlerts(props: Props) {
   const { resetBoardRequestStatus } = boardSlise.actions;
   const { resetTaskRequestStatus } = taskSlise.actions;
   const { resetUserRequestStatus } = userSlise.actions;
+  const { resetColumnRequestStatus } = columnSlise.actions;
   const appDispatch = useDispatch();
   const { status, message } = props.error;
-  // const { t } = useTranslation();
+
+  const resetStatuses = () => {
+    switch (props.errorType) {
+      case 'board':
+        appDispatch(resetBoardRequestStatus());
+        break;
+      case 'user':
+        appDispatch(resetUserRequestStatus());
+        break;
+      case 'column':
+        appDispatch(resetColumnRequestStatus());
+        break;
+      case 'task':
+        appDispatch(resetTaskRequestStatus());
+    }
+  }
+
+  const closeModals = () => {
+    appDispatch(setIsConfirmModalOpen(false));
+    switch (props.errorType) {
+      case 'board':
+        appDispatch(setIsCreateNewBoardModalOpen(false));
+        break;
+      case 'user':
+        appDispatch(setIsEditProfileModalOpen(false));
+        break;
+      case 'column':
+        appDispatch(setIsCreateColumnModalOpen(false));
+        break;
+      case 'task':
+        appDispatch(setIsCreateTaskModalOpen(false));
+        appDispatch(setIsEditTaskModalOpen(false));
+    }
+  }
 
   const closeAlert = () => {
+    closeModals();
+    resetStatuses();
     setOpen(false);
-    appDispatch(resetUserRequestStatus());
-    appDispatch(resetBoardRequestStatus());
-    appDispatch(resetTaskRequestStatus());
-  } 
+  }
 
   React.useEffect(() => {
-    const callBack = () => {
-      closeAlert();
-      appDispatch(setIsConfirmModalOpen(false));
-      appDispatch(setIsCreateNewBoardModalOpen(false));
-      appDispatch(setIsEditProfileModalOpen(false));
-    }
-    const timer = setTimeout(callBack, TIMEOUT_FOR_ALERT );
+    const timer = setTimeout(closeAlert, TIMEOUT_FOR_ALERT );
     return () => {clearTimeout(timer)};
   }, []);
 
   return (
     <Box sx={{ width: '100%' }}>
       <Collapse in={open}>
-        <Alert
+        { props.errorType !== undefined ? (
+          <Alert severity="error">
+            <AlertTitle sx={{textTransform: 'uppercase'}}>{status ? status : 'rejected'}</AlertTitle>
+            <strong>{message}</strong>
+          </Alert>
+        ) :
+        (<Alert
           severity="error"
           action={
             <IconButton
@@ -58,11 +93,10 @@ export default function BasicAlerts(props: Props) {
           }
           sx={{ mb: 2 }}
         >
-          <AlertTitle sx={{textTransform: 'uppercase'}}>{status}</AlertTitle>
+          <AlertTitle sx={{textTransform: 'uppercase'}}>{status ? status : 'rejected'}</AlertTitle>
           <strong>{message}</strong>
-          {/* <AlertTitle>{status}</AlertTitle>
-          {t('errors:Error:')} <strong>{message}</strong> */}
-        </Alert>
+        </Alert>)
+        }
       </Collapse>
     </Box>
   );

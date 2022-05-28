@@ -5,7 +5,7 @@ import { TextField } from 'formik-mui';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDeletedItem, setDeletedId, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen, setUserData } from '../../store/action/appStateAction';
-import { updateUser, userSlise } from '../../api/userApi';
+import { updateUser, userSlise, getUsersById } from '../../api/userApi';
 import { AppDispatch } from '../../store/store';
 import { User, Error, ACTION_STATUSES } from '../../typings/typings';
 import { RootState } from '../../store/reducer/reducer';
@@ -26,6 +26,7 @@ function EditProfileFormFormik() {
   const userRequestStatus = useSelector((state: RootState) => state.user.userRequestStatus);
   const {resetUserRequestStatus} = userSlise.actions;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const id = userData.user?.id as string;
 
   const { t } = useTranslation();
   const nameLabel = t('editProfileForm:name');
@@ -46,17 +47,23 @@ function EditProfileFormFormik() {
   }
 
   const getUserData = async () => {
-    const login = userData.user?.login as string;
-    const name = userData.user?.name as string;
-
-    initialValues.login = login;
-    initialValues.name = name;
-    initialValues.password = '';
+    appDispatch(setIsPreloaderOpen(true));
+    const resp = await appDispatch(getUsersById(id));
+    appDispatch(setIsPreloaderOpen(false));
+    if(resp.meta.requestStatus === 'fulfilled') {
+      appDispatch(resetUserRequestStatus());
+      const respData = resp.payload as User;
+      const login = respData.login!;
+      const name = respData.name!;
+      initialValues.login = login;
+      initialValues.name = name;
+      initialValues.password = '';
+    }
   };
 
   useEffect(() => {
-    getUserData();
-  });
+      getUserData();
+  }, []);
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
@@ -87,16 +94,17 @@ function EditProfileFormFormik() {
   };
 
   const handleClickDeleteUserButton = () => {
-    const id = userData.user?.id as string;
     appDispatch(setDeletedItem('user'));
     appDispatch(setDeletedId(id));
     appDispatch(setIsEditProfileModalOpen(false));
+    appDispatch(resetUserRequestStatus());
     appDispatch(setIsConfirmModalOpen(true));
   };
 
   return (
     <>
-      <Formik
+      {userRequestStatus === ACTION_STATUSES.REJECTED ? <BasicAlerts error={userRequestError} errorType='user' /> :
+      (<Formik
       initialValues={initialValues}
       validate={validateForm}
       onSubmit={async (values: IValues, {setSubmitting}) => {
@@ -157,10 +165,9 @@ function EditProfileFormFormik() {
           >
             {deleteButtonText}
           </Button>
-          {userRequestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={userRequestError} />}
         </Form>
       )}
-    </Formik>
+      </Formik>)}
     </>
   );
 }

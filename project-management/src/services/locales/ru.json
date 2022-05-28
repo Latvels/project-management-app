@@ -28,11 +28,16 @@
     "rejectGetUser": "Ошибка получения данных пользовтеля",
     "rejectUpdateUser": "Ошибка обновления данных пользователя",
     "rejectDeleteUser": "Ошибка удаления пользователя",
-    "rejectGetTasks": "Ошибка получения данных",
-    "rejectGetTask": "Ошибка получения данных",
-    "rejectCreateTask": "Ошибка создания пункта",
-    "rejectUpdateTask": "Ошибка обновления пункта",
-    "rejectDeleteTask": "Ошибка удаления пункта"
+    "rejectGetTasks": "Ошибка получения карточек",
+    "rejectGetTask": "Ошибка получения карточки",
+    "rejectCreateTask": "Ошибка создания карточки",
+    "rejectUpdateTask": "Ошибка обновления карточки",
+    "rejectDeleteTask": "Ошибка удаления карточки",
+    "rejectGetColumns": "Ошибка получения колонок",
+    "rejectGetColumn": "Ошибка получения колонки",
+    "rejectCreateColumn": "Ошибка создания колонки",
+    "rejectUpdateColumn": "Ошибка обновления колонки",
+    "rejectDeleteColumn": "Ошибка удаления колонки"
   },
   "description": {
     "part1": "Чтобы начать работу",
@@ -44,6 +49,24 @@
     "boardDescription": "введите описание доски",
     "submit": "создать"
   },
+  "createTaskForm": {
+    "formTitle": "создать карточку",
+    "taskTitle": "введите имя карточки",
+    "taskDescription": "введите описание карточки",
+    "submit": "создать"
+  },
+  "createColumnForm": {
+    "formTitle": "создать колонку",
+    "columnTitle": "введите имя колонки",
+    "submit": "создать"
+  },
+  "editTaskForm": {
+    "formTitle": "редактировать карточку",
+    "title": "имя",
+    "description": "описание",
+    "submit": "редактировать данные"
+  },
+
   "editProfileForm": {
     "formTitle": "редактировать профиль",
     "email": "email",
@@ -64,7 +87,7 @@
     "commonText": "удалить",
     "deleteUserText": "пользователя",
     "deleteBoardText": "доску",
-    "deleteTaskText": "задание",
+    "deleteTaskText": "карточку",
     "buttonYes": "да",
     "buttonNo": "нет"
   },
@@ -102,5 +125,13 @@
     "email": "email",
     "password": "введите ваш пароль",
     "submit": "войти"
+  },
+  "boardPage": {
+    "addColumn": "Добавить колонку",
+    "delColumn": "Удалить колонку",
+    "addRow": "Добавить карточку",
+    "delRow": "Удалить карточку",
+    "submit": "Изменить",
+    "cancel": "Отмена"
   }
 }
