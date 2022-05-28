@@ -31,9 +31,10 @@ const style = {
 function ConfirmationModal() {
   const navigate = useNavigate();
   const appState = useSelector((state: RootState) => state.appState);
+  const boardState = useSelector((state: RootState) => state.board);
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
   const boardRequestError: Error = useSelector((state: RootState) => state.board.error);
-  const {resetBoardRequestStatus} = boardSlise.actions;
+  const {resetBoardRequestStatus, deleteTask} = boardSlise.actions;
   const taskRequestStatus = useSelector((state: RootState) => state.task.taskRequestStatus);
   const taskRequestError: Error = useSelector((state: RootState) => state.task.error);
   const {resetTaskRequestStatus} = taskSlise.actions;
@@ -107,11 +108,16 @@ function ConfirmationModal() {
     } else if (deletedItem === 'task') {
         appDispatch(setIsPreloaderOpen(true));
         //todo adjust work with taskDelete
-        const testData: Task = {boardId: 'boardId', columnId: 'columnId', id: 'id'};
-        const resp = await appDispatch(deleteTask(testData));
+        const taskData: Task = {
+          boardId: boardState.currentTask!.boardId,
+          columnId: boardState.currentTask!.columnId,
+          id: boardState.currentTask!.id
+        };
+        const resp = await appDispatch(deleteTask(taskData));
         appDispatch(setIsPreloaderOpen(false));
-        if (resp.meta.requestStatus === 'fulfilled') {
+        if (resp.payload.meta.requestStatus === 'fulfilled') {
           appDispatch(resetTaskRequestStatus());
+          appDispatch(deleteTask(taskData));
           appDispatch(setIsConfirmModalOpen(false));
         }
     }
