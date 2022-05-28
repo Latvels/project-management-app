@@ -4,13 +4,13 @@ import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { setDeletedItem, setDeletedId, setIsConfirmModalOpen, setIsEditProfileModalOpen, setIsPreloaderOpen, setUserData, setIsEditTaskModalOpen } from '../../store/action/appStateAction';
+import { setIsPreloaderOpen, setUserData, setIsEditTaskModalOpen } from '../../store/action/appStateAction';
 import { updateTask, taskSlise, getTaskById } from '../../api/taskApi';
 import { AppDispatch } from '../../store/store';
 import { Task, Error, ACTION_STATUSES } from '../../typings/typings';
 import { RootState } from '../../store/reducer/reducer';
 import { BasicAlerts } from '../compunents';
-import './editProfileFormFormik.scss';
+import './editTaskFormFormik.scss';
 
 interface IValues {
   title: string;
