@@ -21,6 +21,7 @@ interface IValues {
 function EditProfileFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
   const userData = useSelector((state: RootState) => state.awtUser);
+  const user = useSelector((state: RootState) => state.user);
   const userRequestError = useSelector((state: RootState) => state.user.error) as Error;
   const userRequestStatus = useSelector((state: RootState) => state.user.userRequestStatus);
   const {resetUserRequestStatus} = userSlise.actions;
@@ -35,6 +36,8 @@ function EditProfileFormFormik() {
   const minValue = t('formValidation:minValue');
   const maxValue = t('formValidation:maxValue');
   const required = t('formValidation:required');
+  console.log(userData);
+  console.log(user)
 
   const initialValues = {
     name: '',
