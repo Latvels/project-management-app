@@ -5,7 +5,7 @@ import { RootState } from '../../store/reducer/reducer';
 import { setIsEditTaskModalOpen } from '../../store/action/appStateAction';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { useTranslation } from 'react-i18next';
-import { EditProfileFormFormik } from '../compunents';
+import { EditTaskFormFormik } from '../compunents';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
 import { AppDispatch } from '../../store/store';
 import { taskSlise } from '../../api/taskApi';
@@ -58,7 +58,7 @@ function EditTaskModal() {
               {t('editTaskForm:formTitle')}
             </Typography>
           </Box>
-          <EditProfileFormFormik />
+          <EditTaskFormFormik />
         </Box>
       </Fade>
     </Modal>
