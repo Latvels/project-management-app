@@ -22,7 +22,7 @@ const getLang = () => {
 
 const initialState: IAppState = {
   isCreateNewBoardModalOpen: false,
-  isCreateColumnModalOpen: true,
+  isCreateColumnModalOpen: false,
   isCreateTaskModalOpen: false,
   isEditTaskModalOpen: false,
   isPreloaderOpen: false,
@@ -115,3 +115,4 @@ function appStateReducer(state = initialState, action: IAction) {
 }
 
 export default appStateReducer;
+

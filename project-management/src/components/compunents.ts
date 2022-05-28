@@ -13,3 +13,5 @@ export { default as BoardCard } from './BoardCard/BoardCard';
 export { default as BasicAlerts } from './Alert/alerts';
 export { default as CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
 export { default as CreateColumnModal } from './CreateColumnModal/CreateColumnModal';
+export { default as EditTaskModal } from './EditTaskModal/EditTaskModal';
+export { default as EditTaskFormFormik } from './EditTaskFormFormik/EditTaskFormFormik';
