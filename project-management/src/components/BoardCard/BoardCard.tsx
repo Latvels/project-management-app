@@ -33,7 +33,6 @@ function BoardCard(props: Props) {
   };
 
   const handleBoardCardClick = useCallback(() => {
-    console.log(props.id)
     appDispatch(setCurrentBoardId(props.id!));
     navigate(`/boardPage${search}`);
   }, [search]);

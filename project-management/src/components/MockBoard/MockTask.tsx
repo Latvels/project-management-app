@@ -3,28 +3,34 @@ import { Task } from '../../typings/typings';
 import { Box, Card, CardContent, Typography, CardActions, Button } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDispatch } from 'react-redux';
-import { setDeletedId, setDeletedItem, setIsConfirmModalOpen } from '../../store/action/appStateAction';
+import { setDeletedId, setDeletedItem, setIsConfirmModalOpen, setIsEditTaskModalOpen } from '../../store/action/appStateAction';
 import { boardSlise } from '../../api/boardApi';
 
 interface IMockTaskProps {
   task: Task;
 }
 
-function MockColumn(props: IMockTaskProps) {
+function MockTask(props: IMockTaskProps) {
   const {title, description, id} = props.task;
   const appDispatch = useDispatch();
   const {setCurrentTask} = boardSlise.actions;
 
   const deleteTask = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
     appDispatch(setCurrentTask(props.task));
     appDispatch(setDeletedItem('task'));
     appDispatch(setDeletedId(String(id)));
     appDispatch(setIsConfirmModalOpen(true));
   };
 
+  const handleClick = () => {
+    appDispatch(setCurrentTask(props.task));
+    appDispatch(setIsEditTaskModalOpen(true));
+  }
+
   return (
     <>
-      <Box >
+      <Box onClick={handleClick} sx={{cursor: 'pointer'}}>
       <Card
         sx={{
           display: 'flex',
@@ -75,4 +81,4 @@ function MockColumn(props: IMockTaskProps) {
 }
 
 
-export default MockColumn;
+export default MockTask;

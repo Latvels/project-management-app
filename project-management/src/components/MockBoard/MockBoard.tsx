@@ -1,6 +1,6 @@
 import React from 'react';
 import { Board, Column } from '../../typings/typings';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import MockColumn from './MockColumn';
 
 interface IMockBoardProps {
@@ -12,6 +12,8 @@ function MockBoard(props: IMockBoardProps) {
 
   return (
     <>
+    <Box sx={{margin: '0.5rem 0 0 0.5rem' }}>
+      <Typography variant='h6' component='h3' sx={{textTransform: 'uppercase', color: '#ed6c02'}}>prewiev</Typography>
       <Box sx={{display: 'flex', columnGap: 1, mt:2, mb: 2 }}>
         {columns!.length > 0 && (
           columns!.map((column: Column) => {
@@ -20,6 +22,7 @@ function MockBoard(props: IMockBoardProps) {
         )
         )}
       </Box>
+    </Box>
     </>
   )
 }
