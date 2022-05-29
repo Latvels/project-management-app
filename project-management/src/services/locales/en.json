@@ -132,5 +132,8 @@
     "delRow": "Delete row",
     "submit": "Submit",
     "cancel": "Cancel"
+  },
+  "preview": {
+    "message": "Dear student! Unfortunately, we did not have time to combine our latest developments. Above on the page are our developments on the implementation of drag-and-drop (without reference to state), and below will be showed the work of board route with state and BE (without drag-and-drop). Thank you for understanding!"
   }
 }
