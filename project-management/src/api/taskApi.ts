@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import qs from 'qs';
 import { RootState } from '../store/reducer/reducer';
 import { CONFIG } from '../constants/constant';
@@ -52,13 +52,6 @@ export const getTaskById = createAsyncThunk(
 export const createTask = createAsyncThunk(
   'tasks/createTask',
   async (data: Task, { rejectWithValue }) => {
-  // data: {
-  //     "title": "test task",
-  //     "description": "test task description",
-  //     "userId": "f9730773-8e68-4516-84ce-3ae3d90950d1",
-  //     "boardId": ,
-  //      columnId: ,
-  // }
     const { boardId, columnId } = data;
     delete data.boardId;
     delete data.columnId;
@@ -74,23 +67,10 @@ export const createTask = createAsyncThunk(
         data: qs.stringify(data),
       };
       const response = await axios(config);
-        // resp  {
-        //     "title": "test task",
-        //     "order": 1,
-        //     "description": "test task description",
-        //     "userId": "f9730773-8e68-4516-84ce-3ae3d90950d1",
-        //     "boardId": "60d6a65b-3591-4d42-9af2-eefff9fd3427",
-        //     "columnId": "3c4db36a-67d5-426a-8f20-c62b2966af11",
-        //     "id": "c32dcc35-9790-416b-84a1-7dba67a1306f"
-        // }
-
       return response.data;
     } catch (e) {
-      const error = e as AxiosError;
       rejectWithValue(e);
-      const data = {status: error.response!.status, text: i18n.t('errors:rejectCreateTask')};
-      return rejectWithValue(data);
-      // return rejectWithValue(i18n.t('errors:rejectCreateTask'));
+      return rejectWithValue(i18n.t('errors:rejectCreateTask'));
     }
   }
 );
@@ -98,14 +78,6 @@ export const createTask = createAsyncThunk(
 export const updateTask = createAsyncThunk(
   'tasks/updateTask',
   async (data: Task, { rejectWithValue }) => {
-  //data {
-  //     "title": "test updated task",
-  //     "description": "test task description",
-  //     "userId": "f9730773-8e68-4516-84ce-3ae3d90950d1",
-  //     "order": 2,
-  //     "boardId": "60d6a65b-3591-4d42-9af2-eefff9fd3427",
-  //     "columnId": 
-  // }
     const { boardId, columnId, id } = data;
     delete data.boardId;
     delete data.columnId;
@@ -122,19 +94,10 @@ export const updateTask = createAsyncThunk(
         data: qs.stringify(data),
       };
       const response = await axios(config);
-    //resp {
-    //     "id": "94e3c906-e38a-499f-86a5-499ffcb7eadb",
-    //     "title": "test updated task",
-    //     "order": 2,
-    //     "description": "test task description",
-    //     "userId": "f9730773-8e68-4516-84ce-3ae3d90950d1",
-    //     "boardId": "60d6a65b-3591-4d42-9af2-eefff9fd3427",
-    //     "columnId": null
-    // }
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectUpdateTask'));
+      return rejectWithValue(i18n.t('errors:rejectUpdateTask'));
     }
   }
 );
@@ -157,7 +120,6 @@ export const deleteTask = createAsyncThunk(
     } catch (e) {
       rejectWithValue(e);
       return rejectWithValue(i18n.t('errors: rejectDeleteTask'));
-      // return rejectWithValue(t('errors:rejectDeleteTask'));
     }
   }
 );
@@ -196,7 +158,6 @@ export const taskSlise = createSlice({
       }
     },
     [getTasks.rejected.type]: (state, action) => {
-      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -223,7 +184,6 @@ export const taskSlise = createSlice({
       }
     },
     [getTaskById.rejected.type]: (state, action) => {
-      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -245,7 +205,6 @@ export const taskSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -272,7 +231,6 @@ export const taskSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -283,8 +241,6 @@ export const taskSlise = createSlice({
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.error.message = action.payload;
-        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
@@ -301,7 +257,6 @@ export const taskSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },

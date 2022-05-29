@@ -17,13 +17,6 @@ export const getColumns = createAsyncThunk(
         },
       });
       return {...response.data, idBoard: idBoard};
-    //   [
-    //     {
-    //         "id": "ff447795-3193-433e-a08e-2fb0cc6f2beb",
-    //         "title": "test column",
-    //         "order": 1
-    //     }
-    // ]
     } catch (e) {
       rejectWithValue(e);
       return rejectWithValue(i18n.t('errors:rejectGetColumns'));
@@ -161,7 +154,6 @@ export const columnSlise = createSlice({
       }
     },
     [getColumns.rejected.type]: (state, action) => {
-      // state.columnRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
@@ -187,7 +179,6 @@ export const columnSlise = createSlice({
       }
     },
     [getColumnById.rejected.type]: (state, action) => {
-      // state.columnRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -204,11 +195,8 @@ export const columnSlise = createSlice({
     },
     [createColumn.fulfilled.type]: (state, action) => {
       const { requestId } = action.meta;
-      // state.entities.push(action.payload);
-      // console.log(state);
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -219,7 +207,6 @@ export const columnSlise = createSlice({
       state.error.status = action.payload.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.error = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -239,7 +226,6 @@ export const columnSlise = createSlice({
       }
     },
     [updateColumn.rejected.type]: (state, action) => {
-      // state.columnRequestStatus = ACTION_STATUSES.REJECTED
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -263,7 +249,6 @@ export const columnSlise = createSlice({
       }
     },
     [deleteColumn.rejected.type]: (state, action) => {
-      // state.columnRequestStatus = ACTION_STATUSES.REJECTED
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';

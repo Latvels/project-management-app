@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { Box, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -69,7 +69,7 @@ function BoardPage() {
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
-            height: '400px'
+            height: '300px'
           }}
         >
           <Board initial={authorQuoteMap} isCombineEnabled />

@@ -119,14 +119,12 @@ export const userSlise = createSlice({
       }
     },
     [getUsers.rejected.type]: (state, action) => {
-      // state.userRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         action.error.message = action.payload;
-        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
@@ -183,8 +181,6 @@ export const userSlise = createSlice({
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // action.error.message = action.payload;
-        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
@@ -212,8 +208,6 @@ export const userSlise = createSlice({
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // action.error.message = action.payload;
-        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },

@@ -1,4 +1,4 @@
-import react, { useState, useEffect, ChangeEvent } from 'react';
+import react, { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
@@ -50,11 +50,6 @@ function EditTaskFormFormik() {
       columnId: boardState.currentColumn!.id,
       id: taskData!.id,
     }
-    // const testData = {
-    //   boardId: 'ecbfe8b6-6ad4-4499-8508-333f646114fe',
-    //   columnId: 'e0d98128-e5a4-4ef8-a0f5-4ad54fc81bc9',
-    //   id: 'fc3f4cf9-d75d-4223-b415-8b9daa29087d',
-    // }
     const resp = await appDispatch(getTaskById(data));
     appDispatch(setIsPreloaderOpen(false));
     if(resp.meta.requestStatus === 'fulfilled') {
@@ -101,9 +96,6 @@ function EditTaskFormFormik() {
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
         appDispatch(setIsPreloaderOpen(true));
-        console.log('boardId: ', boardState.currentBoard?.id);
-        console.log('columnId: ', boardState.currentColumn?.id);
-        console.log('userId: ', taskdata.userId);
         const newTaskData: Task = {
           id: String(taskdata!.id!),
           title: values.title,
@@ -113,7 +105,6 @@ function EditTaskFormFormik() {
           boardId: String(boardState.currentBoard!.id!),
           columnId: String(boardState.currentColumn!.id!),
         };
-        console.log(newTaskData);
         const resp = await appDispatch(updateTask(newTaskData));
         appDispatch(setIsPreloaderOpen(false));
         if(resp.meta.requestStatus === 'fulfilled') {
