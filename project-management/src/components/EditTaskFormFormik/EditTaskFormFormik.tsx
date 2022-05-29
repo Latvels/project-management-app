@@ -4,12 +4,13 @@ import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsPreloaderOpen, setUserData, setIsEditTaskModalOpen } from '../../store/action/appStateAction';
+import { setIsPreloaderOpen, setIsEditTaskModalOpen } from '../../store/action/appStateAction';
 import { updateTask, taskSlise, getTaskById } from '../../api/taskApi';
 import { AppDispatch } from '../../store/store';
 import { Task, Error, ACTION_STATUSES } from '../../typings/typings';
 import { RootState } from '../../store/reducer/reducer';
 import { BasicAlerts } from '../compunents';
+import { boardSlise } from '../../api/boardApi';
 import './editTaskFormFormik.scss';
 
 interface IValues {
@@ -20,11 +21,13 @@ interface IValues {
 function EditTaskFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
   const taskData = useSelector((state: RootState) => state.board.currentTask);
+  const {changeTask} = boardSlise.actions;
   const appState = useSelector((state: RootState) => state.appState);
   const taskRequestError = useSelector((state: RootState) => state.task.error) as Error;
   const taskRequestStatus = useSelector((state: RootState) => state.task.userRequestStatus);
   const {resetTaskRequestStatus} = taskSlise.actions;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [taskdata, setTaskdata] = useState<Task>({});
 
   const { t } = useTranslation();
   const titleLabel = t('editTaskForm:title');
@@ -40,6 +43,15 @@ function EditTaskFormFormik() {
     description: '',
   }
 
+  // "id": "fc3f4cf9-d75d-4223-b415-8b9daa29087d",
+  // "title": "test",
+  // "order": 2,
+  // "description": "test",
+  // "userId": "b45595c0-7ba5-41ec-b4e9-cce8b92e9a8b",
+  // "boardId": "ecbfe8b6-6ad4-4499-8508-333f646114fe",
+  // "columnId": "e0d98128-e5a4-4ef8-a0f5-4ad54fc81bc9",
+  // "files": []
+
   const getTaskData = async () => {
     appDispatch(setIsPreloaderOpen(true));
     const data = {
@@ -47,13 +59,19 @@ function EditTaskFormFormik() {
       columnId: taskData!.columnId,
       id: taskData!.id,
     }
-    const resp = await appDispatch(getTaskById(data));
+    const testData = {
+      boardId: 'ecbfe8b6-6ad4-4499-8508-333f646114fe',
+      columnId: 'e0d98128-e5a4-4ef8-a0f5-4ad54fc81bc9',
+      id: 'fc3f4cf9-d75d-4223-b415-8b9daa29087d',
+    }
+    const resp = await appDispatch(getTaskById(testData));
     appDispatch(setIsPreloaderOpen(false));
     if(resp.meta.requestStatus === 'fulfilled') {
       appDispatch(resetTaskRequestStatus());
       const respData = resp.payload as Task;
-      initialValues.description = respData.description!;
-      initialValues.title = respData.title!;
+      setTaskdata(respData);
+      initialValues.description = taskdata.description!;
+      initialValues.title = taskdata.title!;
     }
   };
 
@@ -94,21 +112,18 @@ function EditTaskFormFormik() {
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
         appDispatch(setIsPreloaderOpen(true));
-        const id = taskData!.id as string;
         const newTaskData: Task = {
-          id: id,
+          id: taskdata!.id!,
           title: values.title,
           description: values.description,
-          done: taskData!.done,
-          order: taskData!.order,
-          boardId: taskData!.boardId,
-          userId: taskData!.userId,
-          columnId: taskData!.columnId,
+          boardId: taskdata!.boardId!,
+          userId: taskdata!.userId!,
+          columnId: taskdata!.columnId!,
         };
         const resp = await appDispatch(updateTask(newTaskData));
         appDispatch(setIsPreloaderOpen(false));
         if(resp.meta.requestStatus === 'fulfilled') {
-          appDispatch(updateTask(resp.payload));
+          appDispatch(changeTask(resp.payload));
           appDispatch(setIsEditTaskModalOpen(false));
           appDispatch(resetTaskRequestStatus());
         }

@@ -107,15 +107,14 @@ function ConfirmationModal() {
       }
     } else if (deletedItem === 'task') {
         appDispatch(setIsPreloaderOpen(true));
-        //todo adjust work with taskDelete
         const taskData: Task = {
-          boardId: boardState.currentTask!.boardId,
-          columnId: boardState.currentTask!.columnId,
+          columnId: boardState.currentColumn!.id,
+          boardId: boardState.currentBoard!.id,
           id: boardState.currentTask!.id
         };
         const resp = await appDispatch(deleteTask(taskData));
         appDispatch(setIsPreloaderOpen(false));
-        if (resp.payload.meta.requestStatus === 'fulfilled') {
+        if (resp.meta.requestStatus === 'fulfilled') {
           appDispatch(resetTaskRequestStatus());
           appDispatch(removeTask(taskData));
           appDispatch(setIsConfirmModalOpen(false));

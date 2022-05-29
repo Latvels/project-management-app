@@ -156,7 +156,6 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
  //todo "order must be a number conforming to the specified constraints"
         };
         resp = await appDispatch(createColumn(columnData));
-        console.log(resp);
         appDispatch(setIsPreloaderOpen(false));
         if (resp.meta.requestStatus === 'fulfilled') {
           appDispatch(setIsCreateColumnModalOpen(false));

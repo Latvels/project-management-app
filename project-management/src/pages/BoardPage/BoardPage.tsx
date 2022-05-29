@@ -13,22 +13,22 @@ import { setIsCreateColumnModalOpen, setIsCreateTaskModalOpen, setIsPreloaderOpe
 import { boardSlise, getBoardsById } from '../../api/boardApi';
 import Board from '../../components/ForBoards/Board';
 import { authorQuoteMap } from '../../components/ForBoards/testData';
+import MockBoard from '../../components/MockBoard/MockBoard';
 
 function BoardPage() {
   const appDispatch = useDispatch<AppDispatch>();
   const appState = useSelector((state: RootState) => state.appState);
   const boardRequestError = useSelector((state: RootState) => state.board.error) as Error;
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
+  const boardState = useSelector((state: RootState) => state.board);
   const { t } = useTranslation();
 
   const onAddColumn = () => {
     appDispatch(setIsCreateColumnModalOpen(true));
-    // console.log('Колонка добавлена');
   };
 
   const onAddRow = () => {
     appDispatch(setIsCreateTaskModalOpen(true));
-    // console.log('Строчка добавлена');
   };
 
   const getBoard = async () => {
@@ -44,7 +44,8 @@ function BoardPage() {
   return (
     <>
       {(boardRequestStatus === ACTION_STATUSES.REJECTED) ? (<BasicAlerts error={boardRequestError} />) : 
-      (<Box sx={{ maxHeight: '100wh' }}>
+      // (<Box sx={{ maxHeight: '100wh', display: 'flex', mt: 1 }}>
+      (<Box sx={{ minHeight: '100wh',display: 'flex', flexDirection: 'column', columnGap: 1, mt: 1, justifyContent: 'flex-start' }}>
         <Box sx={{ display: 'flex', margin: '0.5rem 0 0 0.5rem' }}>
           <Button sx={{ mr: 1 }} variant="outlined" disabled={false} onClick={onAddColumn}>
             {t('boardPage:addColumn')}
@@ -53,14 +54,22 @@ function BoardPage() {
             {t('boardPage:addRow')}
           </Button>
         </Box>
+        {/* <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            height: '500px'
+          }} */}
         <Box
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
+            height: '400px'
           }}
         >
           <Board initial={authorQuoteMap} isCombineEnabled />
         </Box>
+        <MockBoard board={boardState.currentBoard!}></MockBoard>
       </Box>)}
     </>
     // тут был конфликт

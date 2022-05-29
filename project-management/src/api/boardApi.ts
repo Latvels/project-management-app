@@ -130,6 +130,12 @@ export const boardSlise = createSlice({
   name: 'board',
   initialState,
   reducers: {
+    setCurrentTask: (state, action) => {
+      state.currentTask = action.payload;
+    },
+    setCurrentColumn: (state, action) => {
+      state.currentColumn = action.payload;
+    },
     setBoards: (state, action) => {
       state.entities = action.payload;
     },
@@ -147,12 +153,6 @@ export const boardSlise = createSlice({
     },
     resetBoardRequestStatus: (state) => {
       state.boardRequestStatus = null;
-    },
-    setCurrentColumn: (state, action) => {
-      state.currentColumn = action.payload;
-    },
-    setCurrentTask: (state, action) => {
-      state.currentTask = action.payload;
     },
     removeTask: (state, action) => {
       const columnIndex = state.currentBoard!.columns!.findIndex(item => item.id === action.payload.columnId);

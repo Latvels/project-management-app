@@ -155,11 +155,9 @@ export const deleteTask = createAsyncThunk(
       const response = await axios(config);
       return response.data;
     } catch (e) {
-      const error = e as AxiosError;
       rejectWithValue(e);
-      const data = {status: error.response!.status, text: i18n.t('errors:rejectDeleteTask')};
-      return rejectWithValue(data);
-      // return rejectWithValue(i18n.t('errors: rejectDeleteTask'));
+      return rejectWithValue(i18n.t('errors: rejectDeleteTask'));
+      // return rejectWithValue(t('errors:rejectDeleteTask'));
     }
   }
 );
@@ -309,8 +307,8 @@ export const taskSlise = createSlice({
     },
     [deleteTask.rejected.type]: (state, action) => {
       state.taskRequestStatus = ACTION_STATUSES.REJECTED;
-      state.error.message = action.payload.text;
-      state.error.status = action.payload.status;
+      state.error.message = action.payload;
+      state.error.status = action.payload.meta;
       const { requestId } = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';

@@ -3,16 +3,16 @@ import { ActionKindAppState, SET_CURRENT_BOARD_ID, SET_DELETED_ID, SET_DELETED_I
 
 interface IAppState {
   isEditProfileModalOpen: boolean;
-  isEditTaskModalOpen: boolean;
   isCreateTaskModalOpen: boolean;
   isCreateColumnModalOpen: boolean;
   isCreateNewBoardModalOpen: boolean;
   isPreloaderOpen: boolean;
   isConfirmModalOpen: boolean;
-  deletedItem?: 'board' | 'task' | 'user' | null,
-  deletedId?: string | null,
-  currentBoardId: string | null,
-  lang: 'en' | 'ru'
+  deletedItem?: 'board' | 'task' | 'user' | null;
+  deletedId?: string | null;
+  currentBoardId: string | null;
+  lang: 'en' | 'ru';
+  isEditTaskModalOpen: boolean;
 }
 
 const getLang = () => {
@@ -24,12 +24,12 @@ const initialState: IAppState = {
   isCreateNewBoardModalOpen: false,
   isCreateColumnModalOpen: false,
   isCreateTaskModalOpen: false,
-  isEditTaskModalOpen: false,
   isPreloaderOpen: false,
   isEditProfileModalOpen: false,
   isConfirmModalOpen: false,
   currentBoardId: null,
   lang: getLang(),
+  isEditTaskModalOpen: false,
 }
 
 interface IAction {
