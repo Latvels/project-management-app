@@ -40,14 +40,9 @@ function BoardPage() {
     appDispatch(setIsPreloaderOpen(false));
     if (resp.meta.requestStatus === 'fulfilled') {
       console.log(resp.payload);
-      appDispatch(setBoard(resp.payload));
       appDispatch(resetBoardRequestStatus());
     }
   }
-
-  useEffect(() => {
-    getBoard();
-  }, [])
 
   useEffect(() => {
     getBoard();

@@ -8,11 +8,15 @@ import {
   setDeletedId,
   setIsConfirmModalOpen,
   setCurrentBoardId,
+  setIsPreloaderOpen,
 } from '../../store/action/appStateAction';
 import boardIcon from '../../assets/icon.png';
 import { useWindowDimensions } from '../../services/service';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import {RootState} from '../../store/reducer/reducer';
+import { boardSlise, getBoardsById } from '../../api/boardApi';
 
 type Props = {
   id?: string;
@@ -22,6 +26,8 @@ type Props = {
 
 function BoardCard(props: Props) {
   const appDispatch = useDispatch<AppDispatch>();
+  const appState = useSelector((state: RootState) => state.appState);
+  const { setBoard, resetBoardRequestStatus} = boardSlise.actions;
   const navigate = useNavigate();
   const { search } = useLocation();
 
@@ -32,8 +38,22 @@ function BoardCard(props: Props) {
     appDispatch(setIsConfirmModalOpen(true));
   };
 
-  const handleBoardCardClick = useCallback(() => {
+  const getBoard = async () => {
+    appDispatch(setIsPreloaderOpen(true));
+    console.log(appState.currentBoardId);
+    const resp = await appDispatch(getBoardsById(appState.currentBoardId!));
+    console.log(resp);
+    appDispatch(setIsPreloaderOpen(false));
+    if (resp.meta.requestStatus === 'fulfilled') {
+      console.log(resp.payload);
+      appDispatch(setBoard(resp.payload));
+      appDispatch(resetBoardRequestStatus());
+    }
+  }
+
+  const handleBoardCardClick = useCallback(async() => {
     appDispatch(setCurrentBoardId(props.id!));
+    await getBoard();
     navigate(`/boardPage${search}`);
   }, [search]);
 
