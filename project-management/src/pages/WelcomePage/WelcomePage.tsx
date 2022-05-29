@@ -33,9 +33,9 @@ function WelcomePage() {
     navigate(`/mainPage${search}`);
   }, [search]);
 
-  const adaptive = useMediaQuery('(max-width: 599px');
-  const adaptiveImgMax = useMediaQuery('(min-width: 600px');
-  const adaptiveImgMin = useMediaQuery('(max-width: 700px');
+  const adaptive = useMediaQuery('(maxWidth: 599px');
+  const adaptiveImgMax = useMediaQuery('(maxWidth: 600px');
+  const adaptiveImgMin = useMediaQuery('(maxWidth: 700px');
   return (
     <Container sx={{ mb: 12, mt: 6 }}>
       <div className={'container--link'}>
@@ -55,11 +55,12 @@ function WelcomePage() {
         )}
       </div>
       <h2>{t('welcomePage:team')}</h2>
-      <Grid sx={{ mb: 5 }} container direction={matches ? 'column' : 'row'}>
+      <Box sx={{display: 'flex', flexWrap: 'wrap', columnGap: 2, mb: 2, justifyContent: 'center', rowGap:2, width: '100%'}}>
         <Grid item xs={4}>
-          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, mx: 2 }}>
+          <Card sx={adaptive ? { padding: 1, height: '100%', width: '100%', mb: 10 } : { padding: 1, height: '100%', maxWidth: '340px', mx: 2 }}>
+          {/* <Card sx={{width: '300px'}}> */}
             <CardMedia
-              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 250 }}
+              sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 300 }}
               className="card--media"
               component="img"
               alt="Evgeny"
@@ -83,7 +84,8 @@ function WelcomePage() {
           </Card>
         </Grid>
         <Grid item xs={4}>
-          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, mx: 2 }}>
+          <Card sx={adaptive ? { padding: 1, height: '100%', width: '100%', mb: 10 } : { padding: 1, height: '100%', maxWidth: '340px', mx: 2 }}>
+          {/* <Card sx={{width: '300px'}}> */}
             <CardMedia
               sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 250 }}
               className="card--media"
@@ -106,7 +108,8 @@ function WelcomePage() {
           </Card>
         </Grid>
         <Grid item xs={4}>
-          <Card sx={adaptive ? { width: '100%', mb: 10 } : { maxWidth: 345, mx: 2 }}>
+          <Card sx={adaptive ? { padding: 1, height: '100%', width: '100%', mb: 10 } : { padding: 1, height: '100%', maxWidth: '340px', mx: 2 }}>
+          {/* <Card sx={{width: '300px'}}> */}
             <CardMedia
               sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 250 }}
               className="card--media"
@@ -128,7 +131,7 @@ function WelcomePage() {
             <CardActions />
           </Card>
         </Grid>
-      </Grid>
+      </Box>
 
       <Box sx={{ p: 2, border: '1px solid grey' }}>
         <p className="comment-box">{t('welcomePage:DiscriptionOne')}</p>

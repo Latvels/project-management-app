@@ -65,7 +65,7 @@ function Header() {
   return (
     <Box
       ref={headerRef}
-      sx={{ flexGrow: 1, width: '100%', top: 0, zIndex: 100 }}
+      sx={{ width: '100%', top: 0, zIndex: 100 }}
       className="header"
       component="div"
     >

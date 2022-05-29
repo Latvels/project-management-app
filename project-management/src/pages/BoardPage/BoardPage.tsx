@@ -54,6 +54,7 @@ function BoardPage() {
             {t('boardPage:addRow')}
           </Button>
         </Box>
+        {/* В ЧИСТОВОМ ВАРИАНТЕ, ЕСЛИ УБИРАЕМ MOCKBOARD - ИСПОЛЬЗУЕМ СТИЛИ НИЖЕ. ЗАКОММЕНТИЛА ДЛЯ КОРРЕКТНОГО ОТРАЖЕНИЯ PREWIEV */}
         {/* <Box
           sx={{
             display: 'flex',
