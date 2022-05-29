@@ -25,7 +25,6 @@ const style = {
 
 function EditTaskModal() {
   const appState = useSelector((state: RootState) => state.appState);
-  // console.log(appState.isEditTaskModalOpen);
   const appDispatch = useDispatch<AppDispatch>();
   const {resetTaskRequestStatus} = taskSlise.actions;
 

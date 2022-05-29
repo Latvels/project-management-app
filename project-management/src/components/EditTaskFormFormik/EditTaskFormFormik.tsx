@@ -22,9 +22,9 @@ function EditTaskFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
   const taskData = useSelector((state: RootState) => state.board.currentTask);
   const {changeTask} = boardSlise.actions;
-  const appState = useSelector((state: RootState) => state.appState);
+  const boardState = useSelector((state: RootState) => state.board);
   const taskRequestError = useSelector((state: RootState) => state.task.error) as Error;
-  const taskRequestStatus = useSelector((state: RootState) => state.task.userRequestStatus);
+  const taskRequestStatus = useSelector((state: RootState) => state.task.taskRequestStatus);
   const {resetTaskRequestStatus} = taskSlise.actions;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [taskdata, setTaskdata] = useState<Task>({});
@@ -39,39 +39,28 @@ function EditTaskFormFormik() {
   const maxValueDescription = t('formValidation:maxValueDescription');
 
   const initialValues = {
-    title: '',
-    description: '',
+    title: taskData!.title!,
+    description: taskData!.description!,
   }
-
-  // "id": "fc3f4cf9-d75d-4223-b415-8b9daa29087d",
-  // "title": "test",
-  // "order": 2,
-  // "description": "test",
-  // "userId": "b45595c0-7ba5-41ec-b4e9-cce8b92e9a8b",
-  // "boardId": "ecbfe8b6-6ad4-4499-8508-333f646114fe",
-  // "columnId": "e0d98128-e5a4-4ef8-a0f5-4ad54fc81bc9",
-  // "files": []
 
   const getTaskData = async () => {
     appDispatch(setIsPreloaderOpen(true));
     const data = {
-      boardId: taskData!.boardId,
-      columnId: taskData!.columnId,
+      boardId: boardState.currentBoard!.id,
+      columnId: boardState.currentColumn!.id,
       id: taskData!.id,
     }
-    const testData = {
-      boardId: 'ecbfe8b6-6ad4-4499-8508-333f646114fe',
-      columnId: 'e0d98128-e5a4-4ef8-a0f5-4ad54fc81bc9',
-      id: 'fc3f4cf9-d75d-4223-b415-8b9daa29087d',
-    }
-    const resp = await appDispatch(getTaskById(testData));
+    // const testData = {
+    //   boardId: 'ecbfe8b6-6ad4-4499-8508-333f646114fe',
+    //   columnId: 'e0d98128-e5a4-4ef8-a0f5-4ad54fc81bc9',
+    //   id: 'fc3f4cf9-d75d-4223-b415-8b9daa29087d',
+    // }
+    const resp = await appDispatch(getTaskById(data));
     appDispatch(setIsPreloaderOpen(false));
     if(resp.meta.requestStatus === 'fulfilled') {
       appDispatch(resetTaskRequestStatus());
       const respData = resp.payload as Task;
       setTaskdata(respData);
-      initialValues.description = taskdata.description!;
-      initialValues.title = taskdata.title!;
     }
   };
 
@@ -112,14 +101,19 @@ function EditTaskFormFormik() {
       onSubmit={async (values: IValues, {setSubmitting}) => {
         setSubmitting(false);
         appDispatch(setIsPreloaderOpen(true));
+        console.log('boardId: ', boardState.currentBoard?.id);
+        console.log('columnId: ', boardState.currentColumn?.id);
+        console.log('userId: ', taskdata.userId);
         const newTaskData: Task = {
-          id: taskdata!.id!,
+          id: String(taskdata!.id!),
           title: values.title,
+          order: taskdata!.order!,
           description: values.description,
-          boardId: taskdata!.boardId!,
-          userId: taskdata!.userId!,
-          columnId: taskdata!.columnId!,
+          userId: String(taskdata!.userId!),
+          boardId: String(boardState.currentBoard!.id!),
+          columnId: String(boardState.currentColumn!.id!),
         };
+        console.log(newTaskData);
         const resp = await appDispatch(updateTask(newTaskData));
         appDispatch(setIsPreloaderOpen(false));
         if(resp.meta.requestStatus === 'fulfilled') {

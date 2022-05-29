@@ -109,7 +109,7 @@ export const updateTask = createAsyncThunk(
     const { boardId, columnId, id } = data;
     delete data.boardId;
     delete data.columnId;
-    // delete data.id;
+    delete data.id;
     try {
       const config = {
         method: 'PUT',
@@ -279,8 +279,8 @@ export const taskSlise = createSlice({
     [updateTask.rejected.type]: (state, action) => {
       state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
-      state.error.message = action.payload.text;
-      state.error.status = action.payload.status;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         // state.error.message = action.payload;

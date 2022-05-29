@@ -21,6 +21,7 @@ function BoardPage() {
   const boardRequestError = useSelector((state: RootState) => state.board.error) as Error;
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
   const boardState = useSelector((state: RootState) => state.board);
+  const {setBoard, resetBoardRequestStatus} = boardSlise.actions;
   const { t } = useTranslation();
 
   const onAddColumn = () => {
@@ -33,9 +34,20 @@ function BoardPage() {
 
   const getBoard = async () => {
     appDispatch(setIsPreloaderOpen(true));
-    await appDispatch(getBoardsById(appState.currentBoardId!));
+    console.log(appState.currentBoardId);
+    const resp = await appDispatch(getBoardsById(appState.currentBoardId!));
+    console.log(resp);
     appDispatch(setIsPreloaderOpen(false));
+    if (resp.meta.requestStatus === 'fulfilled') {
+      console.log(resp.payload);
+      appDispatch(setBoard(resp.payload));
+      appDispatch(resetBoardRequestStatus());
+    }
   }
+
+  useEffect(() => {
+    getBoard();
+  }, [])
 
   useEffect(() => {
     getBoard();
