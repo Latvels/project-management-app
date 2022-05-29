@@ -7,6 +7,7 @@ import { ACTION_STATUSES, Board, reqState } from '../typings/typings';
 import i18n from '../services/i18n';
 import stateReducer from '../store/reducer/awtorizateUserDataState';
 import { ConstructionOutlined } from '@mui/icons-material';
+import { stat } from 'fs';
 
 export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectWithValue }) => {
   try {
@@ -121,9 +122,28 @@ const initialState: reqState = {
   boardRequestStatus: null,
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true },
-  currentBoard: {},
-  currentTask: {},
-  currentColumn: {},
+  currentBoard: {
+    id: '',
+    title: '',
+    description: '',
+    columns: [],
+  },
+  currentTask: {
+    title: '',
+    order: 1,
+    description: '',
+    userId: '',
+    boardId: '',
+    columnId: '',
+    id: '',
+  },
+  currentColumn: {
+    title: '',
+    order: 1,
+    id: '',
+    idBoard: '',
+    tasks: [],
+  },
 };
 
 export const boardSlise = createSlice({
@@ -217,14 +237,13 @@ export const boardSlise = createSlice({
     [getBoardsById.rejected.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
-      state.currentBoard = {};
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.currentBoard = {};
         state.loading = 'idle';
-        state.error.message = action.payload;
-        state.error = action.error;
+        // state.error.message = action.payload;
+        // state.error = action.error;
         state.currentRequestId = undefined;
       }
     },

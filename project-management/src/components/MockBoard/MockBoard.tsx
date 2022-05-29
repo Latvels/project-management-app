@@ -14,6 +14,7 @@ function MockBoard(props: IMockBoardProps) {
     <>
     <Box sx={{margin: '0.5rem 0 0 0.5rem' }}>
       <Typography variant='h6' component='h3' sx={{textTransform: 'uppercase', color: '#ed6c02'}}>prewiev</Typography>
+      {columns !== undefined && 
       <Box sx={{display: 'flex', columnGap: 1, mt:2, mb: 2 }}>
         {columns!.length > 0 && (
           columns!.map((column: Column) => {
@@ -21,7 +22,7 @@ function MockBoard(props: IMockBoardProps) {
           }
         )
         )}
-      </Box>
+      </Box>}
     </Box>
     </>
   )

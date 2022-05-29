@@ -34,12 +34,9 @@ function BoardPage() {
 
   const getBoard = async () => {
     appDispatch(setIsPreloaderOpen(true));
-    console.log(appState.currentBoardId);
     const resp = await appDispatch(getBoardsById(appState.currentBoardId!));
-    console.log(resp);
     appDispatch(setIsPreloaderOpen(false));
     if (resp.meta.requestStatus === 'fulfilled') {
-      console.log(resp.payload);
       appDispatch(resetBoardRequestStatus());
     }
   }
@@ -77,7 +74,7 @@ function BoardPage() {
         >
           <Board initial={authorQuoteMap} isCombineEnabled />
         </Box>
-        <MockBoard board={boardState.currentBoard!}></MockBoard>
+        {boardState.currentBoard !== undefined && <MockBoard board={boardState.currentBoard!}></MockBoard>}
       </Box>)}
     </>
     // тут был конфликт

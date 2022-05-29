@@ -38,22 +38,8 @@ function BoardCard(props: Props) {
     appDispatch(setIsConfirmModalOpen(true));
   };
 
-  const getBoard = async () => {
-    appDispatch(setIsPreloaderOpen(true));
-    console.log(appState.currentBoardId);
-    const resp = await appDispatch(getBoardsById(appState.currentBoardId!));
-    console.log(resp);
-    appDispatch(setIsPreloaderOpen(false));
-    if (resp.meta.requestStatus === 'fulfilled') {
-      console.log(resp.payload);
-      appDispatch(setBoard(resp.payload));
-      appDispatch(resetBoardRequestStatus());
-    }
-  }
-
   const handleBoardCardClick = useCallback(async() => {
     appDispatch(setCurrentBoardId(props.id!));
-    await getBoard();
     navigate(`/boardPage${search}`);
   }, [search]);
 

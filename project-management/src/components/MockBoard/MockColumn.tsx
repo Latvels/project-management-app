@@ -13,8 +13,6 @@ function MockColumn(props: IMockColumnProps) {
   const {tasks} = props.column;
   const appDispatch = useDispatch();
   const {setCurrentColumn} = boardSlise.actions;
-  console.log(tasks!.length);
-  console.log(tasks);
 
   const onMouseDownHandler = () => {
     appDispatch(setCurrentColumn(props.column));
@@ -24,6 +22,7 @@ function MockColumn(props: IMockColumnProps) {
     <>
     <Box sx={{display: 'flex', flexDirection: 'column', rowGap: 1, backgroundColor: '#ffff8b', padding: 1, width: '250px' }} onMouseDown={onMouseDownHandler}>
     <Typography variant='h6' component='h4'>{props.column.title!}</Typography>
+    {tasks !== undefined &&
       <Box sx={{display: 'flex', flexDirection: 'column', rowGap: 1}}>
         { tasks!.length > 0 && (
           tasks!.map((task: Task) => {
@@ -31,6 +30,7 @@ function MockColumn(props: IMockColumnProps) {
           })
         )}
       </Box>
+    }
     </Box>
     </>
   )

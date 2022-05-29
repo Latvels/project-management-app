@@ -5,7 +5,7 @@ import { TextField } from 'formik-mui';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsCreateColumnModalOpen, setIsCreateNewBoardModalOpen, setIsCreateTaskModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
-import { boardSlise, createBoard } from '../../api/boardApi';
+import { boardSlise, createBoard, getBoardsById } from '../../api/boardApi';
 import { AppDispatch } from '../../store/store';
 import { BasicAlerts } from '../compunents';
 import { RootState } from '../../store/reducer/reducer';
@@ -13,7 +13,6 @@ import { ACTION_STATUSES, Column, Error, Task, ICreateElemFormProps } from '../.
 import { createTask, taskSlise } from '../../api/taskApi';
 import { createColumn, columnSlise } from '../../api/columnApi';
 import './createElemFormFormik.scss';
-import { ConstructionOutlined } from '@mui/icons-material';
 
 interface IValues {
   title: string;
@@ -35,8 +34,6 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
   const {resetColumnRequestStatus} = columnSlise.actions;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const {setColumn, setTask} = boardSlise.actions;
-
-  console.log(boardState.currentBoard);
 
   const { t } = useTranslation();
   const buttonText = t('createNewBoardForm:submit');
@@ -123,27 +120,18 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
         }
         break;
       case 'task':
+        const id = boardState.currentBoard!.id;
         const taskData: Task = {
           title: values.title,
           description: values.description,
           columnId: boardState.currentBoard!.columns![0].id,
-          boardId: boardState.currentBoard!.id,
+          boardId: id,
           userId: awtUser.user!.id!,
         }
         resp = await appDispatch(createTask(taskData));
         appDispatch(setIsPreloaderOpen(false));
-        // console.log(resp);
         if (resp.meta.requestStatus === 'fulfilled') {
-        // resp  {
-        //     "title": "test task",
-        //     "order": 1,
-        //     "description": "test task description",
-        //     "userId": "f9730773-8e68-4516-84ce-3ae3d90950d1",
-        //     "boardId": "60d6a65b-3591-4d42-9af2-eefff9fd3427",
-        //     "columnId": "3c4db36a-67d5-426a-8f20-c62b2966af11",
-        //     "id": "c32dcc35-9790-416b-84a1-7dba67a1306f"
-        // }
-          appDispatch(setTask(resp.payload));
+          appDispatch(getBoardsById(id!))
           appDispatch(resetTaskRequestStatus());
           appDispatch(setIsCreateTaskModalOpen(false));
         }
@@ -153,7 +141,6 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
         const columnData: Column = {
           title: values.title,
           idBoard: boardState.currentBoard!.id,
- //todo "order must be a number conforming to the specified constraints"
         };
         resp = await appDispatch(createColumn(columnData));
         appDispatch(setIsPreloaderOpen(false));
@@ -193,7 +180,6 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
         break;
       case 'column':
         error = columnRequestError;
-        console.log(error);
         break;
     }
     return error;
