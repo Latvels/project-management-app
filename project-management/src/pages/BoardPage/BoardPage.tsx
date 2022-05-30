@@ -48,9 +48,8 @@ function BoardPage() {
   return (
     <>
       {(boardRequestStatus === ACTION_STATUSES.REJECTED) ? (<BasicAlerts error={boardRequestError} />) : 
-      // (<Box sx={{ maxHeight: '100wh', display: 'flex', mt: 1 }}>
       (<Box sx={{ minHeight: '100wh',display: 'flex', flexDirection: 'column', columnGap: 1, mt: 1, justifyContent: 'flex-start' }}>
-        <Box sx={{ display: 'flex', margin: '0.5rem 0 0 0.5rem' }}>
+        <Box sx={{ display: 'flex', margin: '0 0 0 0.5rem' }}>
           <Button sx={{ mr: 1 }} variant="outlined" disabled={false} onClick={onAddColumn}>
             {t('boardPage:addColumn')}
           </Button>
@@ -77,26 +76,6 @@ function BoardPage() {
         {boardState.currentBoard !== undefined && <MockBoard board={boardState.currentBoard!}></MockBoard>}
       </Box>)}
     </>
-    // тут был конфликт
-    // <Box sx={{  }}>
-    //   <Box sx={{ display: 'flex', margin: '0.5rem 0 0 0.5rem' }}>
-    //     <Button sx={{ mr: 1 }} variant="outlined" disabled={false} onClick={onAddColumn}>
-    //       {t('boardPage:addColumn')}
-    //     </Button>
-    //     <Button sx={{ mr: 1 }} variant="outlined" disabled={false} onClick={onAddRow}>
-    //       {t('boardPage:addRow')}
-    //     </Button>
-    //   </Box>
-    //   <Box
-    //     sx={{
-    //       display: 'flex',
-    //       flexWrap: 'wrap',
-    //     }}
-    //   >
-    //     {/* ТУТ ПЕРЕДАЮ КОМПОНЕНТ С БОРДАМИ */}
-    //     <Board initial={authorQuoteMap} isCombineEnabled />
-    //   </Box>
-    // </Box>
   );
 }
 
