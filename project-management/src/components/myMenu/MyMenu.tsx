@@ -1,4 +1,4 @@
-import { IconButton, Menu, MenuItem } from '@mui/material';
+import { IconButton, Menu, MenuItem, ClickAwayListener, Popper, Grow, MenuList, Paper } from '@mui/material';
 import React, {useCallback, useState} from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,59 +9,107 @@ import { setIsCreateNewBoardModalOpen,
   import './myMenu.scss';
 
 function MyMenu() {
-  const { t } = useTranslation();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef<HTMLButtonElement>(null);
   const appDispatch = useDispatch();
-  const open = Boolean(anchorEl);
   const { search } = useLocation();
   const navigate = useNavigate();
-  
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const { t } = useTranslation();
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
   };
 
-  const onMainPageBtnClick = useCallback(() => {
+  const handleClose = (event: Event | React.SyntheticEvent) => {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event: React.KeyboardEvent) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === 'Escape') {
+      setOpen(false);
+    }
+  }
+
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current!.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
+
+  const onMainPageBtnClick = useCallback((event: Event | React.SyntheticEvent) => {
+    handleClose(event);
     navigate(`/mainPage${search}`);
-    handleClose();
   }, [search]);
 
-  const handleClickOnCreateNewBoardButton = () => {
-    handleClose();
+  const handleClickOnCreateNewBoardButton = (event: Event | React.SyntheticEvent) => {
+    handleClose(event);
     appDispatch(setIsCreateNewBoardModalOpen(true));
   };
 
-  const handleClickOnEditProfileButton = () => {
-    handleClose();
+  const handleClickOnEditProfileButton = (event: Event | React.SyntheticEvent) => {
+    handleClose(event);
     appDispatch(setIsEditProfileModalOpen(true));
   };
   return (
     <div>
       <IconButton
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
+        ref={anchorRef}
+        id="composition-button"
+        aria-controls={open ? 'composition-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        aria-haspopup="true"
+        onClick={handleToggle}
         color="inherit"
       >
         <MenuIcon />
       </IconButton>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
+      <Popper
         open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        placement="bottom-start"
+        transition
+        disablePortal
+        sx={{zIndex:101}}
       >
-        <MenuItem onClick={onMainPageBtnClick}>{t('header:menuItem1')}</MenuItem>
-        <MenuItem onClick={handleClickOnEditProfileButton}>{t('header:menuItem2')}</MenuItem>
-        <MenuItem onClick={handleClickOnCreateNewBoardButton}>{t('header:menuItem3')}</MenuItem>
-      </Menu>
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === 'bottom-start' ? 'left top' : 'left bottom',
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList
+                  autoFocusItem={open}
+                  id="composition-menu"
+                  aria-labelledby="composition-button"
+                  onKeyDown={handleListKeyDown}
+                >
+                  <MenuItem onClick={onMainPageBtnClick}>{t('header:menuItem1')}</MenuItem>
+                  <MenuItem onClick={handleClickOnEditProfileButton}>{t('header:menuItem2')}</MenuItem>
+                  <MenuItem onClick={handleClickOnCreateNewBoardButton}>{t('header:menuItem3')}</MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
     </div>
   );
 }

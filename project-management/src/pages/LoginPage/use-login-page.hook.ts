@@ -2,11 +2,12 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import store, { AppDispatch, useAppSelector } from '../../store/store';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../../store/action/appStateAction';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ACTION_STATUSES, All, Error } from '../../typings/typings';
+import { ACTION_STATUSES, Error } from '../../typings/typings';
 import qs from 'qs';
 import { getUsers } from '../../api/userApi';
+import { authSlise } from '../../api/authApi';
 export interface ILoginValues {
   password: string;
   login: string;
@@ -42,6 +43,7 @@ export const useLoginPage = (): UseRegistrationReturnValues => {
   const passLabel = t('login:password');
   const { search } = useLocation();
   const [email, setEmail] = useState<string>('');
+  const { resetStatuses } = authSlise.actions;
 
   /* конфликт
 
@@ -70,6 +72,7 @@ export const useLoginPage = (): UseRegistrationReturnValues => {
       navigate(`/?${params}`);
       const awtorizUserData: RootUser = dataAwtorizeUser || {};
       dispatch(setUserData(awtorizUserData));
+      dispatch(resetStatuses());
     }
   }, [requestStatus, search]);
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import react, { useEffect, useRef } from 'react';
+import react, { useEffect } from 'react';
 import { Box, Typography, Paper, IconButton, InputBase, Button } from '@mui/material';
 import { AppDispatch } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,12 +22,12 @@ const CardsIsEmpty = () => {
 };
 
 function MainPage() {
-  const searchInputRef: react.RefObject<HTMLFormElement> | null = useRef(null);
   const appDispatch = useDispatch<AppDispatch>();
   const allBoards = useSelector((state: RootState) => state.board.entities) || [];
-  const { setBoards } = boardSlise.actions;
+  const { setBoards, resetBoardRequestStatus } = boardSlise.actions;
   const boardRequestError = useSelector((state: RootState) => state.board.error) as Error;
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
+  const [searchValue, setSearchValue] = useState('');
   
   const { t } = useTranslation();
   const searchInputPlaceholder = t('mainPage:searchInputPlaceholder');
@@ -35,15 +35,18 @@ function MainPage() {
   
   const getAllBoards = async () => {
     appDispatch(setIsPreloaderOpen(true));
-    const res = await appDispatch(getBoards());
+    const resp = await appDispatch(getBoards());
     appDispatch(setIsPreloaderOpen(false));
+    if (resp.meta.requestStatus === 'fulfilled') {
+      appDispatch(resetBoardRequestStatus());
+    }
   };
 
   useEffect(() => {
     getAllBoards();
   }, [appDispatch]);
 
-  const filterByKey = (searchValue: string) => {
+  const filterByKey = () => {
     const res: Board[] = [];
     allBoards.map((el: Board) => {
       const keys = Object.keys(el) as Array<keyof Board>;
@@ -58,32 +61,32 @@ function MainPage() {
     return res;
   };
 
-  const filterBoards = (value: string | null) => {
-    if (value) {
-      const filteredBoards = filterByKey(value);
+  const filterBoards = () => {
+    if (searchValue !== '') {
+      const filteredBoards = filterByKey();
       appDispatch(setBoards(filteredBoards));
     }
   };
 
   const handleSearchButtonClick = () => {
-    const input = searchInputRef.current!.querySelector('input') as HTMLInputElement;
-    const value = input.value;
-    filterBoards(value);
-    input.value = '';
+    filterBoards();
+    setSearchValue('');
   };
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  }
 
   const handleKeyDown = (e: react.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === 'Enter') {
       e.preventDefault();
       handleSearchButtonClick();
-      const el = e.target as HTMLInputElement;
-      el.value = '';
+      setSearchValue('');
     }
   };
 
   const handleClickResetButton = async () => {
-    const input = searchInputRef.current!.querySelector('input') as HTMLInputElement;
-    input.value = '';
+    setSearchValue('');
     await getAllBoards();
   };
 
@@ -109,8 +112,9 @@ function MainPage() {
             placeholder={searchInputPlaceholder}
             inputProps={{ 'aria-label': 'search' }}
             color="info"
-            ref={searchInputRef}
             onKeyDown={handleKeyDown}
+            value={searchValue}
+            onChange={handleSearchChange}
           />
           <IconButton sx={{ p: '10px' }} aria-label="search" onClick={handleSearchButtonClick}>
             <SearchIcon color="info" />

@@ -19,11 +19,18 @@ export default function Footer() {
 
   return (
     <Box
+      // sx={{
+      //   display: 'flex',
+      //   flexDirection: 'column',
+      //   bottom: 0,
+      //   position: 'fixed',
+      //   width: '100%',
+      //   justifyContent: 'center',
+      // }}
       sx={{
         display: 'flex',
         flexDirection: 'column',
         bottom: 0,
-        position: 'fixed',
         width: '100%',
         justifyContent: 'center',
       }}

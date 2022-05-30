@@ -6,7 +6,8 @@
     "en": "English",
     "menuItem1": "Go To Main Page",
     "menuItem2": "Edit Profile",
-    "menuItem3": "Create New Board"
+    "menuItem3": "Create New Board",
+    "goBackBtn": "Go back"
   },
   "lang": {
     "Lang": "Lang",
@@ -31,7 +32,12 @@
     "rejectGetTask": "Failed to get task",
     "rejectCreateTask": "Failed create task",
     "rejectUpdateTask": "Failed to update task",
-    "rejectDeleteTask": "Failed to delete task"
+    "rejectDeleteTask": "Failed to delete task",
+    "rejectGetColumns": "Failed to get column",
+    "rejectGetColumn": "Failed to get column",
+    "rejectCreateColumn": "Failed create column",
+    "rejectUpdateColumn": "Failed to update column",
+    "rejectDeleteColumn": "Failed to delete column"
   },
   "description": {
     "part1": "To get started",
@@ -42,6 +48,23 @@
     "boardTitle": "input board title",
     "boardDescription": "input board description",
     "submit": "create"
+  },
+  "createTaskForm": {
+    "formTitle": "create task",
+    "taskTitle": "input task title",
+    "taskDescription": "input task description",
+    "submit": "create"
+  },
+  "createColumnForm": {
+    "formTitle": "create column",
+    "columnTitle": "input column title",
+    "submit": "create"
+  },
+  "editTaskForm": {
+    "formTitle": "edit task",
+    "title": "task title",
+    "description": "task description",
+    "submit": "edit task"
   },
   "editProfileForm": {
     "formTitle": "edit profile",
@@ -79,10 +102,10 @@
     "DiscriptionOne": "This project, created as part of training at the RS School, is dedicated to React. This school helps to learn different languages and frameworks.",
     "DescriptionTwo": "For example, this React course helped to gain skills and knowledge:\n- creating applications on React + typeScript work with class and functional components create a common store for all data and much more.",
     "DescriptionThree": "You don't have to watch the application of our team, which was made as part of the final task. This application will help to manage projects, as it allows you to review tasks and see at what stage this or that task is.”",
-    "descriptionSchool": "RS School is free-of-charge and community-based education program conducted by The Rolling Scopes developer community since 2013. Everyone can study at RS School, regardless of age, professional employment, or place of residence. The mentors and trainers of their school are front-end and javascript developers from different companies and countries.",
-    "doEvgeny": "Hello, my name is Evgeniy and in this project I have done: Backend (CI/CD), Footer, Board route, Main route",
-    "doTatiana": "Hello, my name is Tatiana and in this project I have done: Header, Create new board, Main route (Create new board, Edit profile), Board route",
-    "doElizaveta": "Hello, my name is Liza and in this project I have done: Welcome page, Sign In / Sign Up, Board route"
+    "descriptionSchool": "RS School is free-of-charge and community-based education program conducted by The Rolling Scopes developer community since 2013. Everyone can study at RS School, regardless of age, professional employment, or place of residence. The mentors and trainers of their school are front-end and javascript developers from different companies and countries. We are very grateful to the course for the wonderful opportunity to try myself in a new field of activity; the school has been helping us to believe that We can do anything!",
+    "doEvgeny": "Hi, my name is Zhenya and I'm a fullstack developer",
+    "doTatiana": "Hi, my name is Tatiana and this my first experience in React",
+    "doElizaveta": "Hi, my name is Lisa and this is my first React course"
   },
   "registration": {
     "title": "Please register",
@@ -101,5 +124,16 @@
     "cardsIsEmpty": "No boards found",
     "searchInputPlaceholder": "search",
     "resetSearchBtn": "reset search"
+  },
+  "boardPage": {
+    "addColumn": "Add column",
+    "delColumn": "Delete column",
+    "addRow": "Add row",
+    "delRow": "Delete row",
+    "submit": "Submit",
+    "cancel": "Cancel"
+  },
+  "preview": {
+    "message": "Dear student! Unfortunately, we did not have time to combine our latest developments. Above on the page are our developments on the implementation of drag-and-drop (without reference to state), and below will be showed the work of board route with state and BE (without drag-and-drop). Thank you for understanding!"
   }
 }
