@@ -58,7 +58,6 @@ function WelcomePage() {
       <Box sx={{display: 'flex', flexWrap: 'wrap', columnGap: 2, mb: 2, justifyContent: 'center', rowGap:2, width: '100%'}}>
         <Grid item xs={4}>
           <Card sx={adaptive ? { padding: 1, height: '100%', width: '100%', mb: 10 } : { padding: 1, height: '100%', maxWidth: '340px', mx: 2 }}>
-          {/* <Card sx={{width: '300px'}}> */}
             <CardMedia
               sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 300 }}
               className="card--media"
@@ -85,7 +84,6 @@ function WelcomePage() {
         </Grid>
         <Grid item xs={4}>
           <Card sx={adaptive ? { padding: 1, height: '100%', width: '100%', mb: 10 } : { padding: 1, height: '100%', maxWidth: '340px', mx: 2 }}>
-          {/* <Card sx={{width: '300px'}}> */}
             <CardMedia
               sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 250 }}
               className="card--media"
@@ -109,7 +107,6 @@ function WelcomePage() {
         </Grid>
         <Grid item xs={4}>
           <Card sx={adaptive ? { padding: 1, height: '100%', width: '100%', mb: 10 } : { padding: 1, height: '100%', maxWidth: '340px', mx: 2 }}>
-          {/* <Card sx={{width: '300px'}}> */}
             <CardMedia
               sx={adaptiveImgMax && adaptiveImgMin ? { width: 150 } : { width: 250 }}
               className="card--media"

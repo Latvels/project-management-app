@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Quote, QuoteMap } from './testTypes';
 import { DraggableLocation } from 'react-beautiful-dnd';
 
-// function to help us with reordering the result
-export default function reorder(list: any[], startIndex: number, endIndex: number): any[] {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function reorder(list: Iterable<unknown> | ArrayLike<unknown>, startIndex: number, endIndex: number): any[] {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -29,7 +28,6 @@ export const reorderQuoteMap = ({
   const next: Quote[] = [...quoteMap[destination.droppableId]];
   const target: Quote = current[source.index];
 
-  // moving to same list
   if (source.droppableId === destination.droppableId) {
     const reordered: Quote[] = reorder(current, source.index, destination.index);
     const result: QuoteMap = {
@@ -41,11 +39,8 @@ export const reorderQuoteMap = ({
     };
   }
 
-  // moving to different list
-
-  // remove from original
   current.splice(source.index, 1);
-  // insert into next
+
   next.splice(destination.index, 0, target);
 
   const result: QuoteMap = {

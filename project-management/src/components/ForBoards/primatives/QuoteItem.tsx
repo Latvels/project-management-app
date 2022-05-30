@@ -41,7 +41,6 @@ const Container = styled.a<divTypes>`
   padding: ${grid}px;
   margin-bottom: ${grid}px;
   user-select: none;
-  /* anchor overrides */
   color: #6a6a6a;
   &:hover,
   &:active {
@@ -53,19 +52,12 @@ const Container = styled.a<divTypes>`
     border-color: #000000;
     box-shadow: none;
   }
-  /* flexbox */
   display: flex;
 `;
 
 const Content = styled.div<divTypes>`
-  /* flex child */
   flex-grow: 1;
-  /*
-    Needed to wrap text in ie11
-    https://stackoverflow.com/questions/35111090/why-ie11-doesnt-wrap-the-text-in-flexbox
-  */
   flex-basis: 100%;
-  /* flex parent */
   display: flex;
   flex-direction: column;
 `;

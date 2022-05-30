@@ -59,7 +59,6 @@ export type reqState = {
   currentTask?: Task,
   currentColumn?: Column,
 };
-//! Убрал error: Error | null; Если у вас не заработает, проверьте тут
 export interface Error {
   status?: number;
   message?: string;

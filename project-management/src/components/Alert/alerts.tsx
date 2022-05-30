@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Box, Alert, IconButton, Collapse, AlertTitle } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Error } from '../../typings/typings';
-// import { useTranslation } from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import { boardSlise } from '../../api/boardApi';
 import { setIsConfirmModalOpen, setIsCreateColumnModalOpen, setIsCreateNewBoardModalOpen, setIsCreateTaskModalOpen, setIsEditProfileModalOpen, setIsEditTaskModalOpen } from '../../store/action/appStateAction';

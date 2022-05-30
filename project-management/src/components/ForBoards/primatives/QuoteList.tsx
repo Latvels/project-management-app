@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { memo } from 'react';
 import styled from '@emotion/styled';
 import QuoteItem from './QuoteItem';
@@ -51,10 +50,6 @@ type Props = {
   ignoreContainerClipping?: boolean;
 };
 
-type QuoteListProps = {
-  quotes: Quote[];
-};
-
 const Title = styled.div<divTypes>`
   padding: ${grid}px;
   transition: background-color ease 0.2s;
@@ -65,6 +60,7 @@ const Title = styled.div<divTypes>`
     outline-offset: 2px;
   }
 `;
+
 
 const InnerQuoteList = memo(function InnerQuoteList(props: any) {
   return props.quotes.map((quote: Quote, index: number) => (

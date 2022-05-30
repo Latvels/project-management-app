@@ -24,49 +24,7 @@ function Login() {
     validateForm,
     setEmail,
   } = useLoginPage();
-  //! conflict
-  /*  const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const requestStatus = useAppSelector((state) => state.auth.signInStatus);
-
-  useEffect(() => {
-    if (requestStatus === 'fulfilled') {
-      const qwe = store.getState().user
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const dataAwtorizeUser = qwe.entities.find((el: any) => {
-        return el.login === email;
-      })
-      const awtorizUserData: RootUser = dataAwtorizeUser || {};
-      const setUser = async () => {
-        await dispatch(setUserData(awtorizUserData));
-      }
-      setUser();
-      navigate('/mainPage');
-    }
-  }, [requestStatus]);
-
-
-  const changeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const submit = useCallback(
-    async (event: SyntheticEvent) => {
-      event.preventDefault();
-      const data = {
-        password: password,
-        login: email,
-      };
-      dispatch(singIn(data));
-      dispatch(getUsers());
-    },
-    [password, email]
-  );*/
+  
   return (
     <Container sx={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'}}>
       <h2>{t('login:title')}</h2>

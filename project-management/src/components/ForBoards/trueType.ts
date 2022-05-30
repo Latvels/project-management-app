@@ -1,5 +1,4 @@
 
-// new type 
 export type Columns = {
     id?: string;
     title?: string;

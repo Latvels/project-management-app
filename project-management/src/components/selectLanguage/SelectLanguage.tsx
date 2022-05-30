@@ -10,7 +10,6 @@ import i18n from '../../services/i18n';
 import './selectLanguage.scss';
 
 function SelectLanguage() {
-  // const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch<AppDispatch>();
   
   const { i18n } = useTranslation();
@@ -38,28 +37,5 @@ function SelectLanguage() {
     </Box>
   );
 }
-
-// function SelectLanguage() {
-//   const { i18n  } = useTranslation();
-
-//   return (
-//   <Box sx={{ mr: 2 }}>
-//     <IconButton
-//       id="basic-button"
-//       color='inherit'
-//       className="selectLanguage__icon"
-//     >
-//       <LanguageIcon />
-//     </IconButton>
-
-//     <select defaultValue={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)} className="selectLanguage__select">
-//       {availableLanguages.map((language) => {
-//         return <option key={language}>
-//           {language}
-//         </option>
-//         })}
-//     </select>
-//   </Box>
-// );
 
 export default SelectLanguage;

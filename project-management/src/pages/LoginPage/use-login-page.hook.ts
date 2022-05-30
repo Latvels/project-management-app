@@ -45,22 +45,6 @@ export const useLoginPage = (): UseRegistrationReturnValues => {
   const [email, setEmail] = useState<string>('');
   const { resetStatuses } = authSlise.actions;
 
-  /* конфликт
-
-  useEffect(() => {
-    if (requestStatus === ACTION_STATUSES.FULFILLED) {
-      const dataAwtorizeUser = currentUser.entities.find((entity: All) => {
-        return entity.login === email;
-      });
-      const awtorizUserData: RootUser = dataAwtorizeUser || {};
-      const setUser = async () => {
-        dispatch(setUserData(awtorizUserData));
-      };
-      setUser();
-    }
-  }, [requestStatus, email]);
-   */
-
   useEffect(() => {
     dispatch(getUsers());
     const qwe = store.getState().user;

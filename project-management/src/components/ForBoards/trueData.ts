@@ -35,7 +35,7 @@ export const tasks: Task[] = [
 ];
 
 
-export const getTask = (count: number): Task[] => // getQuotes
+export const getTask = (count: number): Task[] => 
   Array.from({ length: count }, (v, k) => k).map(() => {
     const random: Task = tasks[Math.floor(Math.random() * tasks.length)];
 
@@ -47,7 +47,7 @@ export const getTask = (count: number): Task[] => // getQuotes
   }
 );
 
-export const getColumns = (count: number): Columns[] => // getAuthors
+export const getColumns = (count: number): Columns[] => 
   Array.from({ length: count }, (v, k) => k).map(() => {
     const random: Columns = columns[Math.floor(Math.random() * columns.length)];
 
@@ -63,7 +63,7 @@ export const getColumns = (count: number): Columns[] => // getAuthors
 const getByColumns = (colum: Columns, items: Task[]): Task[] =>
   items.filter((quote: Task) => quote.order === colum.order);
 
-export const columTaskMap: TaskMap = columns.reduce(  // columQuoteMap
+export const columTaskMap: TaskMap = columns.reduce(
   (previous: TaskMap, column: Columns) => ({
     ...previous,
     [column.order]: getByColumns(column, tasks),

@@ -13,7 +13,6 @@ export const singIn = createAsyncThunk('auth/singIn', async (arr: User, { reject
       url: `${CONFIG.basicURL}/signin`,
       headers: {
         Accept: 'application/json',
-        // Authorization: `Bearer ${CONFIG.token}`,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       data: qs.stringify(arr),
@@ -33,7 +32,6 @@ export const singUp = createAsyncThunk('auth/singUp', async (arr: User, { reject
       url: `${CONFIG.basicURL}/signup`,
       headers: {
         Accept: 'application/json',
-        // Authorization: `Bearer ${CONFIG.token}`,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       data: qs.stringify(arr),
