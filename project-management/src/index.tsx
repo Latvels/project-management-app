@@ -18,9 +18,7 @@ function render() {
       <PersistGate loading={null} persistor={persistor} >
         <ThemeProvider theme={theme}>
           <BrowserRouter>
-            <React.StrictMode>
-              <App />
-            </React.StrictMode>
+            <App />
           </BrowserRouter>
         </ThemeProvider>
       </PersistGate>

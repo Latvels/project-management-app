@@ -10,6 +10,7 @@ export interface Board {
   id?: string;
   title?: string;
   description?: string;
+  columns?: Array<Column>;
 }
 
 export interface Column {
@@ -17,6 +18,7 @@ export interface Column {
   order?: number;
   id?: string;
   idBoard?: string;
+  tasks?: Array<Task>
 }
 
 export interface Task {
@@ -50,8 +52,12 @@ export type reqState = {
   userRequestStatus?: ACTION_STATUSES | null;
   taskRequestStatus?: ACTION_STATUSES | null;
   boardRequestStatus?: ACTION_STATUSES | null;
+  columnRequestStatus?: ACTION_STATUSES | null;
   currentRequestId: string | undefined;
   error: Error;
+  currentBoard?: Board;
+  currentTask?: Task,
+  currentColumn?: Column,
 };
 //! Убрал error: Error | null; Если у вас не заработает, проверьте тут
 export interface Error {
@@ -79,3 +85,18 @@ export interface All {
   idBoard?: string;
   user?: string | unknown | object | never;
 }
+
+export interface ICreateElemFormProps {
+  elemType: 'board' | 'column' | 'task';
+}
+
+// типы для борда
+export interface divTypes {
+  height?: string;
+  isDragging?: boolean;
+  isDraggingOver?: boolean | undefined;
+  isDropDisabled?: boolean | undefined;
+  isDraggingFrom?: boolean;
+  isGroupedOver?: boolean | undefined;
+  isClone?: boolean | undefined;
+};

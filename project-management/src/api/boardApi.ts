@@ -113,20 +113,71 @@ const initialState: reqState = {
   boardRequestStatus: null,
   currentRequestId: undefined,
   error: { status: 0, message: '', visible: true },
+  currentBoard: {
+    id: '',
+    title: '',
+    description: '',
+    columns: [],
+  },
+  currentTask: {
+    title: '',
+    order: 1,
+    description: '',
+    userId: '',
+    boardId: '',
+    columnId: '',
+    id: '',
+  },
+  currentColumn: {
+    title: '',
+    order: 1,
+    id: '',
+    idBoard: '',
+    tasks: [],
+  },
 };
 
 export const boardSlise = createSlice({
   name: 'board',
   initialState,
   reducers: {
+    setCurrentTask: (state, action) => {
+      state.currentTask = action.payload;
+    },
+    setCurrentColumn: (state, action) => {
+      state.currentColumn = action.payload;
+    },
     setBoards: (state, action) => {
       state.entities = action.payload;
+    },
+    setBoard: (state, action) => {
+      state.currentBoard = action.payload;
+    },
+    setColumn: (state, action) => {
+      state.currentBoard!.columns!.push(action.payload);
+    },
+    setTask: (state, action) => {
+      state.currentBoard!.columns![0].tasks!.push(action.payload);
     },
     deleteBoard: (state, action) => {
       state.entities = state.entities.filter((item: Board) => item.id !== action.payload)
     },
     resetBoardRequestStatus: (state) => {
       state.boardRequestStatus = null;
+    },
+    removeTask: (state, action) => {
+      const columnIndex = state.currentBoard!.columns!.findIndex(item => item.id === action.payload.columnId);
+      const newTasks = state.currentBoard!.columns![columnIndex]!.tasks!.filter(item => item.id !== action.payload.id);
+      state.currentBoard!.columns![columnIndex]!.tasks! = newTasks;
+    },
+    removeColumn: (state, action) => {
+      const newColumns = state.currentBoard!.columns!.filter(item => item.id !== action.payload.id);
+      state.currentBoard!.columns! = newColumns;
+    },
+    changeTask: (state, action) => {
+      const columnIndex = state.currentBoard!.columns!.findIndex(item => item.id === action.payload.columnId);
+      const taskIndex = state.currentBoard!.columns![columnIndex]!.tasks!.findIndex(item => item.id === action.payload.id);
+      state.currentBoard!.columns![columnIndex]!.tasks![taskIndex]! = action.payload;
     }
   },
   extraReducers: {
@@ -143,7 +194,6 @@ export const boardSlise = createSlice({
       state.entities = action.payload;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -170,22 +220,21 @@ export const boardSlise = createSlice({
     },
     [getBoardsById.fulfilled.type]: (state, action) => {
       state.boardRequestStatus = ACTION_STATUSES.FULFILLED;
+      state.currentBoard = action.payload;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
     [getBoardsById.rejected.type]: (state, action) => {
-      // state.boardRequestStatus = ACTION_STATUSES.REJECTED;
+      state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
+        state.currentBoard = {};
         state.loading = 'idle';
-        state.error.message = action.payload;
-        state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
@@ -203,7 +252,6 @@ export const boardSlise = createSlice({
       state.entities.push(action.payload);
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities.push(action.payload);
         state.currentRequestId = undefined;
       }
     },
@@ -214,7 +262,6 @@ export const boardSlise = createSlice({
       state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error.message = action.payload;
         state.currentRequestId = undefined;
       }
     },
@@ -236,7 +283,6 @@ export const boardSlise = createSlice({
       }
     },
     [updateBoards.rejected.type]: (state, action) => {
-      // state.boardRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       state.error.message = action.payload;
       state.error.status = action.meta.requestStatus;
@@ -259,7 +305,6 @@ export const boardSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        // state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },

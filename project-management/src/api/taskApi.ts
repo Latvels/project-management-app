@@ -7,7 +7,7 @@ import { Task, reqState, ACTION_STATUSES } from '../typings/typings';
 import i18n from '../services/i18n';
 
 export const getTasks = createAsyncThunk(
-  'task/getTasks',
+  'tasks/getTasks',
   async (data: Task, { rejectWithValue }) => {
     const { boardId, columnId } = data;
     try {
@@ -23,18 +23,18 @@ export const getTasks = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectGetTasks'));
+      return rejectWithValue(i18n.t('errors:rejectGetTasks'));
     }
   }
 );
 
 export const getTaskById = createAsyncThunk(
-  'task/getTaskById',
+  'tasks/getTaskById',
   async (data: Task, { rejectWithValue }) => {
     const { boardId, columnId, id } = data;
     try {
       const response = await axios.get<Task[]>(
-        `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task${id}`,
+        `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/tasks/${id}`,
         {
           headers: {
             Accept: 'application/json',
@@ -44,13 +44,13 @@ export const getTaskById = createAsyncThunk(
       );
       return response.data;
     } catch (e) {
-      return rejectWithValue(i18n.t('errors: rejectGetTask'));
+      return rejectWithValue(i18n.t('errors:rejectGetTask'));
     }
   }
 );
 
 export const createTask = createAsyncThunk(
-  'task/createTask',
+  'tasks/createTask',
   async (data: Task, { rejectWithValue }) => {
     const { boardId, columnId } = data;
     delete data.boardId;
@@ -58,7 +58,7 @@ export const createTask = createAsyncThunk(
     try {
       const config = {
         method: 'POST',
-        url: `${CONFIG.basicURL}/boards/${boardId}/columns${columnId}`,
+        url: `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/tasks`,
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${CONFIG.token}`,
@@ -69,13 +69,14 @@ export const createTask = createAsyncThunk(
       const response = await axios(config);
       return response.data;
     } catch (e) {
-      return rejectWithValue(i18n.t('errors: rejectCreateTask'));
+      rejectWithValue(e);
+      return rejectWithValue(i18n.t('errors:rejectCreateTask'));
     }
   }
 );
 
 export const updateTask = createAsyncThunk(
-  'task/updateTask',
+  'tasks/updateTask',
   async (data: Task, { rejectWithValue }) => {
     const { boardId, columnId, id } = data;
     delete data.boardId;
@@ -84,7 +85,7 @@ export const updateTask = createAsyncThunk(
     try {
       const config = {
         method: 'PUT',
-        url: `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task${id}`,
+        url: `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/tasks/${id}`,
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${CONFIG.token}`,
@@ -96,19 +97,19 @@ export const updateTask = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectUpdateTask'));
+      return rejectWithValue(i18n.t('errors:rejectUpdateTask'));
     }
   }
 );
 
 export const deleteTask = createAsyncThunk(
-  'task/deleteTask',
+  'tasks/deleteTask',
   async (data: Task, { rejectWithValue }) => {
     const { boardId, columnId, id } = data;
     try {
       const config = {
         method: 'DELETE',
-        url: `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/task${id}`,
+        url: `${CONFIG.basicURL}/boards/${boardId}/columns/${columnId}/tasks/${id}`,
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${CONFIG.token}`,
@@ -118,7 +119,7 @@ export const deleteTask = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectDeleteTask'));
+      return rejectWithValue(i18n.t('errors:rejectDeleteTask'));
     }
   }
 );
@@ -157,7 +158,6 @@ export const taskSlise = createSlice({
       }
     },
     [getTasks.rejected.type]: (state, action) => {
-      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -184,7 +184,6 @@ export const taskSlise = createSlice({
       }
     },
     [getTaskById.rejected.type]: (state, action) => {
-      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -206,17 +205,16 @@ export const taskSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
     [createTask.rejected.type]: (state, action) => {
-      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
+      state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.payload.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error.message = action.payload;
-        state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
@@ -233,17 +231,16 @@ export const taskSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
     [updateTask.rejected.type]: (state, action) => {
-      // state.taskRequestStatus = ACTION_STATUSES.REJECTED;
+      state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error.message = action.payload;
-        state.error = action.error;
         state.currentRequestId = undefined;
       }
     },
@@ -260,17 +257,16 @@ export const taskSlise = createSlice({
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.entities = action.payload;
         state.currentRequestId = undefined;
       }
     },
     [deleteTask.rejected.type]: (state, action) => {
       state.taskRequestStatus = ACTION_STATUSES.REJECTED;
-      const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.payload.meta;
+      const { requestId } = action.meta.requestStatus;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error.message = action.payload;
-        state.error = action.error;
         state.currentRequestId = undefined;
       }
     },

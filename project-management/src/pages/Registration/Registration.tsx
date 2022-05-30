@@ -29,13 +29,11 @@ function Registration() {
   } = useRegistration();
 
   return (
-    <Container>
+    <Container sx={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'}}>
       <h2>{t('registration:title')}</h2>
 
-      {requestStatus === ACTION_STATUSES.PENDING ? (
-        <Preloader />
-      ) : (
-        <Formik
+      {requestStatus === ACTION_STATUSES.REJECTED ? <BasicAlerts error={requestError} /> : 
+        (<Formik
           initialValues={initialValues}
           validate={validateForm}
           onSubmit={async (values: IRegistrationValues, { setSubmitting }) => {
@@ -73,7 +71,6 @@ function Registration() {
               >
                 {t('registration:submit')}
               </Button>
-              {requestStatus === ACTION_STATUSES.REJECTED && <BasicAlerts error={requestError} />}
             </Form>
           )}
         </Formik>
