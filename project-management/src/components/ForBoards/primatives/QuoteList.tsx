@@ -2,8 +2,7 @@
 import { memo } from 'react';
 import styled from '@emotion/styled';
 import QuoteItem from './QuoteItem';
-import { grid } from '../testConst';
-import Title from './Title';
+import { grid } from '../../../constants/constant';
 import type { Quote } from '../testTypes';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import type {
@@ -55,6 +54,17 @@ type Props = {
 type QuoteListProps = {
   quotes: Quote[];
 };
+
+const Title = styled.div<divTypes>`
+  padding: ${grid}px;
+  transition: background-color ease 0.2s;
+  flex-grow: 1;
+  user-select: none;
+  position: relative;
+  &:focus {
+    outline-offset: 2px;
+  }
+`;
 
 const InnerQuoteList = memo(function InnerQuoteList(props: any) {
   return props.quotes.map((quote: Quote, index: number) => (

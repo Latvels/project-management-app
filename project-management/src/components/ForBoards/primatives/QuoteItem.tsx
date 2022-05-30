@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import styled from '@emotion/styled';
-import { borderRadius, grid } from '../testConst';
+import { borderRadius, grid } from '../../../constants/constant';
 import type { Quote } from '../testTypes';
 import type { DraggableProvided } from 'react-beautiful-dnd';
 import { divTypes } from '../../../typings/typings';

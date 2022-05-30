@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import type { DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
-import { grid } from '../testConst';
+import { grid } from '../../../constants/constant';
 import type { Column } from '../testTypes';
 import { divTypes } from '../../../typings/typings';
 

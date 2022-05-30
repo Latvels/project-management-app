@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import type { DraggableStateSnapshot } from 'react-beautiful-dnd';
 import QuoteList from './primatives/QuoteList';
-import { grid, borderRadius } from './testConst';
+import { grid, borderRadius } from '../../constants/constant';
 import type { Quote } from './testTypes';
 import { divTypes } from '../../typings/typings';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import React, { useState, useRef } from 'react';
-import UseOnClickOutside from './HookUseOnClickOutside';
+import UseOnClickOutside from '../../utils/HookUseOnClickOutside';
 import {
   Box,
   IconButton,
@@ -75,11 +75,16 @@ function Column(props: Props) {
   const [title, setTitle] = useState(props.title || '');
   const [index, setIndex] = useState(props.index || 0);
 
-  const [viewButtonEdit, setViewButtonEdit] = useState(false);
+  const [viewButtonEdit, setViewButtonEdit] = useState(true);
+  const [viewEditRow, setViewEditRow] = useState(false);
+
   const deleteColumn = () => {};
   const buttonChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {};
-  const onChangeCapture = () => {
-    setViewButtonEdit(viewButtonEdit === true ? false : true);
+  const onChangeTitle = () => {
+    setViewButtonEdit(false);
+  };
+  const onChangeView = () => {
+    setViewEditRow(viewEditRow === true ? false : true);
   };
   const onClickSubmit = () => {};
   const onClickCancel = () => {};
@@ -87,7 +92,7 @@ function Column(props: Props) {
   const quotes: Quote[] = props.quotes;
   
   const clickOutsidehandler = () => {
-    setViewButtonEdit(false);
+    setViewEditRow(false);
   };
   UseOnClickOutside(titleRef, clickOutsidehandler);
 
@@ -102,7 +107,7 @@ function Column(props: Props) {
               aria-label={`${title} quote list`}
             >
               <Box >
-                {viewButtonEdit ? (
+                {viewEditRow ? (
                   <Box
                     ref={titleRef}
                     sx={{
@@ -110,7 +115,7 @@ function Column(props: Props) {
                       width: '11.5rem',
                     }}
                   >
-                    <TextField margin={'none'} size={'small'} value={props.title} type={'string'} />
+                    <TextField onChange={onChangeTitle} margin={'none'} size={'small'} value={title} type={'string'} />
 
                     <ToggleButtonGroup
                       color="primary"
@@ -152,7 +157,7 @@ function Column(props: Props) {
                       justifyContent: 'space-between',
                       alignItems: 'center',
                     }}
-                    onClick={onChangeCapture}
+                    onClick={onChangeView}
                   >
                     {props.title}
                     <Tooltip title={t('boardPage:delColumn')}>

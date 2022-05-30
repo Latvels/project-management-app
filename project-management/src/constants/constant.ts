@@ -13,3 +13,6 @@ export const CONFIG = {
 
 export const TIMEOUT_FOR_MODAL = 500;
 export const TIMEOUT_FOR_ALERT = 3000;
+
+export const grid = 8;
+export const borderRadius = 2;
