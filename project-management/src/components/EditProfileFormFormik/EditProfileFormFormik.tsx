@@ -37,9 +37,7 @@ function EditProfileFormFormik() {
   const minValue = t('formValidation:minValue');
   const maxValue = t('formValidation:maxValue');
   const required = t('formValidation:required');
-  console.log(userData);
-  console.log(user)
-
+  
   const initialValues = {
     name: '',
     password: '',

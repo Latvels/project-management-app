@@ -2,7 +2,6 @@ import { Component } from 'react';
 import styled from '@emotion/styled';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import type { DraggableStateSnapshot } from 'react-beautiful-dnd';
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import QuoteList from './primatives/QuoteList';
 import { grid, borderRadius } from './testConst';
 import type { Quote } from './testTypes';

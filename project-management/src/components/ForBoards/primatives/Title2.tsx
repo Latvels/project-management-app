@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useState} from 'react';
 import styled from '@emotion/styled';
 import { grid } from '../testConst';
@@ -11,18 +10,11 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
-  Divider,
-  InputBase,
-  Paper,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import { useTranslation } from 'react-i18next';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
 
 export const Title = styled.div<divTypes>`
   padding: ${grid}px;
@@ -67,14 +59,13 @@ type Props = {
 export const TitleBox = (props: Props) => {
   const { t } = useTranslation();
   const { title, index,isScrollable, isCombineEnabled, height,isClone, children, isDragging, isDraggingOver,isDraggingFrom, isDropDisabled  } = props;
-  console.log('props' , props)
   const [alignment, setAlignment] = useState('');
   const [viewButtonEdit, setViewButtonEdit] = useState(false);
   const deleteColumn = () => {
-    console.log('Column delete');
+    
   };
   const buttonChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
-    console.log('textBTN', newAlignment, event);
+    
   };
   const onChangeCapture = () => {
     setViewButtonEdit(viewButtonEdit === true ? false : true);

@@ -86,7 +86,6 @@ export const quotes: Quote[] = [
   },
 ];
 
-// So we do not have any clashes with our hardcoded ones
 let idCount: number = quotes.length + 1;
 
 export const getQuotes = (count: number): Quote[] =>

@@ -95,8 +95,6 @@ export const useRegistration = (): UseRegistrationReturnValues => {
     }
   }, [requestStatus]);
 
-  // console.log(requestError);
-
   return {
     initialValues,
     nameLabel,
