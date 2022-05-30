@@ -124,8 +124,6 @@ function ConfirmationModal() {
         id: appState.deletedId!,
       }
       const resp = await appDispatch(deleteColumn(reqData));
-      console.log(resp);
-      console.log(getRequestStatus());
       appDispatch(setIsPreloaderOpen(false));
       if (resp.meta.requestStatus === 'fulfilled') {
         appDispatch(resetColumnRequestStatus());
