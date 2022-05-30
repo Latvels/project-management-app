@@ -126,7 +126,7 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
           description: values.description,
           columnId: boardState.currentBoard!.columns![0].id,
           boardId: id,
-          userId: awtUser.user!.id!,
+          userId: String(awtUser.user!.id!),
         }
         resp = await appDispatch(createTask(taskData));
         appDispatch(setIsPreloaderOpen(false));

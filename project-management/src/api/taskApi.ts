@@ -23,7 +23,7 @@ export const getTasks = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectGetTasks'));
+      return rejectWithValue(i18n.t('errors:rejectGetTasks'));
     }
   }
 );
@@ -44,7 +44,7 @@ export const getTaskById = createAsyncThunk(
       );
       return response.data;
     } catch (e) {
-      return rejectWithValue(i18n.t('errors: rejectGetTask'));
+      return rejectWithValue(i18n.t('errors:rejectGetTask'));
     }
   }
 );
@@ -119,7 +119,7 @@ export const deleteTask = createAsyncThunk(
       return response.data;
     } catch (e) {
       rejectWithValue(e);
-      return rejectWithValue(i18n.t('errors: rejectDeleteTask'));
+      return rejectWithValue(i18n.t('errors:rejectDeleteTask'));
     }
   }
 );
@@ -211,8 +211,8 @@ export const taskSlise = createSlice({
     [createTask.rejected.type]: (state, action) => {
       state.taskRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
-      state.error.message = action.payload.text;
-      state.error.status = action.payload.status;
+      state.error.message = action.payload;
+      state.error.status = action.payload.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
         state.currentRequestId = undefined;

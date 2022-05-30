@@ -8,7 +8,7 @@ interface IAppState {
   isCreateNewBoardModalOpen: boolean;
   isPreloaderOpen: boolean;
   isConfirmModalOpen: boolean;
-  deletedItem?: 'board' | 'task' | 'user' | null;
+  deletedItem?: 'board' | 'task' | 'user' | 'column' | null;
   deletedId?: string | null;
   currentBoardId: string | null;
   lang: 'en' | 'ru';

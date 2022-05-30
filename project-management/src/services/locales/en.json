@@ -87,6 +87,7 @@
     "deleteUserText": "user",
     "deleteBoardText": "board",
     "deleteTaskText": "task",
+    "deleteColumnText": "column",
     "buttonYes": "yes",
     "buttonNo": "no"
   },

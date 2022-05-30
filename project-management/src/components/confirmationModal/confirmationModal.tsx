@@ -15,6 +15,7 @@ import { ACTION_STATUSES, Error, Task } from '../../typings/typings';
 import { useNavigate } from 'react-router-dom';
 import { BasicAlerts } from '../compunents';
 import './confirmationModal.scss';
+import { columnSlise, deleteColumn } from '../../api/columnApi';
 
 const style = {
   position: 'absolute',
@@ -31,19 +32,23 @@ const style = {
 function ConfirmationModal() {
   const navigate = useNavigate();
   const appState = useSelector((state: RootState) => state.appState);
+  const appDispatch = useDispatch<AppDispatch>();
   const boardState = useSelector((state: RootState) => state.board);
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
   const boardRequestError: Error = useSelector((state: RootState) => state.board.error);
-  const {resetBoardRequestStatus, removeTask} = boardSlise.actions;
+  const {resetBoardRequestStatus, removeTask, removeColumn} = boardSlise.actions;
   const taskRequestStatus = useSelector((state: RootState) => state.task.taskRequestStatus);
   const taskRequestError: Error = useSelector((state: RootState) => state.task.error);
   const {resetTaskRequestStatus} = taskSlise.actions;
   const userRequestStatus = useSelector((state: RootState) => state.user.userRequestStatus);
   const userRequestError: Error = useSelector((state: RootState) => state.user.error);
   const {resetUserRequestStatus} = userSlise.actions;
-  const appDispatch = useDispatch<AppDispatch>();
+  const columnRequestStatus = useSelector((state: RootState) => state.column.columnRequestStatus);
+  const columnRequestError: Error = useSelector((state: RootState) => state.column.error);
+  const {resetColumnRequestStatus} = columnSlise.actions;
+
   const { resetStatuses } = authSlise.actions;
-  const deletedItem = appState.deletedItem as 'user' | 'board' | 'task';
+  const deletedItem = appState.deletedItem as 'user' | 'board' | 'task' | 'column';
   
   const {t} = useTranslation();
   const title = t('confirmationModal:title');
@@ -51,6 +56,7 @@ function ConfirmationModal() {
   const deleteUserText = t('confirmationModal:deleteUserText');
   const deleteTaskText = t('confirmationModal:deleteTaskText');
   const deleteBoardText = t('confirmationModal:deleteBoardText');
+  const deleteColumnText = t('confirmationModal:deleteColumnText');
   const buttonYesText = t('confirmationModal:buttonYes');
   const buttonNoText = t('confirmationModal:buttonNo');
 
@@ -64,6 +70,9 @@ function ConfirmationModal() {
         case 'task':
           appDispatch(resetTaskRequestStatus());
           break;
+        case 'column':
+          appDispatch(resetColumnRequestStatus());
+          break;
         case 'user':
           appDispatch(resetUserRequestStatus());
       };
@@ -76,6 +85,9 @@ function ConfirmationModal() {
         break;
       case 'board':
         return `${commonText} ${deleteBoardText}?`;
+        break;
+      case 'column':
+        return `${commonText} ${deleteColumnText}?`;
         break;
       case 'task':
         return `${commonText} ${deleteTaskText}?`;
@@ -103,6 +115,21 @@ function ConfirmationModal() {
       appDispatch(setIsPreloaderOpen(false));
       if (resp.meta.requestStatus === 'fulfilled') {
         appDispatch(resetBoardRequestStatus());
+        appDispatch(setIsConfirmModalOpen(false));
+      }
+    } else if (deletedItem === 'column') {
+      appDispatch(setIsPreloaderOpen(true));
+      const reqData = {
+        idBoard: boardState.currentBoard!.id,
+        id: appState.deletedId!,
+      }
+      const resp = await appDispatch(deleteColumn(reqData));
+      console.log(resp);
+      console.log(getRequestStatus());
+      appDispatch(setIsPreloaderOpen(false));
+      if (resp.meta.requestStatus === 'fulfilled') {
+        appDispatch(resetColumnRequestStatus());
+        appDispatch(removeColumn(reqData))
         appDispatch(setIsConfirmModalOpen(false));
       }
     } else if (deletedItem === 'task') {
@@ -139,7 +166,10 @@ function ConfirmationModal() {
       case 'user':
         status = userRequestStatus;
         break;
-    }
+      case 'column':
+        status = columnRequestStatus;
+        break
+      }
     return status;
   }
 
@@ -154,6 +184,9 @@ function ConfirmationModal() {
         break;
       case 'user':
         error = userRequestError;
+        break;
+      case 'column':
+        error = columnRequestError;
         break;
     }
     return error;

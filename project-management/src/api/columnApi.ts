@@ -188,12 +188,14 @@ export const columnSlise = createSlice({
     },
 
     [createColumn.pending.type]: (state, action) => {
+      state.columnRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [createColumn.fulfilled.type]: (state, action) => {
+      state.columnRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -235,12 +237,14 @@ export const columnSlise = createSlice({
     },
 
     [deleteColumn.pending.type]: (state, action) => {
+      state.columnRequestStatus = ACTION_STATUSES.PENDING;
       if (state.loading === 'idle') {
         state.loading = 'pending';
         state.currentRequestId = action.meta.requestId;
       }
     },
     [deleteColumn.fulfilled.type]: (state, action) => {
+      state.columnRequestStatus = ACTION_STATUSES.FULFILLED;
       const { requestId } = action.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
@@ -249,10 +253,12 @@ export const columnSlise = createSlice({
       }
     },
     [deleteColumn.rejected.type]: (state, action) => {
+      state.columnRequestStatus = ACTION_STATUSES.REJECTED;
       const { requestId } = action.meta;
+      state.error.message = action.payload;
+      state.error.status = action.payload.meta;
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle';
-        state.error = action.error;
         state.currentRequestId = undefined;
       }
     },

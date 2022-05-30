@@ -170,6 +170,10 @@ export const boardSlise = createSlice({
       const newTasks = state.currentBoard!.columns![columnIndex]!.tasks!.filter(item => item.id !== action.payload.id);
       state.currentBoard!.columns![columnIndex]!.tasks! = newTasks;
     },
+    removeColumn: (state, action) => {
+      const newColumns = state.currentBoard!.columns!.filter(item => item.id !== action.payload.id);
+      state.currentBoard!.columns! = newColumns;
+    },
     changeTask: (state, action) => {
       const columnIndex = state.currentBoard!.columns!.findIndex(item => item.id === action.payload.columnId);
       const taskIndex = state.currentBoard!.columns![columnIndex]!.tasks!.findIndex(item => item.id === action.payload.id);
