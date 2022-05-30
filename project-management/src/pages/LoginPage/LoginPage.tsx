@@ -24,9 +24,9 @@ function Login() {
     validateForm,
     setEmail,
   } = useLoginPage();
-  
+
   return (
-    <Container sx={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'}}>
+    <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
       <h2>{t('login:title')}</h2>
       {requestStatus === ACTION_STATUSES.PENDING ? (
         <Preloader />

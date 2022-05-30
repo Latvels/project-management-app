@@ -11,14 +11,14 @@ import './selectLanguage.scss';
 
 function SelectLanguage() {
   const appDispatch = useDispatch<AppDispatch>();
-  
+
   const { i18n } = useTranslation();
   const lang = i18n.language;
   const { width } = useWindowDimensions();
 
   const getLang = () => {
-    return (lang === 'ru-RU' || lang === 'ru') ? 'ru' : 'en';
-  }
+    return lang === 'ru-RU' || lang === 'ru' ? 'ru' : 'en';
+  };
 
   const handleChange = () => {
     i18n.changeLanguage(lang === 'en' ? 'ru' : 'en');
@@ -27,12 +27,21 @@ function SelectLanguage() {
 
   return (
     <Box>
-      <FormControl size="small" sx={{
-        width: () => (width > 660 ? '100px' : '90px'),
-      }}>
-        <Button variant="outlined" sx={{color: 'white', mr: 1}} onClick={() => {
-          handleChange();
-        }}>{getLang()}</Button>
+      <FormControl
+        size="small"
+        sx={{
+          width: () => (width > 660 ? '100px' : '90px'),
+        }}
+      >
+        <Button
+          variant="outlined"
+          sx={{ color: 'white', mr: 1 }}
+          onClick={() => {
+            handleChange();
+          }}
+        >
+          {getLang()}
+        </Button>
       </FormControl>
     </Box>
   );

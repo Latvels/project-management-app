@@ -2,9 +2,16 @@ import * as React from 'react';
 import { Box, Alert, IconButton, Collapse, AlertTitle } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Error } from '../../typings/typings';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { boardSlise } from '../../api/boardApi';
-import { setIsConfirmModalOpen, setIsCreateColumnModalOpen, setIsCreateNewBoardModalOpen, setIsCreateTaskModalOpen, setIsEditProfileModalOpen, setIsEditTaskModalOpen } from '../../store/action/appStateAction';
+import {
+  setIsConfirmModalOpen,
+  setIsCreateColumnModalOpen,
+  setIsCreateNewBoardModalOpen,
+  setIsCreateTaskModalOpen,
+  setIsEditProfileModalOpen,
+  setIsEditTaskModalOpen,
+} from '../../store/action/appStateAction';
 import { TIMEOUT_FOR_ALERT } from '../../constants/constant';
 import { userSlise } from '../../api/userApi';
 import { taskSlise } from '../../api/taskApi';
@@ -38,7 +45,7 @@ export default function BasicAlerts(props: Props) {
       case 'task':
         appDispatch(resetTaskRequestStatus());
     }
-  }
+  };
 
   const closeModals = () => {
     appDispatch(setIsConfirmModalOpen(false));
@@ -56,46 +63,47 @@ export default function BasicAlerts(props: Props) {
         appDispatch(setIsCreateTaskModalOpen(false));
         appDispatch(setIsEditTaskModalOpen(false));
     }
-  }
+  };
 
   const closeAlert = () => {
     closeModals();
     resetStatuses();
     setOpen(false);
-  }
+  };
 
   React.useEffect(() => {
-    const timer = setTimeout(closeAlert, TIMEOUT_FOR_ALERT );
-    return () => {clearTimeout(timer)};
+    const timer = setTimeout(closeAlert, TIMEOUT_FOR_ALERT);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
     <Box sx={{ width: '100%' }}>
       <Collapse in={open}>
-        { props.errorType !== undefined ? (
+        {props.errorType !== undefined ? (
           <Alert severity="error">
-            <AlertTitle sx={{textTransform: 'uppercase'}}>{status ? status : 'rejected'}</AlertTitle>
+            <AlertTitle sx={{ textTransform: 'uppercase' }}>
+              {status ? status : 'rejected'}
+            </AlertTitle>
             <strong>{message}</strong>
           </Alert>
-        ) :
-        (<Alert
-          severity="error"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={closeAlert}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          <AlertTitle sx={{textTransform: 'uppercase'}}>{status ? status : 'rejected'}</AlertTitle>
-          <strong>{message}</strong>
-        </Alert>)
-        }
+        ) : (
+          <Alert
+            severity="error"
+            action={
+              <IconButton aria-label="close" color="inherit" size="small" onClick={closeAlert}>
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            <AlertTitle sx={{ textTransform: 'uppercase' }}>
+              {status ? status : 'rejected'}
+            </AlertTitle>
+            <strong>{message}</strong>
+          </Alert>
+        )}
       </Collapse>
     </Box>
   );

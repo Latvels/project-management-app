@@ -16,7 +16,7 @@ export const getColumns = createAsyncThunk(
           Authorization: `Bearer ${CONFIG.token}`,
         },
       });
-      return {...response.data, idBoard: idBoard};
+      return { ...response.data, idBoard: idBoard };
     } catch (e) {
       rejectWithValue(e);
       return rejectWithValue(i18n.t('errors:rejectGetColumns'));
@@ -133,7 +133,7 @@ export const columnSlise = createSlice({
   reducers: {
     resetColumnRequestStatus: (state) => {
       state.columnRequestStatus = null;
-    }
+    },
   },
   extraReducers: {
     [getColumns.pending.type]: (state, action) => {

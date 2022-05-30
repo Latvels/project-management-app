@@ -2,7 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import appStateReducer from './appStateReducer';
 import boardReducer from '../../api/boardApi';
 import userReducer from '../../api/userApi';
-import authReducer, {singIn} from '../../api/authApi';
+import authReducer, { singIn } from '../../api/authApi';
 import columnReducer from '../../api/columnApi';
 import taskReducer from '../../api/taskApi';
 import fileReducer from '../../api/fileApi';

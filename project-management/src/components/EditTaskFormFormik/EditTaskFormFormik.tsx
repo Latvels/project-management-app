@@ -21,11 +21,11 @@ interface IValues {
 function EditTaskFormFormik() {
   const appDispatch = useDispatch<AppDispatch>();
   const taskData = useSelector((state: RootState) => state.board.currentTask);
-  const {changeTask} = boardSlise.actions;
+  const { changeTask } = boardSlise.actions;
   const boardState = useSelector((state: RootState) => state.board);
   const taskRequestError = useSelector((state: RootState) => state.task.error) as Error;
   const taskRequestStatus = useSelector((state: RootState) => state.task.taskRequestStatus);
-  const {resetTaskRequestStatus} = taskSlise.actions;
+  const { resetTaskRequestStatus } = taskSlise.actions;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [taskdata, setTaskdata] = useState<Task>({});
 
@@ -41,7 +41,7 @@ function EditTaskFormFormik() {
   const initialValues = {
     title: taskData!.title!,
     description: taskData!.description!,
-  }
+  };
 
   const getTaskData = async () => {
     appDispatch(setIsPreloaderOpen(true));
@@ -49,10 +49,10 @@ function EditTaskFormFormik() {
       boardId: boardState.currentBoard!.id,
       columnId: boardState.currentColumn!.id,
       id: taskData!.id,
-    }
+    };
     const resp = await appDispatch(getTaskById(data));
     appDispatch(setIsPreloaderOpen(false));
-    if(resp.meta.requestStatus === 'fulfilled') {
+    if (resp.meta.requestStatus === 'fulfilled') {
       appDispatch(resetTaskRequestStatus());
       const respData = resp.payload as Task;
       setTaskdata(respData);
@@ -89,58 +89,61 @@ function EditTaskFormFormik() {
 
   return (
     <>
-      {taskRequestStatus === ACTION_STATUSES.REJECTED ? <BasicAlerts error={taskRequestError} errorType='task' /> :
-      (<Formik
-      initialValues={initialValues}
-      validate={validateForm}
-      onSubmit={async (values: IValues, {setSubmitting}) => {
-        setSubmitting(false);
-        appDispatch(setIsPreloaderOpen(true));
-        const newTaskData: Task = {
-          id: String(taskdata!.id!),
-          title: values.title,
-          order: taskdata!.order!,
-          description: values.description,
-          userId: String(taskdata!.userId!),
-          boardId: String(boardState.currentBoard!.id!),
-          columnId: String(boardState.currentColumn!.id!),
-        };
-        const resp = await appDispatch(updateTask(newTaskData));
-        appDispatch(setIsPreloaderOpen(false));
-        if(resp.meta.requestStatus === 'fulfilled') {
-          appDispatch(changeTask(resp.payload));
-          appDispatch(setIsEditTaskModalOpen(false));
-          appDispatch(resetTaskRequestStatus());
-        }
-      }}
-    >
-      {({ submitForm }) => (
-        <Form className="form">
-          <Field
-            component={TextField}
-            name="title"
-            type="text"
-            label={titleLabel}
-            color="info"
-          />
-          <Field
-            component={TextField}
-            name="description"
-            type="text"
-            label={descriptionLabel}
-            color="info"
-          />
-          <Button
-            variant="outlined"
-            color="info"
-            disabled={isButtonDisabled}
-            onClick={submitForm}
-          >
-            {submitButtonText}
-          </Button>
-        </Form>
+      {taskRequestStatus === ACTION_STATUSES.REJECTED ? (
+        <BasicAlerts error={taskRequestError} errorType="task" />
+      ) : (
+        <Formik
+          initialValues={initialValues}
+          validate={validateForm}
+          onSubmit={async (values: IValues, { setSubmitting }) => {
+            setSubmitting(false);
+            appDispatch(setIsPreloaderOpen(true));
+            const newTaskData: Task = {
+              id: String(taskdata!.id!),
+              title: values.title,
+              order: taskdata!.order!,
+              description: values.description,
+              userId: String(taskdata!.userId!),
+              boardId: String(boardState.currentBoard!.id!),
+              columnId: String(boardState.currentColumn!.id!),
+            };
+            const resp = await appDispatch(updateTask(newTaskData));
+            appDispatch(setIsPreloaderOpen(false));
+            if (resp.meta.requestStatus === 'fulfilled') {
+              appDispatch(changeTask(resp.payload));
+              appDispatch(setIsEditTaskModalOpen(false));
+              appDispatch(resetTaskRequestStatus());
+            }
+          }}
+        >
+          {({ submitForm }) => (
+            <Form className="form">
+              <Field
+                component={TextField}
+                name="title"
+                type="text"
+                label={titleLabel}
+                color="info"
+              />
+              <Field
+                component={TextField}
+                name="description"
+                type="text"
+                label={descriptionLabel}
+                color="info"
+              />
+              <Button
+                variant="outlined"
+                color="info"
+                disabled={isButtonDisabled}
+                onClick={submitForm}
+              >
+                {submitButtonText}
+              </Button>
+            </Form>
+          )}
+        </Formik>
       )}
-      </Formik>)}
     </>
   );
 }

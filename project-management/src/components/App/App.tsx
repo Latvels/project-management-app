@@ -11,13 +11,21 @@ import {
   CreateColumnModal,
   EditTaskModal,
 } from '../compunents';
-import { Box } from '@mui/material'
+import { Box } from '@mui/material';
 
 export default function App() {
   return (
-    <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'spase-between', flexGrow: 1 }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'spase-between',
+        flexGrow: 1,
+      }}
+    >
       <Header />
-      <Box sx={{flexGrow: 1}}>
+      <Box sx={{ flexGrow: 1 }}>
         <MainRoutes />
       </Box>
       <Footer />

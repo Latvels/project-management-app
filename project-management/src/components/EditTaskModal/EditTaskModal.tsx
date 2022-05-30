@@ -26,14 +26,14 @@ const style = {
 function EditTaskModal() {
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch<AppDispatch>();
-  const {resetTaskRequestStatus} = taskSlise.actions;
+  const { resetTaskRequestStatus } = taskSlise.actions;
 
   const { t } = useTranslation();
 
   const handleClose = () => {
     appDispatch(resetTaskRequestStatus());
     appDispatch(setIsEditTaskModalOpen(false));
-  }
+  };
 
   return (
     <Modal
@@ -50,10 +50,7 @@ function EditTaskModal() {
       <Fade in={appState.isEditTaskModalOpen}>
         <Box sx={style}>
           <Box component="div" className="modal__title" sx={{ mb: 2 }}>
-            <AssignmentOutlinedIcon
-              color="primary"
-              sx={{ mr: 2 }}
-            ></AssignmentOutlinedIcon>
+            <AssignmentOutlinedIcon color="primary" sx={{ mr: 2 }}></AssignmentOutlinedIcon>
             <Typography id="transition-modal-title" variant="h6" component="h4" color="primary">
               {t('editTaskForm:formTitle')}
             </Typography>

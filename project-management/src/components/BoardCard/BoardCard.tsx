@@ -15,7 +15,7 @@ import { useWindowDimensions } from '../../services/service';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import {RootState} from '../../store/reducer/reducer';
+import { RootState } from '../../store/reducer/reducer';
 import { boardSlise, getBoardsById } from '../../api/boardApi';
 
 type Props = {
@@ -27,7 +27,7 @@ type Props = {
 function BoardCard(props: Props) {
   const appDispatch = useDispatch<AppDispatch>();
   const appState = useSelector((state: RootState) => state.appState);
-  const { setBoard, resetBoardRequestStatus} = boardSlise.actions;
+  const { setBoard, resetBoardRequestStatus } = boardSlise.actions;
   const navigate = useNavigate();
   const { search } = useLocation();
 
@@ -38,7 +38,7 @@ function BoardCard(props: Props) {
     appDispatch(setIsConfirmModalOpen(true));
   };
 
-  const handleBoardCardClick = useCallback(async() => {
+  const handleBoardCardClick = useCallback(async () => {
     appDispatch(setCurrentBoardId(props.id!));
     navigate(`/boardPage${search}`);
   }, [search]);

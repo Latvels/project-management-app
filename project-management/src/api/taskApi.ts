@@ -138,7 +138,7 @@ export const taskSlise = createSlice({
   reducers: {
     resetTaskRequestStatus: (state) => {
       state.taskRequestStatus = null;
-    }
+    },
   },
   extraReducers: {
     [getTasks.pending.type]: (state, action) => {

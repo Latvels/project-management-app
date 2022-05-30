@@ -11,24 +11,25 @@ interface IMockBoardProps {
 function MockBoard(props: IMockBoardProps) {
   const columns = props.board.columns! as Column[];
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   return (
     <>
-    <Box sx={{margin: '0.5rem 0 0 0.5rem' }}>
-      <Typography component='p' sx={{ color: '#ed6c02'}}>{t('preview:message')}</Typography>
-      {columns !== undefined && 
-      <Box sx={{display: 'flex', columnGap: 1, mt:2, mb: 2 }}>
-        {columns!.length > 0 && (
-          columns!.map((column: Column) => {
-          return <MockColumn key={column!.id} column={column}></MockColumn>
-          }
-        )
+      <Box sx={{ margin: '0.5rem 0 0 0.5rem' }}>
+        <Typography component="p" sx={{ color: '#ed6c02' }}>
+          {t('preview:message')}
+        </Typography>
+        {columns !== undefined && (
+          <Box sx={{ display: 'flex', columnGap: 1, mt: 2, mb: 2 }}>
+            {columns!.length > 0 &&
+              columns!.map((column: Column) => {
+                return <MockColumn key={column!.id} column={column}></MockColumn>;
+              })}
+          </Box>
         )}
-      </Box>}
-    </Box>
+      </Box>
     </>
-  )
+  );
 }
 
 export default MockBoard;

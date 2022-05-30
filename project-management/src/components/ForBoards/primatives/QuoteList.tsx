@@ -12,7 +12,6 @@ import type {
 } from 'react-beautiful-dnd';
 import { divTypes } from '../../../typings/typings';
 
-
 const Wrapper = styled.div<divTypes>`
   background-color: #f4f4f4;
   display: flex;
@@ -61,14 +60,10 @@ const Title = styled.div<divTypes>`
   }
 `;
 
-
 const InnerQuoteList = memo(function InnerQuoteList(props: any) {
   return props.quotes.map((quote: Quote, index: number) => (
     <Draggable key={quote.id} draggableId={quote.id} index={index}>
-      {(
-        dragProvided: DraggableProvided,
-        dragSnapshot: DraggableStateSnapshot,
-      ) => (
+      {(dragProvided: DraggableProvided, dragSnapshot: DraggableStateSnapshot) => (
         <QuoteItem
           key={quote.id}
           quote={quote}
@@ -122,10 +117,7 @@ export default function QuoteList(props: Props) {
       isDropDisabled={isDropDisabled}
       isCombineEnabled={isCombineEnabled}
     >
-      {(
-        dropProvided: DroppableProvided,
-        dropSnapshot: DroppableStateSnapshot,
-      ) => (
+      {(dropProvided: DroppableProvided, dropSnapshot: DroppableStateSnapshot) => (
         <Wrapper
           isDraggingOver={dropSnapshot.isDraggingOver}
           isDropDisabled={isDropDisabled}
@@ -134,18 +126,10 @@ export default function QuoteList(props: Props) {
         >
           {internalScroll ? (
             <ScrollContainer>
-              <InnerList
-                quotes={quotes}
-                title={title}
-                dropProvided={dropProvided}
-              />
+              <InnerList quotes={quotes} title={title} dropProvided={dropProvided} />
             </ScrollContainer>
           ) : (
-            <InnerList
-              quotes={quotes}
-              title={title}
-              dropProvided={dropProvided}
-            />
+            <InnerList quotes={quotes} title={title} dropProvided={dropProvided} />
           )}
         </Wrapper>
       )}

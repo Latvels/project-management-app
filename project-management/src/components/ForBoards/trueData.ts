@@ -10,7 +10,7 @@ export const columns: Columns[] = [
     id: '2',
     title: 'Column2',
     order: '2',
-  }
+  },
 ];
 
 export const tasks: Task[] = [
@@ -34,8 +34,7 @@ export const tasks: Task[] = [
   },
 ];
 
-
-export const getTask = (count: number): Task[] => 
+export const getTask = (count: number): Task[] =>
   Array.from({ length: count }, (v, k) => k).map(() => {
     const random: Task = tasks[Math.floor(Math.random() * tasks.length)];
 
@@ -44,10 +43,9 @@ export const getTask = (count: number): Task[] =>
     };
 
     return custom;
-  }
-);
+  });
 
-export const getColumns = (count: number): Columns[] => 
+export const getColumns = (count: number): Columns[] =>
   Array.from({ length: count }, (v, k) => k).map(() => {
     const random: Columns = columns[Math.floor(Math.random() * columns.length)];
 
@@ -56,9 +54,7 @@ export const getColumns = (count: number): Columns[] =>
     };
 
     return custom;
-  }
-);
-
+  });
 
 const getByColumns = (colum: Columns, items: Task[]): Task[] =>
   items.filter((quote: Task) => quote.order === colum.order);

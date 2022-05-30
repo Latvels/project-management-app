@@ -1,11 +1,15 @@
 import react from 'react';
-import {Backdrop, Box, Modal, Fade, Typography, Button} from '@mui/material';
+import { Backdrop, Box, Modal, Fade, Typography, Button } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducer/reducer';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import { useTranslation } from 'react-i18next';
 import { TIMEOUT_FOR_MODAL } from '../../constants/constant';
-import { setDeletedItem, setIsConfirmModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import {
+  setDeletedItem,
+  setIsConfirmModalOpen,
+  setIsPreloaderOpen,
+} from '../../store/action/appStateAction';
 import { AppDispatch } from '../../store/store';
 import { deleteUser, userSlise } from '../../api/userApi';
 import { boardSlise, deleteBoard } from '../../api/boardApi';
@@ -36,21 +40,21 @@ function ConfirmationModal() {
   const boardState = useSelector((state: RootState) => state.board);
   const boardRequestStatus = useSelector((state: RootState) => state.board.boardRequestStatus);
   const boardRequestError: Error = useSelector((state: RootState) => state.board.error);
-  const {resetBoardRequestStatus, removeTask, removeColumn} = boardSlise.actions;
+  const { resetBoardRequestStatus, removeTask, removeColumn } = boardSlise.actions;
   const taskRequestStatus = useSelector((state: RootState) => state.task.taskRequestStatus);
   const taskRequestError: Error = useSelector((state: RootState) => state.task.error);
-  const {resetTaskRequestStatus} = taskSlise.actions;
+  const { resetTaskRequestStatus } = taskSlise.actions;
   const userRequestStatus = useSelector((state: RootState) => state.user.userRequestStatus);
   const userRequestError: Error = useSelector((state: RootState) => state.user.error);
-  const {resetUserRequestStatus} = userSlise.actions;
+  const { resetUserRequestStatus } = userSlise.actions;
   const columnRequestStatus = useSelector((state: RootState) => state.column.columnRequestStatus);
   const columnRequestError: Error = useSelector((state: RootState) => state.column.error);
-  const {resetColumnRequestStatus} = columnSlise.actions;
+  const { resetColumnRequestStatus } = columnSlise.actions;
 
   const { resetStatuses } = authSlise.actions;
   const deletedItem = appState.deletedItem as 'user' | 'board' | 'task' | 'column';
-  
-  const {t} = useTranslation();
+
+  const { t } = useTranslation();
   const title = t('confirmationModal:title');
   const commonText = t('confirmationModal:commonText');
   const deleteUserText = t('confirmationModal:deleteUserText');
@@ -60,23 +64,22 @@ function ConfirmationModal() {
   const buttonYesText = t('confirmationModal:buttonYes');
   const buttonNoText = t('confirmationModal:buttonNo');
 
-
   const handleClose = () => {
     appDispatch(setIsConfirmModalOpen(false));
-      switch (deletedItem) {
-        case 'board':
-          appDispatch(resetBoardRequestStatus());
-          break;
-        case 'task':
-          appDispatch(resetTaskRequestStatus());
-          break;
-        case 'column':
-          appDispatch(resetColumnRequestStatus());
-          break;
-        case 'user':
-          appDispatch(resetUserRequestStatus());
-      };
-  }
+    switch (deletedItem) {
+      case 'board':
+        appDispatch(resetBoardRequestStatus());
+        break;
+      case 'task':
+        appDispatch(resetTaskRequestStatus());
+        break;
+      case 'column':
+        appDispatch(resetColumnRequestStatus());
+        break;
+      case 'user':
+        appDispatch(resetUserRequestStatus());
+    }
+  };
 
   const getConfirmationText = (): string => {
     switch (deletedItem) {
@@ -95,9 +98,9 @@ function ConfirmationModal() {
   };
 
   const logOut = () => {
-    appDispatch(resetStatuses())
+    appDispatch(resetStatuses());
     navigate('/');
-  }
+  };
 
   const handleYesClick = async () => {
     if (deletedItem === 'user') {
@@ -122,28 +125,28 @@ function ConfirmationModal() {
       const reqData = {
         idBoard: boardState.currentBoard!.id,
         id: appState.deletedId!,
-      }
+      };
       const resp = await appDispatch(deleteColumn(reqData));
       appDispatch(setIsPreloaderOpen(false));
       if (resp.meta.requestStatus === 'fulfilled') {
         appDispatch(resetColumnRequestStatus());
-        appDispatch(removeColumn(reqData))
+        appDispatch(removeColumn(reqData));
         appDispatch(setIsConfirmModalOpen(false));
       }
     } else if (deletedItem === 'task') {
-        appDispatch(setIsPreloaderOpen(true));
-        const taskData: Task = {
-          columnId: boardState.currentColumn!.id,
-          boardId: boardState.currentBoard!.id,
-          id: boardState.currentTask!.id
-        };
-        const resp = await appDispatch(deleteTask(taskData));
-        appDispatch(setIsPreloaderOpen(false));
-        if (resp.meta.requestStatus === 'fulfilled') {
-          appDispatch(resetTaskRequestStatus());
-          appDispatch(removeTask(taskData));
-          appDispatch(setIsConfirmModalOpen(false));
-        }
+      appDispatch(setIsPreloaderOpen(true));
+      const taskData: Task = {
+        columnId: boardState.currentColumn!.id,
+        boardId: boardState.currentBoard!.id,
+        id: boardState.currentTask!.id,
+      };
+      const resp = await appDispatch(deleteTask(taskData));
+      appDispatch(setIsPreloaderOpen(false));
+      if (resp.meta.requestStatus === 'fulfilled') {
+        appDispatch(resetTaskRequestStatus());
+        appDispatch(removeTask(taskData));
+        appDispatch(setIsConfirmModalOpen(false));
+      }
     }
   };
 
@@ -166,10 +169,10 @@ function ConfirmationModal() {
         break;
       case 'column':
         status = columnRequestStatus;
-        break
-      }
+        break;
+    }
     return status;
-  }
+  };
 
   const getRequestError = () => {
     let error;
@@ -188,7 +191,7 @@ function ConfirmationModal() {
         break;
     }
     return error;
-  }
+  };
 
   return (
     <Modal
@@ -211,36 +214,39 @@ function ConfirmationModal() {
             </Typography>
           </Box>
           <Box>
-            {getRequestStatus() === ACTION_STATUSES.REJECTED ? <BasicAlerts error={getRequestError()} errorType={deletedItem} /> :
-            (<Box>
-            <Box component="div" className="modal__text-wrapper" sx={{ mb: 2 }}>
-              <Typography id="transition-modal-title" variant="h6" component="h6">
-                <p>{getConfirmationText()}</p>
-              </Typography>
-            </Box>
-            <Box component="div" className="modal__buttons" sx={{ mb: 2 }}>
-              <Button
-                variant="outlined"
-                color="warning"
-                disabled={false}
-                onClick={handleYesClick}
-                type="button"
-                className="modal__button"
-              >
-                {buttonYesText}
-              </Button>
-              <Button
-                variant="outlined"
-                color="warning"
-                disabled={false}
-                onClick={handleNoClick}
-                type="button"
-                className="modal__button"
-              >
-                {buttonNoText}
-              </Button>
-            </Box>
-            </Box>)}
+            {getRequestStatus() === ACTION_STATUSES.REJECTED ? (
+              <BasicAlerts error={getRequestError()} errorType={deletedItem} />
+            ) : (
+              <Box>
+                <Box component="div" className="modal__text-wrapper" sx={{ mb: 2 }}>
+                  <Typography id="transition-modal-title" variant="h6" component="h6">
+                    <p>{getConfirmationText()}</p>
+                  </Typography>
+                </Box>
+                <Box component="div" className="modal__buttons" sx={{ mb: 2 }}>
+                  <Button
+                    variant="outlined"
+                    color="warning"
+                    disabled={false}
+                    onClick={handleYesClick}
+                    type="button"
+                    className="modal__button"
+                  >
+                    {buttonYesText}
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="warning"
+                    disabled={false}
+                    onClick={handleNoClick}
+                    type="button"
+                    className="modal__button"
+                  >
+                    {buttonNoText}
+                  </Button>
+                </Box>
+              </Box>
+            )}
           </Box>
         </Box>
       </Fade>

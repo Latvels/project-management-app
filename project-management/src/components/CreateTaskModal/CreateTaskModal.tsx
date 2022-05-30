@@ -25,12 +25,12 @@ const style = {
 function CreateTaskModal() {
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch();
-  const {resetTaskRequestStatus} = taskSlise.actions;
+  const { resetTaskRequestStatus } = taskSlise.actions;
 
   const handleClose = () => {
     appDispatch(setIsCreateTaskModalOpen(false));
     appDispatch(resetTaskRequestStatus());
-  }
+  };
 
   const { t } = useTranslation();
 
@@ -54,7 +54,7 @@ function CreateTaskModal() {
               {t('createTaskForm:formTitle')}
             </Typography>
           </Box>
-          <CreateElemFormFormik elemType='task' />
+          <CreateElemFormFormik elemType="task" />
         </Box>
       </Fade>
     </Modal>

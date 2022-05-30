@@ -17,7 +17,7 @@ export const getBoards = createAsyncThunk('board/getBoards', async (_, { rejectW
     return response.data;
   } catch (e) {
     rejectWithValue(e);
-    return rejectWithValue(i18n.t('errors:rejectGetBoards'))
+    return rejectWithValue(i18n.t('errors:rejectGetBoards'));
   }
 });
 
@@ -25,18 +25,19 @@ export const getBoardsById = createAsyncThunk(
   'board/getBoardsById',
   async (id: string, { rejectWithValue }) => {
     try {
-    const response = await axios.get<Board[]>(`${CONFIG.basicURL}/boards/${id}`, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${CONFIG.token}`,
-      },
-    });
-    return response.data;
+      const response = await axios.get<Board[]>(`${CONFIG.basicURL}/boards/${id}`, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${CONFIG.token}`,
+        },
+      });
+      return response.data;
     } catch (e) {
       rejectWithValue(e);
-    	return rejectWithValue(i18n.t('errors:rejectGetBoard'));
+      return rejectWithValue(i18n.t('errors:rejectGetBoard'));
+    }
   }
-});
+);
 
 export const createBoard = createAsyncThunk(
   'board/createBoard',
@@ -160,25 +161,35 @@ export const boardSlise = createSlice({
       state.currentBoard!.columns![0].tasks!.push(action.payload);
     },
     deleteBoard: (state, action) => {
-      state.entities = state.entities.filter((item: Board) => item.id !== action.payload)
+      state.entities = state.entities.filter((item: Board) => item.id !== action.payload);
     },
     resetBoardRequestStatus: (state) => {
       state.boardRequestStatus = null;
     },
     removeTask: (state, action) => {
-      const columnIndex = state.currentBoard!.columns!.findIndex(item => item.id === action.payload.columnId);
-      const newTasks = state.currentBoard!.columns![columnIndex]!.tasks!.filter(item => item.id !== action.payload.id);
+      const columnIndex = state.currentBoard!.columns!.findIndex(
+        (item) => item.id === action.payload.columnId
+      );
+      const newTasks = state.currentBoard!.columns![columnIndex]!.tasks!.filter(
+        (item) => item.id !== action.payload.id
+      );
       state.currentBoard!.columns![columnIndex]!.tasks! = newTasks;
     },
     removeColumn: (state, action) => {
-      const newColumns = state.currentBoard!.columns!.filter(item => item.id !== action.payload.id);
+      const newColumns = state.currentBoard!.columns!.filter(
+        (item) => item.id !== action.payload.id
+      );
       state.currentBoard!.columns! = newColumns;
     },
     changeTask: (state, action) => {
-      const columnIndex = state.currentBoard!.columns!.findIndex(item => item.id === action.payload.columnId);
-      const taskIndex = state.currentBoard!.columns![columnIndex]!.tasks!.findIndex(item => item.id === action.payload.id);
+      const columnIndex = state.currentBoard!.columns!.findIndex(
+        (item) => item.id === action.payload.columnId
+      );
+      const taskIndex = state.currentBoard!.columns![columnIndex]!.tasks!.findIndex(
+        (item) => item.id === action.payload.id
+      );
       state.currentBoard!.columns![columnIndex]!.tasks![taskIndex]! = action.payload;
-    }
+    },
   },
   extraReducers: {
     [getBoards.pending.type]: (state, action) => {

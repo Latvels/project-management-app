@@ -1,12 +1,23 @@
-import { IconButton, Menu, MenuItem, ClickAwayListener, Popper, Grow, MenuList, Paper } from '@mui/material';
-import React, {useCallback, useState} from 'react';
+import {
+  IconButton,
+  Menu,
+  MenuItem,
+  ClickAwayListener,
+  Popper,
+  Grow,
+  MenuList,
+  Paper,
+} from '@mui/material';
+import React, { useCallback, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setIsCreateNewBoardModalOpen,
-  setIsEditProfileModalOpen } from '../../store/action/appStateAction';
-  import { useTranslation } from 'react-i18next';
-  import './myMenu.scss';
+import {
+  setIsCreateNewBoardModalOpen,
+  setIsEditProfileModalOpen,
+} from '../../store/action/appStateAction';
+import { useTranslation } from 'react-i18next';
+import './myMenu.scss';
 
 function MyMenu() {
   const [open, setOpen] = React.useState(false);
@@ -21,10 +32,7 @@ function MyMenu() {
   };
 
   const handleClose = (event: Event | React.SyntheticEvent) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
+    if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
       return;
     }
 
@@ -49,10 +57,13 @@ function MyMenu() {
     prevOpen.current = open;
   }, [open]);
 
-  const onMainPageBtnClick = useCallback((event: Event | React.SyntheticEvent) => {
-    handleClose(event);
-    navigate(`/mainPage${search}`);
-  }, [search]);
+  const onMainPageBtnClick = useCallback(
+    (event: Event | React.SyntheticEvent) => {
+      handleClose(event);
+      navigate(`/mainPage${search}`);
+    },
+    [search]
+  );
 
   const handleClickOnCreateNewBoardButton = (event: Event | React.SyntheticEvent) => {
     handleClose(event);
@@ -83,14 +94,13 @@ function MyMenu() {
         placement="bottom-start"
         transition
         disablePortal
-        sx={{zIndex:101}}
+        sx={{ zIndex: 101 }}
       >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
-              transformOrigin:
-                placement === 'bottom-start' ? 'left top' : 'left bottom',
+              transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom',
             }}
           >
             <Paper>
@@ -102,8 +112,12 @@ function MyMenu() {
                   onKeyDown={handleListKeyDown}
                 >
                   <MenuItem onClick={onMainPageBtnClick}>{t('header:menuItem1')}</MenuItem>
-                  <MenuItem onClick={handleClickOnEditProfileButton}>{t('header:menuItem2')}</MenuItem>
-                  <MenuItem onClick={handleClickOnCreateNewBoardButton}>{t('header:menuItem3')}</MenuItem>
+                  <MenuItem onClick={handleClickOnEditProfileButton}>
+                    {t('header:menuItem2')}
+                  </MenuItem>
+                  <MenuItem onClick={handleClickOnCreateNewBoardButton}>
+                    {t('header:menuItem3')}
+                  </MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>

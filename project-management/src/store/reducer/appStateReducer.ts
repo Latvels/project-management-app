@@ -1,5 +1,18 @@
 import i18n from '../../services/i18n';
-import { ActionKindAppState, SET_CURRENT_BOARD_ID, SET_DELETED_ID, SET_DELETED_ITEM, SET_IS_CONFIRM_MODAL_OPEN, SET_IS_CREATE_COLUMN_MODAL_OPEN, SET_IS_CREATE_NEW_BOARD_MODAL_OPEN, SET_IS_CREATE_TASK_MODAL_OPEN, SET_IS_EDIT_PROFILE_MODAL_OPEN, SET_IS_EDIT_TASK_MODAL_OPEN, SET_IS_PRELOADER_OPEN, SET_LANG } from '../actionTypes';
+import {
+  ActionKindAppState,
+  SET_CURRENT_BOARD_ID,
+  SET_DELETED_ID,
+  SET_DELETED_ITEM,
+  SET_IS_CONFIRM_MODAL_OPEN,
+  SET_IS_CREATE_COLUMN_MODAL_OPEN,
+  SET_IS_CREATE_NEW_BOARD_MODAL_OPEN,
+  SET_IS_CREATE_TASK_MODAL_OPEN,
+  SET_IS_EDIT_PROFILE_MODAL_OPEN,
+  SET_IS_EDIT_TASK_MODAL_OPEN,
+  SET_IS_PRELOADER_OPEN,
+  SET_LANG,
+} from '../actionTypes';
 
 interface IAppState {
   isEditProfileModalOpen: boolean;
@@ -17,8 +30,8 @@ interface IAppState {
 
 const getLang = () => {
   const lang = i18n.language;
-  return (lang === 'ru-RU' || lang === 'ru') ? 'ru' : 'en';
-}
+  return lang === 'ru-RU' || lang === 'ru' ? 'ru' : 'en';
+};
 
 const initialState: IAppState = {
   isCreateNewBoardModalOpen: false,
@@ -30,7 +43,7 @@ const initialState: IAppState = {
   currentBoardId: null,
   lang: getLang(),
   isEditTaskModalOpen: false,
-}
+};
 
 interface IAction {
   type: ActionKindAppState;
@@ -87,26 +100,23 @@ function appStateReducer(state = initialState, action: IAction) {
         deletedItem: action.payload as 'user' | 'board' | 'task' | null,
       };
     }
-    case SET_DELETED_ID: 
-    {
+    case SET_DELETED_ID: {
       return {
         ...state,
         deletedId: action.payload as string,
-      }
+      };
     }
-    case SET_CURRENT_BOARD_ID: 
-    {
+    case SET_CURRENT_BOARD_ID: {
       return {
         ...state,
         currentBoardId: action.payload as string,
-      }
+      };
     }
-    case SET_LANG: 
-    {
+    case SET_LANG: {
       return {
         ...state,
         lang: action.payload as 'ru' | 'en',
-      }
+      };
     }
     default: {
       return state;
@@ -115,4 +125,3 @@ function appStateReducer(state = initialState, action: IAction) {
 }
 
 export default appStateReducer;
-

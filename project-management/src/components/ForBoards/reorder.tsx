@@ -2,7 +2,11 @@ import { Quote, QuoteMap } from './testTypes';
 import { DraggableLocation } from 'react-beautiful-dnd';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function reorder(list: Iterable<unknown> | ArrayLike<unknown>, startIndex: number, endIndex: number): any[] {
+export default function reorder(
+  list: Iterable<unknown> | ArrayLike<unknown>,
+  startIndex: number,
+  endIndex: number
+): any[] {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);

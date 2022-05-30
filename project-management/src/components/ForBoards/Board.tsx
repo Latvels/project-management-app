@@ -1,12 +1,17 @@
 import { Component } from 'react';
 import styled from '@emotion/styled';
-import { DragDropContext, Droppable, DropResult, DraggableLocation, DroppableProvided } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  DropResult,
+  DraggableLocation,
+  DroppableProvided,
+} from 'react-beautiful-dnd';
 
 import { divTypes } from '../../typings/typings';
 import Column from './Column';
 import reorder, { reorderQuoteMap } from './reorder';
 import { QuoteMap, Quote } from './testTypes';
-
 
 const ParentContainer = styled.div<divTypes>`
   height: ${({ height }) => height};
@@ -33,7 +38,6 @@ type State = {
 };
 
 export default class Board extends Component<Props, State> {
-  
   static defaultProps = {
     isCombineEnabled: false,
   };

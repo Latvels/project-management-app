@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 function render() {
   root.render(
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor} >
+      <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={theme}>
           <BrowserRouter>
             <App />

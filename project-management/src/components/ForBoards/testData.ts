@@ -60,8 +60,7 @@ export const quotes: Quote[] = [
   },
   {
     id: '8',
-    content:
-      'column3 task 3',
+    content: 'column3 task 3',
     order: Column3,
   },
   {

@@ -35,8 +35,7 @@ const Container = styled.a<divTypes>`
   border: 2px solid transparent;
   border-color: #6e6c69;
   background-color: #f4f4f4;
-  box-shadow: ${({ isDragging }) =>
-    isDragging ? `2px 2px 1px #6a6a6a` : 'none'};
+  box-shadow: ${({ isDragging }) => (isDragging ? `2px 2px 1px #6a6a6a` : 'none')};
   box-sizing: border-box;
   padding: ${grid}px;
   margin-bottom: ${grid}px;
@@ -72,14 +71,7 @@ const BlockQuote = styled.div<divTypes>`
 `;
 
 function QuoteItem(props: Props) {
-  const {
-    quote,
-    isDragging,
-    isGroupedOver,
-    provided,
-    isClone,
-    index,
-  } = props;
+  const { quote, isDragging, isGroupedOver, provided, isClone, index } = props;
 
   return (
     <Container

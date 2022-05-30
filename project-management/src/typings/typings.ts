@@ -18,7 +18,7 @@ export interface Column {
   order?: number;
   id?: string;
   idBoard?: string;
-  tasks?: Array<Task>
+  tasks?: Array<Task>;
 }
 
 export interface Task {
@@ -56,8 +56,8 @@ export type reqState = {
   currentRequestId: string | undefined;
   error: Error;
   currentBoard?: Board;
-  currentTask?: Task,
-  currentColumn?: Column,
+  currentTask?: Task;
+  currentColumn?: Column;
 };
 export interface Error {
   status?: number;
@@ -98,4 +98,4 @@ export interface divTypes {
   isDraggingFrom?: boolean;
   isGroupedOver?: boolean | undefined;
   isClone?: boolean | undefined;
-};
+}

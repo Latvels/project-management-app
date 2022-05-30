@@ -90,7 +90,7 @@ function Column(props: Props) {
   const onClickCancel = () => {};
 
   const quotes: Quote[] = props.quotes;
-  
+
   const clickOutsidehandler = () => {
     setViewEditRow(false);
   };
@@ -106,7 +106,7 @@ function Column(props: Props) {
               {...provided.dragHandleProps}
               aria-label={`${title} quote list`}
             >
-              <Box >
+              <Box>
                 {viewEditRow ? (
                   <Box
                     ref={titleRef}
@@ -115,7 +115,13 @@ function Column(props: Props) {
                       width: '11.5rem',
                     }}
                   >
-                    <TextField onChange={onChangeTitle} margin={'none'} size={'small'} value={title} type={'string'} />
+                    <TextField
+                      onChange={onChangeTitle}
+                      margin={'none'}
+                      size={'small'}
+                      value={title}
+                      type={'string'}
+                    />
 
                     <ToggleButtonGroup
                       color="primary"

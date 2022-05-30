@@ -26,14 +26,14 @@ const style = {
 function EditProfileModal() {
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch<AppDispatch>();
-  const {resetUserRequestStatus} = userSlise.actions;
-  
+  const { resetUserRequestStatus } = userSlise.actions;
+
   const { t } = useTranslation();
 
   const handleClose = () => {
     appDispatch(resetUserRequestStatus());
     appDispatch(setIsEditProfileModalOpen(false));
-  }
+  };
 
   return (
     <Modal

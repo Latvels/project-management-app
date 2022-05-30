@@ -30,9 +30,8 @@ function Preloader() {
         }}
         tabIndex={Number(-1)}
       >
-        <Fade in={appState.isPreloaderOpen} tabIndex={Number(-1)}> 
-          <Box sx={style} tabIndex={Number(-1)}
->
+        <Fade in={appState.isPreloaderOpen} tabIndex={Number(-1)}>
+          <Box sx={style} tabIndex={Number(-1)}>
             <CircularProgress className="preloader" color="secondary" />
             <CircularProgress className="preloader" color="info" />
             <CircularProgress className="preloader" color="secondary" />

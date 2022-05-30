@@ -30,7 +30,7 @@ function CreateNewBoardModal() {
   const handleClose = () => {
     appDispatch(setIsCreateNewBoardModalOpen(false));
     appDispatch(resetBoardRequestStatus());
-  }
+  };
 
   const { t } = useTranslation();
 
@@ -54,7 +54,7 @@ function CreateNewBoardModal() {
               {t('createNewBoardForm:formTitle')}
             </Typography>
           </Box>
-          <CreateElemFormFormik elemType='board' />
+          <CreateElemFormFormik elemType="board" />
         </Box>
       </Fade>
     </Modal>

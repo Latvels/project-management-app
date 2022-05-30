@@ -4,7 +4,12 @@ import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsCreateColumnModalOpen, setIsCreateNewBoardModalOpen, setIsCreateTaskModalOpen, setIsPreloaderOpen } from '../../store/action/appStateAction';
+import {
+  setIsCreateColumnModalOpen,
+  setIsCreateNewBoardModalOpen,
+  setIsCreateTaskModalOpen,
+  setIsPreloaderOpen,
+} from '../../store/action/appStateAction';
 import { boardSlise, createBoard, getBoardsById } from '../../api/boardApi';
 import { AppDispatch } from '../../store/store';
 import { BasicAlerts } from '../compunents';
@@ -29,11 +34,11 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
   const boardRequestError: Error = useSelector((state: RootState) => state.board.error);
   const taskRequestError: Error = useSelector((state: RootState) => state.task.error);
   const columnRequestError: Error = useSelector((state: RootState) => state.column.error);
-  const {resetBoardRequestStatus} = boardSlise.actions;
-  const {resetTaskRequestStatus} = taskSlise.actions;
-  const {resetColumnRequestStatus} = columnSlise.actions;
+  const { resetBoardRequestStatus } = boardSlise.actions;
+  const { resetTaskRequestStatus } = taskSlise.actions;
+  const { resetColumnRequestStatus } = columnSlise.actions;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const {setColumn, setTask} = boardSlise.actions;
+  const { setColumn, setTask } = boardSlise.actions;
 
   const { t } = useTranslation();
   const buttonText = t('createNewBoardForm:submit');
@@ -60,7 +65,7 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
         labels.title = t('createColumnForm:columnTitle');
     }
     return labels;
-  }
+  };
 
   const validateForm = (values: IValues): Partial<IValues> => {
     const errors: Partial<IValues> = {};
@@ -71,7 +76,7 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
       } else if (values[key]!.length < 4) {
         errors[key] = minValue;
       }
-    };
+    }
 
     function checkMaxLength(key: keyof IValues) {
       if (key === 'title' && values[key].length > 15) {
@@ -90,10 +95,10 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
       checkMaxLength('description');
     }
 
-    if(props.elemType !== 'column') {
+    if (props.elemType !== 'column') {
       if (!errors.title && !errors.description) {
         setIsButtonDisabled(false);
-      } 
+      }
     } else {
       if (!errors.title) {
         setIsButtonDisabled(false);
@@ -101,7 +106,7 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
     }
 
     return errors;
-  }
+  };
 
   const initialValues = {
     title: '',
@@ -127,11 +132,11 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
           columnId: boardState.currentBoard!.columns![0].id,
           boardId: id,
           userId: String(awtUser.user!.id!),
-        }
+        };
         resp = await appDispatch(createTask(taskData));
         appDispatch(setIsPreloaderOpen(false));
         if (resp.meta.requestStatus === 'fulfilled') {
-          appDispatch(getBoardsById(id!))
+          appDispatch(getBoardsById(id!));
           appDispatch(resetTaskRequestStatus());
           appDispatch(setIsCreateTaskModalOpen(false));
         }
@@ -151,7 +156,7 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
         }
     }
     return resp;
-  }
+  };
 
   const getRequestStatus = () => {
     let status;
@@ -167,7 +172,7 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
         break;
     }
     return status;
-  }
+  };
 
   const getRequestError = () => {
     let error;
@@ -183,43 +188,51 @@ function CreateElemFormFormik(props: ICreateElemFormProps) {
         break;
     }
     return error;
-  }
+  };
 
   return (
     <>
       {getRequestStatus() === ACTION_STATUSES.REJECTED ? (
         <BasicAlerts error={getRequestError()} errorType={props.elemType} />
       ) : (
-      <Formik
-        initialValues={initialValues}
-        validate={validateForm}
-        onSubmit={async (values: IValues, { setSubmitting }) => {
-          setSubmitting(false);
-          appDispatch(setIsPreloaderOpen(true));
-          await getCreateElemResponse(values);
-        }}
-      >
-        {({ submitForm }) => (
-          <Form className="form">
-            <Field component={TextField} name="title" type="text" label={getLabels().title} color="info" />
-            {props.elemType !== 'column' && (<Field
-              component={TextField}
-              name="description"
-              type="text"
-              label={getLabels().description}
-              color="info"
-            />)}
-            <Button
-              variant="outlined"
-              color="info"
-              disabled={isButtonDisabled}
-              onClick={submitForm}
-            >
-              {buttonText}
-            </Button>
-          </Form>
-        )}
-      </Formik>
+        <Formik
+          initialValues={initialValues}
+          validate={validateForm}
+          onSubmit={async (values: IValues, { setSubmitting }) => {
+            setSubmitting(false);
+            appDispatch(setIsPreloaderOpen(true));
+            await getCreateElemResponse(values);
+          }}
+        >
+          {({ submitForm }) => (
+            <Form className="form">
+              <Field
+                component={TextField}
+                name="title"
+                type="text"
+                label={getLabels().title}
+                color="info"
+              />
+              {props.elemType !== 'column' && (
+                <Field
+                  component={TextField}
+                  name="description"
+                  type="text"
+                  label={getLabels().description}
+                  color="info"
+                />
+              )}
+              <Button
+                variant="outlined"
+                color="info"
+                disabled={isButtonDisabled}
+                onClick={submitForm}
+              >
+                {buttonText}
+              </Button>
+            </Form>
+          )}
+        </Formik>
       )}
     </>
   );

@@ -29,10 +29,9 @@
     margin: 10px;
     width: 160px;
     height: 50px;
-
   }
   @media (max-width: 500px) {
-  flex-direction: column;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }

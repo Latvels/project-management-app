@@ -25,12 +25,12 @@ const style = {
 function CreateColumnModal() {
   const appState = useSelector((state: RootState) => state.appState);
   const appDispatch = useDispatch();
-  const {resetColumnRequestStatus} = columnSlise.actions;
+  const { resetColumnRequestStatus } = columnSlise.actions;
 
   const handleClose = () => {
     appDispatch(setIsCreateColumnModalOpen(false));
     appDispatch(resetColumnRequestStatus());
-  }
+  };
 
   const { t } = useTranslation();
 
@@ -54,7 +54,7 @@ function CreateColumnModal() {
               {t('createColumnForm:formTitle')}
             </Typography>
           </Box>
-          <CreateElemFormFormik elemType='column' />
+          <CreateElemFormFormik elemType="column" />
         </Box>
       </Fade>
     </Modal>

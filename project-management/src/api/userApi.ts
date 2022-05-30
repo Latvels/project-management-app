@@ -33,7 +33,7 @@ export const getUsersById = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      rejectWithValue(e)
+      rejectWithValue(e);
       return rejectWithValue(i18n.t('errors:rejectGetUser'));
     }
   }
@@ -99,7 +99,7 @@ export const userSlise = createSlice({
   reducers: {
     resetUserRequestStatus: (state) => {
       state.userRequestStatus = null;
-    }
+    },
   },
   extraReducers: {
     [getUsers.pending.type]: (state, action) => {
